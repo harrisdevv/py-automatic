@@ -1,13 +1,16 @@
 import time
-def countdown(t):
-	while t:
-		mins, secs = divmod(t, 60)
+def countdown():
+	nsecs = int(input("Enter number of seconds: "))
+	while nsecs:
+		mins, secs = divmod(nsecs, 60)
 		timer = '{:02d}:{:02d}'.format(mins, secs)
 		print(timer, end="\r")
 		time.sleep(1)
-		t -= 1
-t = input("Enter number of seconds: ")
-countdown(int(t))
+		nsecs -= 1
+	notes = input("Notes? ")
+	return {"secs": nsecs, "notes": notes}
+
+countdown()
 
 
 
