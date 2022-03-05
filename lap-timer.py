@@ -1,7 +1,11 @@
+#!/usr/bin/python
+
 # importing libraries
 import time
 import json
 from datetime import datetime
+import routine
+import threading
 
 FILE_PROJECT_NAME = "projects.data"
 
@@ -155,7 +159,7 @@ def select_task(tasks, selected_task):
     print("Selected task: " + selected_task["name"])
     return int_option,selected_task
 
-def main():
+def run_task_manage():
     while (True):
         overall_option = input("Overall option: \n\t1. Continue task\n\t2. New task\n\t3. New project\n\te. Exit\n")
         if (overall_option == "e"):
@@ -174,4 +178,17 @@ def main():
             selected_task = select_task(selected_project["tasks"], selected_task)
         choose_operator(projects, selected_project, selected_task)
 
-main()
+def Main():
+    try:
+        routine_thread = threading.Thread(target=routine.main, args=())
+        routine_thread.start()
+        task_manage_thread = threading.Thread(target=run_task_manage, args=())
+        task_manage_thread.start()
+        routine_thread.join()
+        task_manage_thread.join()
+    except:
+        routine_thread.join()
+        task_manage_thread.join()
+
+Main()
+
