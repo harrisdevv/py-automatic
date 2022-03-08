@@ -9,7 +9,7 @@ FILE_PROJECT_NAME = "/home/harrison-hienp/Desktop/code/script/py-automatic/proje
 
 def dump_to_file(filename, obj):
     with open(filename, "w") as file:
-        my_json_object = json.dump(obj, file)
+        json.dump(obj, file)
 
 def load_from_file(filename):
     with open(filename, "r") as file:
@@ -28,8 +28,7 @@ def countdown():
 	notes = input("Notes? ")
 	return {"date": date_str, "time": nsecs, "notes": notes}
 
-def select_project():
-    projects = load_from_file(FILE_PROJECT_NAME)
+def select_project(projects):
     maxIndex = 0
     print("Projects:")
     for p in projects:
@@ -52,7 +51,7 @@ def select_project():
         "proj_name": proj_input, "tasks": []}
         projects.append(selected_project)
     print("Selected project: " + str(selected_project["proj_name"]))
-    return projects,selected_project
+    return selected_project
 
 def run_countdown(projects, task):
     countdown_obj = countdown()
@@ -84,6 +83,20 @@ def run_laptime(projects, task):
         if (continous == "e"):
             dump_to_file(FILE_PROJECT_NAME, projects)
             print("Done")
+            break
+
+
+def convert_sec_hour(nsecs):
+    hours, minsecs = divmod(nsecs, 3600)
+    mins, secs = divmod(minsecs, 60)
+    timer = '{:02d}h{:02d}m{:02d}s'.format(hours, mins, secs)
+    # if (hours != 0):
+    #     timer = '{:02d}h{:02d}m{:02d}s'.format(mins, secs)
+    # elif (minsecs != 0):
+    #     timer = '{:02d}m{:02d}s'.format(mins, secs)
+    # else:
+    #     timer = '{:02d}s'.format(mins, secs)
+    return timer
 
 def show_stats(selected_project):
     print()
@@ -95,28 +108,31 @@ def show_stats(selected_project):
         if (len(laps) > 0):
             prev = laps[0]["time"]
         for lap in laps:
-            ratio = str(round(lap["time"]*100/prev, 0)) + "%"
-            print("\t\t\tDate " + str(lap["date"]) + ": " + str(lap["time"]) + " - +" + ratio + " (" + str(lap["notes"]) + ")")
+            ratio = str(round(lap["time"]*100/prev, 1)) + "%"
+            print("\t\t\tDate " + str(lap["date"]) + ": " + str(convert_sec_hour(int(round(lap["time"], 0)))) + " - +" + ratio + " (" + str(lap["notes"]) + ")")
             prev = lap["time"]
+
         print("\t\t[CountDown]:")
         countdowns = tasks["countdown"]
         if (len(countdowns) > 0):
             prev = countdowns[0]["time"]
         for countdown in countdowns:
-            ratio = str(round(countdown["time"]*100/prev, 0)) + "%"
-            print("\t\t\tDate " + str(countdown["date"]) + ": " + str(countdown["time"]) + " - +" + ratio + " (" + str(countdown["notes"]) + ")")
+            if (prev != 0):
+                ratio = str(round(countdown["time"]*100/prev, 1)) + "%"
+                print("\t\t\tDate " + str(countdown["date"]) + ": " + str(round(countdown["time"])) + " - +" + ratio + " (" + str(countdown["notes"]) + ")")
             prev = countdown["time"]
-    return
 
 def show_all_project_stats(projects):
+    print("\n##########################\n")
     for project in projects:
         show_stats(project)
+    print("\n##########################\n")
 
 def choose_operator(projects, selected_project, selected_task):
     option = -1
-    while (option > 4 or option < 1):
+    while (option > 3 or option < 1):
         try:
-            option = int(input("Choose operator: \n\t1. Lap time\n\t2. Count down\n\t3. Show stats of selected project\n\t4. Show stats of all projects\n"))
+            option = int(input("Choose operator: \n\t1. Lap time\n\t2. Count down\n\t3. Show stats of selected project\n, Your choice: "))
         except ValueError:
             print("Option must be integer")
     if (option == 1):
@@ -125,8 +141,6 @@ def choose_operator(projects, selected_project, selected_task):
         run_countdown(projects, selected_task)
     elif (option == 3):
         show_stats(selected_project)
-    elif (option == 4):
-        show_all_project_stats(projects)
 
 def show_tasks_name(tasks):
     print()
@@ -145,7 +159,7 @@ def select_task(tasks, selected_task):
             option = input("Your task: ")
             int_option = int(option)
             if (int_option > len(tasks) or int_option < 1):
-                print("Option must be integer in range 1.." + len(tasks))
+                print("Option must be integer in range 1.." + str(len(tasks)))
                 continue
             selected_task= tasks[int_option - 1]
         except ValueError:
@@ -155,22 +169,29 @@ def select_task(tasks, selected_task):
     return int_option,selected_task
 
 def run_task_manage():
+    selected_task = None
     while (True):
-        overall_option = input("Overall option: \n\t1. Continue task\n\t2. New task\n\t3. New project\n\te. Exit\n. Your Choice: ")
+        overall_option = input("Overall option: \n\t1. Continue selected task\n\t2. Choose task\n\t3. Choose project\n\t4. Show statistics of all projects\n\te. Exit\n. Your Choice: ")
+        projects = load_from_file(FILE_PROJECT_NAME)
         if (overall_option == "e"):
             break
         elif (overall_option == "1"):
             print("Continue task")
             if (selected_task == None):
                 print("No task selected! Please select task first.")
+            else:
+                choose_operator(projects, selected_project, selected_task)
         elif (overall_option == "2"):
             selected_task = None
             selected_task = select_task(selected_project["tasks"], selected_task)
+            choose_operator(projects, selected_project, selected_task)
         elif (overall_option == "3"):
-            projects, selected_project = select_project()
+            selected_project = select_project(projects)
             selected_task = None
             selected_task = select_task(selected_project["tasks"], selected_task)
-        choose_operator(projects, selected_project, selected_task)
+            choose_operator(projects, selected_project, selected_task)
+        elif (overall_option == "4"):
+            show_all_project_stats(projects)
 
 def Main():
     try:
