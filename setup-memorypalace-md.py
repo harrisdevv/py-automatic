@@ -8,7 +8,7 @@ import sys
 import glob
 import hashlib
 
-FILE_IMAGE_JSON = "image-excalidraw.json"
+FILE_IMAGE_JSON = "/home/harrison-hienp/Desktop/code/script/py-automatic/image-excalidraw.json"
 
 def dump_to_file(filename, obj):
     with open(filename, "w") as file:

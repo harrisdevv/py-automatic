@@ -50,8 +50,8 @@ today = date.today()
 Str = date.isoformat(today)
 print("String Representation", Str)
 print(type(Str))
-timetuple()	Returns an object of type time.struct_time
-weekday()	Returns the day of the week as integer where Monday is 0 and Sunday is 6
+# timetuple()	Returns an object of type time.struct_time
+# weekday()	Returns the day of the week as integer where Monday is 0 and Sunday is 6
 
 
 from datetime import time

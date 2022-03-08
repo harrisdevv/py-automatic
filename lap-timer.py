@@ -1,13 +1,11 @@
 #!/usr/bin/python
-
-# importing libraries
 import time
 import json
 from datetime import datetime
 import routine
 import threading
 
-FILE_PROJECT_NAME = "projects.data"
+FILE_PROJECT_NAME = "/home/harrison-hienp/Desktop/code/script/py-automatic/projects.data"
 
 def dump_to_file(filename, obj):
     with open(filename, "w") as file:
@@ -52,7 +50,6 @@ def select_project():
         print("OK, create new project " + str(proj_input))
         selected_project = {"index": maxIndex + 1, 
         "proj_name": proj_input, "tasks": []}
-        # task = {"lap": [], "countdown": []}
         projects.append(selected_project)
     print("Selected project: " + str(selected_project["proj_name"]))
     return projects,selected_project
@@ -69,26 +66,24 @@ def run_laptime(projects, task):
     lasttime=starttime
     lapnum=1
     print("Press ENTER to count laps.\nPress CTRL+C to stop")
-    try:
-        while True:
-            print("Start...")
-            now = datetime.now()
-            date_str = now.strftime("%d/%m/%Y %H:%M:%S")
-            input()
-            totaltime=round((time.time() - starttime), 2)
-            laptime=round((time.time() - lasttime), 2)
-            print("Lap No. "+str(lapnum))
-            print("Total Time: "+str(totaltime))
-            print("Lap Time: "+str(laptime))
-            print("*"*20)
-            notes = input("Notes? ")
-            task[1]["lap"].append({"date": date_str, "time":laptime, "notes": notes})
-            lasttime=time.time()
-            lapnum+=1
-    # Stopping when CTRL+C is pressed
-    except KeyboardInterrupt:
-        dump_to_file(FILE_PROJECT_NAME, projects)
-        print("Done")
+    while True:
+        print("Start...")
+        now = datetime.now()
+        date_str = now.strftime("%d/%m/%Y %H:%M:%S")
+        continous = input("Want to stop ? (Enter to continue, e to exit)")
+        totaltime=round((time.time() - starttime), 2)
+        laptime=round((time.time() - lasttime), 2)
+        print("Lap No. "+str(lapnum))
+        print("Total Time: "+str(totaltime))
+        print("Lap Time: "+str(laptime))
+        print("*"*20)
+        notes = input("Notes? ")
+        task[1]["lap"].append({"date": date_str, "time":laptime, "notes": notes})
+        lasttime=time.time()
+        lapnum+=1
+        if (continous == "e"):
+            dump_to_file(FILE_PROJECT_NAME, projects)
+            print("Done")
 
 def show_stats(selected_project):
     print()
@@ -161,14 +156,13 @@ def select_task(tasks, selected_task):
 
 def run_task_manage():
     while (True):
-        overall_option = input("Overall option: \n\t1. Continue task\n\t2. New task\n\t3. New project\n\te. Exit\n")
+        overall_option = input("Overall option: \n\t1. Continue task\n\t2. New task\n\t3. New project\n\te. Exit\n. Your Choice: ")
         if (overall_option == "e"):
             break
         elif (overall_option == "1"):
             print("Continue task")
             if (selected_task == None):
-                print("No task selected!")
-                break
+                print("No task selected! Please select task first.")
         elif (overall_option == "2"):
             selected_task = None
             selected_task = select_task(selected_project["tasks"], selected_task)
