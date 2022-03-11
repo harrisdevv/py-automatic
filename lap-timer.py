@@ -5,7 +5,6 @@ from datetime import datetime
 import routine
 import threading
 
-FILE_PROJECT_NAME = "/home/harrison-hienp/Desktop/code/script/py-automatic/projects.data"
 
 def dump_to_file(filename, obj):
     with open(filename, "w") as file:
@@ -56,7 +55,7 @@ def select_project(projects):
 def run_countdown(projects, task):
     countdown_obj = countdown()
     task[1]["countdown"].append(countdown_obj)
-    dump_to_file(FILE_PROJECT_NAME, projects)
+    dump_to_file(projectfilepath.get_abs_path("projects.data"), projects)
     print("Done")
 
 
@@ -81,7 +80,7 @@ def run_laptime(projects, task):
         lasttime=time.time()
         lapnum+=1
         if (continous == "e"):
-            dump_to_file(FILE_PROJECT_NAME, projects)
+            dump_to_file(projectfilepath.get_abs_path("projects.data"), projects)
             print("Done")
             break
 
@@ -90,12 +89,6 @@ def convert_sec_hour(nsecs):
     hours, minsecs = divmod(nsecs, 3600)
     mins, secs = divmod(minsecs, 60)
     timer = '{:02d}h{:02d}m{:02d}s'.format(hours, mins, secs)
-    # if (hours != 0):
-    #     timer = '{:02d}h{:02d}m{:02d}s'.format(mins, secs)
-    # elif (minsecs != 0):
-    #     timer = '{:02d}m{:02d}s'.format(mins, secs)
-    # else:
-    #     timer = '{:02d}s'.format(mins, secs)
     return timer
 
 def show_stats(selected_project):
@@ -172,7 +165,7 @@ def run_task_manage():
     selected_task = None
     while (True):
         overall_option = input("Overall option: \n\t1. Continue selected task\n\t2. Choose task\n\t3. Choose project\n\t4. Show statistics of all projects\n\te. Exit\n. Your Choice: ")
-        projects = load_from_file(FILE_PROJECT_NAME)
+        projects = load_from_file(projectfilepath.get_abs_path("projects.data"))
         if (overall_option == "e"):
             break
         elif (overall_option == "1"):
