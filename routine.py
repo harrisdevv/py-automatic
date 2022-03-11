@@ -3,19 +3,20 @@ from datetime import datetime
 import os
 from playsound import playsound
 
+ROUTINE_FILE = "/home/harrison-hienp/Desktop/code/script/py-automatic/routine.txt"
+
 class Routine:
     def __init__(self, time, voice):
         self.time = time
         self.voice = voice
 
-ROUTINE_FILE = "/home/harrison-hienp/Desktop/code/script/py-automatic/routine.txt"
 def load_routine_from_file(filename):
     routines = []
     with open(filename, "r") as file:
         for line in file.readlines():
-            indexFirstSpace = line.find(" ")
-            time = line[:indexFirstSpace];
-            task = line[indexFirstSpace + 1:]
+            index_first_space = line.find(" ")
+            time = line[:index_first_space];
+            task = line[index_first_space + 1:]
             routines.append(Routine(time, task))
     return routines
             
@@ -41,8 +42,7 @@ def main():
         routines.append(routine)
 
     nsec = 0
-    while (nsec < 86400):
-        nsec += 60
+    while (True):
         now = datetime.now()
         DAYPLANNER_FILE = now.strftime("%H:%M")
         for routine in routines:
@@ -53,5 +53,3 @@ def main():
                 for i in range(0, 3):
                     os.system(voice_cmd)
         time.sleep(60)
-        
-main()
