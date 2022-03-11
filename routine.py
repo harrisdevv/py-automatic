@@ -8,27 +8,50 @@ class Routine:
         self.time = time
         self.voice = voice
 
-def main():
+ROUTINE_FILE = "/home/harrison-hienp/Desktop/code/script/py-automatic/routine.txt"
+def load_routine_from_file(filename):
     routines = []
-    routines.append(Routine("7:00", "Let's do the mission"))
-    routines.append(Routine("9:20", "Relaxing"))
-    routines.append(Routine("11:30", "Eat Lunch! Yeah!"))
-    routines.append(Routine("12:20", "Evening working session"))
-    routines.append(Routine("15:00", "Relaxing"))
-    routines.append(Routine("17:20", "Off work, relaxing"))
-    routines.append(Routine("19:00", "Night, night, lovely night"))
-    routines.append(Routine("20:50", "Sleep, Sleep, sleep"))
-  
+    with open(filename, "r") as file:
+        for line in file.readlines():
+            indexFirstSpace = line.find(" ")
+            time = line[:indexFirstSpace];
+            task = line[indexFirstSpace + 1:]
+            routines.append(Routine(time, task))
+    return routines
+            
+def load_routine_from_day_planner():
+    now = datetime.now()
+    DAYPLANNER_FILE= "/home/harrison-hienp/Desktop/notes/Day Planners/Day Planner-"+now.strftime("%Y%m%d") +".md"
+    routines = []
+    with open(DAYPLANNER_FILE, "r") as file:
+        for line in file.readlines():
+            if (len(line) < 9):
+                continue
+            if (line.startswith("- [ ] ") and line[8] == ':'):
+                index_first_space = line.find(" ", 6, len(line))
+                time = line[:index_first_space];
+                task = line[index_first_space + 1:]
+                routines.append(Routine(time, task))
+    return routines
+            
+def main():
+    routines = load_routine_from_file(ROUTINE_FILE)
+    routine_from_dayplanner = load_routine_from_day_planner()
+    for routine in routine_from_dayplanner:
+        routines.append(routine)
+
     nsec = 0
     while (nsec < 86400):
         nsec += 60
         now = datetime.now()
-        date_str = now.strftime("%H:%M")
+        DAYPLANNER_FILE = now.strftime("%H:%M")
         for routine in routines:
-            if (routine.time == date_str):
+            if (routine.time == DAYPLANNER_FILE):
                 voice_cmd = '/home/harrison-hienp/mimic1/mimic -t "' + routine.voice + '" -voice slt'
                 playsound('/home/harrison-hienp/Desktop/code/script/py-automatic/bell-ringing-04.wav')
                 playsound('/home/harrison-hienp/Desktop/code/script/py-automatic/bell-ringing-04.wav')
                 for i in range(0, 3):
                     os.system(voice_cmd)
         time.sleep(60)
+        
+main()
