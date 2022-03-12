@@ -74,12 +74,12 @@ def main():
         for routine in routines:
             if (routine.time == DAYPLANNER_FILE):
                 voice_cmd = '/home/harrison-hienp/mimic1/mimic -t "' + routine.voice + '" -voice slt'
-                start_time = datetime.datetime.now().timestamp()
+                start_time = datetime.now().timestamp()
                 playsound(projectfilepath.get_abs_path(BELL_RING_FILE))
                 playsound(projectfilepath.get_abs_path(BELL_RING_FILE))
                 for i in range(0, 3):
                     os.system(voice_cmd)
-                end_time = datetime.datetime.now().timestamp()
+                end_time = datetime.now().timestamp()
                 time_play_sound = end_time - start_time
                 break
         time.sleep(60 - time_play_sound)
