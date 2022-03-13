@@ -4,15 +4,19 @@ import json
 from datetime import datetime
 import routine
 import threading
+from time import sleep
+import projectfilepath
 
 
 def dump_to_file(filename, obj):
     with open(filename, "w") as file:
         json.dump(obj, file)
 
+
 def load_from_file(filename):
     with open(filename, "r") as file:
         return json.load(file)
+
  
 def countdown():
 	nsecs = int(input("Enter number of seconds: "))
@@ -26,6 +30,7 @@ def countdown():
 		nsecs -= 1
 	notes = input("Notes? ")
 	return {"date": date_str, "time": nsecs, "notes": notes}
+
 
 def select_project(projects):
     maxIndex = 0
@@ -46,43 +51,44 @@ def select_project(projects):
             exit()
     except ValueError:
         print("OK, create new project " + str(proj_input))
-        selected_project = {"index": maxIndex + 1, 
+        selected_project = {"index": maxIndex + 1,
         "proj_name": proj_input, "tasks": []}
         projects.append(selected_project)
     print("Selected project: " + str(selected_project["proj_name"]))
     return selected_project
 
+
 def run_countdown(projects, task):
     countdown_obj = countdown()
     task[1]["countdown"].append(countdown_obj)
-    dump_to_file(projectfilepath.get_abs_path("projects.data"), projects)
+    dump_to_file(projectfilepath.get_abs_path("projects.json"), projects)
     print("Done")
 
 
 def run_laptime(projects, task):
-    starttime=time.time()
-    lasttime=starttime
-    lapnum=1
+    starttime = time.time()
+    lasttime = starttime
+    lapnum = 1
     print("Press ENTER to count laps.\nPress CTRL+C to stop")
     while True:
         print("Start...")
         now = datetime.now()
         date_str = now.strftime("%d/%m/%Y %H:%M:%S")
         continous = input("Want to stop ? (Enter to continue, e to exit)")
-        totaltime=round((time.time() - starttime), 2)
-        laptime=round((time.time() - lasttime), 2)
-        print("Lap No. "+str(lapnum))
-        print("Total Time: "+str(totaltime))
-        print("Lap Time: "+str(laptime))
+        if (continous == "e"):
+            dump_to_file(projectfilepath.get_abs_path("projects.json"), projects)
+            print("Done")
+            break
+        totaltime = round((time.time() - starttime), 2)
+        laptime = round((time.time() - lasttime), 2)
+        print("Lap No. " + str(lapnum))
+        print("Total Time: " + str(totaltime))
+        print("Lap Time: " + str(laptime))
         print("*"*20)
         notes = input("Notes? ")
         task[1]["lap"].append({"date": date_str, "time":laptime, "notes": notes})
-        lasttime=time.time()
-        lapnum+=1
-        if (continous == "e"):
-            dump_to_file(projectfilepath.get_abs_path("projects.data"), projects)
-            print("Done")
-            break
+        lasttime = time.time()
+        lapnum += 1
 
 
 def convert_sec_hour(nsecs):
@@ -90,6 +96,7 @@ def convert_sec_hour(nsecs):
     mins, secs = divmod(minsecs, 60)
     timer = '{:02d}h{:02d}m{:02d}s'.format(hours, mins, secs)
     return timer
+
 
 def show_stats(selected_project):
     print()
@@ -101,7 +108,7 @@ def show_stats(selected_project):
         if (len(laps) > 0):
             prev = laps[0]["time"]
         for lap in laps:
-            ratio = str(round(lap["time"]*100/prev, 1)) + "%"
+            ratio = str(round(lap["time"] * 100 / prev, 1)) + "%"
             print("\t\t\tDate " + str(lap["date"]) + ": " + str(convert_sec_hour(int(round(lap["time"], 0)))) + " - +" + ratio + " (" + str(lap["notes"]) + ")")
             prev = lap["time"]
 
@@ -111,15 +118,17 @@ def show_stats(selected_project):
             prev = countdowns[0]["time"]
         for countdown in countdowns:
             if (prev != 0):
-                ratio = str(round(countdown["time"]*100/prev, 1)) + "%"
+                ratio = str(round(countdown["time"] * 100 / prev, 1)) + "%"
                 print("\t\t\tDate " + str(countdown["date"]) + ": " + str(round(countdown["time"])) + " - +" + ratio + " (" + str(countdown["notes"]) + ")")
             prev = countdown["time"]
+
 
 def show_all_project_stats(projects):
     print("\n##########################\n")
     for project in projects:
         show_stats(project)
     print("\n##########################\n")
+
 
 def choose_operator(projects, selected_project, selected_task):
     option = -1
@@ -135,6 +144,7 @@ def choose_operator(projects, selected_project, selected_task):
     elif (option == 3):
         show_stats(selected_project)
 
+
 def show_tasks_name(tasks):
     print()
     print("Select task in project: ")
@@ -143,7 +153,8 @@ def show_tasks_name(tasks):
     ind = 1
     for task in tasks:
         print("\t" + str(ind) + ". " + task["name"])
-        ind+=1
+        ind += 1
+
 
 def select_task(tasks, selected_task):
     while (selected_task == None):
@@ -154,18 +165,19 @@ def select_task(tasks, selected_task):
             if (int_option > len(tasks) or int_option < 1):
                 print("Option must be integer in range 1.." + str(len(tasks)))
                 continue
-            selected_task= tasks[int_option - 1]
+            selected_task = tasks[int_option - 1]
         except ValueError:
             print("Create new task: " + option)
             tasks.append({"name": option, "lap": [], "countdown":[]})
     print("Selected task: " + selected_task["name"])
-    return int_option,selected_task
+    return int_option, selected_task
+
 
 def run_task_manage():
     selected_task = None
     while (True):
         overall_option = input("Overall option: \n\t1. Continue selected task\n\t2. Choose task\n\t3. Choose project\n\t4. Show statistics of all projects\n\te. Exit\n. Your Choice: ")
-        projects = load_from_file(projectfilepath.get_abs_path("projects.data"))
+        projects = load_from_file(projectfilepath.get_abs_path("projects.json"))
         if (overall_option == "e"):
             break
         elif (overall_option == "1"):
@@ -186,10 +198,12 @@ def run_task_manage():
         elif (overall_option == "4"):
             show_all_project_stats(projects)
 
+
 def Main():
     try:
         routine_thread = threading.Thread(target=routine.main, args=())
         routine_thread.start()
+        sleep(1)
         task_manage_thread = threading.Thread(target=run_task_manage, args=())
         task_manage_thread.start()
         routine_thread.join()
@@ -197,6 +211,7 @@ def Main():
     except:
         routine_thread.join()
         task_manage_thread.join()
+
 
 Main()
 
