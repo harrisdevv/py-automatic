@@ -5,12 +5,15 @@ from playsound import playsound
 import projectfilepath
 import re
 
-BELL_RING_FILE ='bell-ringing-04.wav'
+BELL_RING_FILE = 'bell-ringing-04.wav'
+
 
 class Routine:
+
     def __init__(self, time, voice):
         self.time = time
         self.voice = voice
+
 
 def load_routine_from_file(filename):
     routines = []
@@ -21,10 +24,11 @@ def load_routine_from_file(filename):
             task = line[index_first_space + 1:].rstrip()
             routines.append(Routine(time, task))
     return routines
+
             
 def load_routine_from_day_planner():
     now = datetime.now()
-    DAYPLANNER_FILE= "/home/harrison-hienp/Desktop/notes/Day Planners/Day Planner-"+now.strftime("%Y%m%d") +".md"
+    DAYPLANNER_FILE = "/home/harrison-hienp/Desktop/notes/Day Planners/Day Planner-" + now.strftime("%Y%m%d") + ".md"
     routines = []
     with open(DAYPLANNER_FILE, "r") as file:
         for line in file.readlines():
@@ -44,6 +48,7 @@ def print_routines(routines):
         print("At " + routine.time + ", do " + routine.voice)
     print("----------------------------------------------")
 
+
 def main():
     routines = load_routine_from_file(projectfilepath.get_abs_path("routine.txt"))
     routine_from_dayplanner = load_routine_from_day_planner()
@@ -58,31 +63,40 @@ def main():
             del routines[idx]
             continue
         if (idx == len(routines) - 1): 
-            idx+= 1
+            idx += 1
             break
         i = idx + 1
         while (i < len(routines) and routines[idx].time == routines[i].time):
             routines[idx].voice += "; " + routines[i].voice
             del routines[i]
-        idx+=1
+        idx += 1
     
     print_routines(routines)
     while (True):
         time_play_sound = 0
         now = datetime.now()
-        DAYPLANNER_FILE = now.strftime("%H:%M")
+        now_time_format = now.strftime("%H:%M")
         for routine in routines:
-            if (routine.time == DAYPLANNER_FILE):
-                voice_cmd = '/home/harrison-hienp/mimic1/mimic -t "' + routine.voice + '" -voice slt'
-                start_time = datetime.now().timestamp()
-                playsound(projectfilepath.get_abs_path(BELL_RING_FILE))
-                playsound(projectfilepath.get_abs_path(BELL_RING_FILE))
-                for i in range(0, 3):
-                    os.system(voice_cmd)
-                end_time = datetime.now().timestamp()
-                time_play_sound = end_time - start_time
-                break
+            if (routine.time == now_time_format):
+                if (routine.voice.startswith("cmd")):
+                    find_separator = routine.voice.find(":")
+                    if (find_separator > 0):
+                        cmd = routine.voice[find_separator + 1:]
+                        os.system(cmd)
+                    else:
+                        print("Missing ':' in cmd routine")
+                else:
+                    voice_cmd = '/home/harrison-hienp/mimic1/mimic -t "' + routine.voice + '" -voice slt'
+                    start_time = datetime.now().timestamp()
+                    playsound(projectfilepath.get_abs_path(BELL_RING_FILE))
+                    playsound(projectfilepath.get_abs_path(BELL_RING_FILE))
+                    for i in range(0, 3):
+                        os.system(voice_cmd)
+                    end_time = datetime.now().timestamp()
+                    time_play_sound = end_time - start_time
+                    break
         time.sleep(60 - time_play_sound)
+
         
 def test():
     return
