@@ -96,7 +96,7 @@ def setup_memory_palace(input):
         image_obj = load_from_file(FILE_IMAGE_JSON)
         new_image_obj = copy.copy(image_obj)
         new_image_obj["id"] = genId(file["file_abs_path"])
-        new_image_obj["y"] += 760 * idx
+        new_image_obj["y"] += 730 * idx
         new_image_obj["seed"] = hash((datetime.now()))
         new_image_obj["versionNonce"] = hash((datetime.now()))
         new_image_obj["fileId"] = file["file_id"]
