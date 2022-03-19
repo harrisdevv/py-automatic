@@ -198,7 +198,6 @@ def run_task_manage():
         elif (overall_option == "4"):
             show_all_project_stats(projects)
 
-
 def Main():
     try:
         routine_thread = threading.Thread(target=routine.main, args=())
