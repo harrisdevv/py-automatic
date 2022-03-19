@@ -1,8 +1,24 @@
-7:00 Let's do the mission
-9:20 Relaxing
-11:30 Eat Lunch! Yeah!
-12:20 Evening working session
-15:00 Relaxing
+
+05:30 Good morning, hihi
+06:41 cmd: xdg-open "/media/harrison-hienp/My Passport/thinkpad/Desk/sound/aspiration/DISCIPLINE- Jocko Willink motivation compilation-LwGa-VY-UkU.mp4"
+
+07:00 review yesterday, plan today
+07:20 Let's do the mission
+11:30 Eat Lunch!
+11:31 cmd: /home/harrison-hienp/Tool/toggle_dnd/toggle_dnd2 true
+
+11:55 Meditation
+12:00 Wake up
+12:10 Evening working session, Drink 500 mili litre water
+12:31 cmd: /home/harrison-hienp/Tool/toggle_dnd/toggle_dnd2 false
 17:20 Off work, relaxing
-19:00 Night, night, lovely night
-20:50 Sleep, Sleep, sleep
+17:21 cmd: /home/harrison-hienp/Tool/toggle_dnd/toggle_dnd2 true
+
+19:01 cmd: /home/harrison-hienp/Tool/toggle_dnd/toggle_dnd2 false
+19:02 Night, Lovely night
+20:30 Day review, Plan next day
+20:40 Leave the work, Relax
+20:50 Review Full Day, habit check
+21:00 God Bless time
+21:01 cmd: xdg-open "/media/harrison-hienp/My Passport/thinkpad/Desk/sound/aspiration/10 Min End of Day Gratitude and Sleep Guided Meditation-ReGPjwr2chQ.mkv"
+21:10 Sleep, Good night!
