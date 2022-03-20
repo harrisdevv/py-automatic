@@ -13,6 +13,9 @@ class Routine:
     def __init__(self, time, voice):
         self.time = time
         self.voice = voice
+        
+    def is_cmd(self):
+        return self.voice.startswith("cmd")
 
 
 def load_routine_from_file(filename):
@@ -43,7 +46,7 @@ def load_routine_from_day_planner():
             
 
 def print_routines(routines):
-    print("-------------------Day Planner --------------")
+    print("-------------------Day Planner---------------")
     for routine in routines:
         print("At " + routine.time + ", do " + routine.voice)
     print("----------------------------------------------")
@@ -51,18 +54,19 @@ def print_routines(routines):
 
 def transform_same_task(routine_from_dayplanner):
     idx = 1
-    num = 2
+    section_num = 2
     origin = None
     while idx < len(routine_from_dayplanner):
-        if (routine_from_dayplanner[idx].voice == "." and not routine_from_dayplanner[idx - 1].voice.startswith("cmd")):
+        if (routine_from_dayplanner[idx].voice == "." 
+            and not routine_from_dayplanner[idx - 1].is_cmd()):
             if origin == None:
                 origin = routine_from_dayplanner[idx - 1].voice
-                routine_from_dayplanner[idx - 1].voice = "Section 1, " + routine_from_dayplanner[idx - 1].voice
-            routine_from_dayplanner[idx].voice = "Section " + str(num) + ", " + origin
-            num += 1
+                routine_from_dayplanner[idx - 1].voice = "Section number 1, " + routine_from_dayplanner[idx - 1].voice
+            routine_from_dayplanner[idx].voice = "Section number " + str(section_num) + ", " + origin
+            section_num += 1
         else:
             origin = None
-            num = 2
+            section_num = 2
         idx += 1
 
 
@@ -74,10 +78,10 @@ def concate_voicce_same_time_task(routines, pattern):
         elif (pattern.match(routines[idx].time) == None):
             del routines[idx]
         else:
-            i = idx + 1
-            while i < len(routines) and routines[idx].time == routines[i].time:
-                routines[idx].voice += "; " + routines[i].voice
-                del routines[i]
+            next_idx = idx + 1
+            while next_idx < len(routines) and routines[idx].time == routines[next_idx].time:
+                routines[idx].voice += "; " + routines[next_idx].voice
+                del routines[next_idx]
             idx += 1
 
 
@@ -88,24 +92,21 @@ def frequent_notification(routines, projectfilepath, routine):
         now_time_format = now.strftime("%H:%M")
         for routine in routines:
             if (routine.time == now_time_format):
-                if (routine.voice.startswith("cmd")):
+                if (routine.is_cmd()):
                     find_separator = routine.voice.find(":")
                     if (find_separator > 0):
                         cmd = routine.voice[find_separator + 1:]
                         os.system(cmd)
                     else:
-                        print("Missing ':' in cmd routine")
+                        print("Missing ':' in cmd routine. " + str(routine))
                 else:
                     voice_cmd = '/home/harrison-hienp/mimic1/mimic -t "' + routine.voice + '" -voice slt'
                     start_time = datetime.now().timestamp()
-                    playsound(projectfilepath.get_abs_path(BELL_RING_FILE))
-                    for i in range(0, 3):
+                    for i in range(0, 2):
+                        playsound(projectfilepath.get_abs_path(BELL_RING_FILE))
                         os.system(voice_cmd)
-                    
                     end_time = datetime.now().timestamp()
                     time_play_sound = end_time - start_time
-        
-                    # break
         time.sleep(60 - time_play_sound)
 
 
@@ -116,8 +117,7 @@ def main():
     for routine in routine_from_dayplanner:
         routines.append(routine)
     routines.sort(key=lambda x: x.time, reverse=False)
-    pattern = re.compile("^\d\d:\d\d$")
-    concate_voicce_same_time_task(routines, pattern)
+    concate_voicce_same_time_task(routines, re.compile("^\d\d:\d\d$"))
     print_routines(routines)
     frequent_notification(routines, projectfilepath, routine)
 
@@ -125,6 +125,5 @@ def main():
 def test():
     return
 
-
 # test()
-main()
+# main()

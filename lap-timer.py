@@ -98,6 +98,16 @@ def convert_sec_hour(nsecs):
     return timer
 
 
+def get_avg(arr):
+    if (len(arr) == 0):
+        return 0;
+    sum = 0
+    for item in arr:
+        sum += item["time"]
+    avg = sum / len(arr)
+    return avg
+
+
 def show_stats(selected_project):
     print()
     print("*** Project: " + selected_project["proj_name"])
@@ -107,23 +117,35 @@ def show_stats(selected_project):
         print("\t\t[Lap]:")
         if (len(laps) > 0):
             prev = laps[0]["time"]
+        
+        avg = get_avg(laps)
+        print ("\t\t\tAverage speed = " + str(avg))
         for lap in laps:
             ratio = str(round(lap["time"] * 100 / prev, 1)) + "%"
+            ratio_avg = str(round(lap["time"] * 100 / avg, 1)) + "%"
             print("\t\t\tDate " + str(lap["date"]) + ": " 
-                  + str(convert_sec_hour(int(round(lap["time"], 0)))) 
-                  + " - +" + ratio + " (" + str(lap["notes"]) + ")")
+                  +str(convert_sec_hour(int(round(lap["time"], 0)))) 
+                  +" - +" + ratio + "(vs. prev)"
+                  +" - +" + ratio_avg + "(vs. avg)"
+                  +" (" + str(lap["notes"]) + ")")
             prev = lap["time"]
 
         print("\t\t[CountDown]:")
         countdowns = tasks["countdown"]
         if (len(countdowns) > 0):
             prev = countdowns[0]["time"]
+
+        avg = get_avg(countdowns)
+        print ("\t\t\tAverage speed = " + str(avg))
         for countdown in countdowns:
             if (prev != 0):
                 ratio = str(round(countdown["time"] * 100 / prev, 1)) + "%"
+                ratio_avg = str(round(countdown["time"] * 100 / avg, 1)) + "%"
                 print("\t\t\tDate " + str(countdown["date"]) + ": " 
-                      + str(round(countdown["time"])) 
-                      + " - +" + ratio + " (" + str(countdown["notes"]) + ")")
+                      +str(convert_sec_hour(int(round(countdown["time"], 0)))) 
+                      +" - +" + ratio + "(vs. prev)"
+                      +" - +" + ratio_avg + "(vs. avg)"
+                      +" (" + str(countdown["notes"]) + ")")
             prev = countdown["time"]
 
 
@@ -185,12 +207,12 @@ def run_task_manage():
     selected_task = None
     while (True):
         overall_option = input("Overall option: \n\t"
-                               + "1. Continue selected task\n\t" 
-                               + "2. Choose task\n\t"
-                               + "3. Choose project\n\t"
-                               + "4. Show statistics of all projects\n\t"
-                               + "e. Exit\n"
-                               + "Your Choice: ")
+                               +"1. Continue selected task\n\t" 
+                               +"2. Choose task\n\t"
+                               +"3. Choose project\n\t"
+                               +"4. Show statistics of all projects\n\t"
+                               +"e. Exit\n"
+                               +"Your Choice: ")
         projects = load_from_file(projectfilepath.get_abs_path("projects.json"))
         if (overall_option == "e"):
             break
