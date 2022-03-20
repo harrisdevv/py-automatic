@@ -109,7 +109,9 @@ def show_stats(selected_project):
             prev = laps[0]["time"]
         for lap in laps:
             ratio = str(round(lap["time"] * 100 / prev, 1)) + "%"
-            print("\t\t\tDate " + str(lap["date"]) + ": " + str(convert_sec_hour(int(round(lap["time"], 0)))) + " - +" + ratio + " (" + str(lap["notes"]) + ")")
+            print("\t\t\tDate " + str(lap["date"]) + ": " 
+                  + str(convert_sec_hour(int(round(lap["time"], 0)))) 
+                  + " - +" + ratio + " (" + str(lap["notes"]) + ")")
             prev = lap["time"]
 
         print("\t\t[CountDown]:")
@@ -119,7 +121,9 @@ def show_stats(selected_project):
         for countdown in countdowns:
             if (prev != 0):
                 ratio = str(round(countdown["time"] * 100 / prev, 1)) + "%"
-                print("\t\t\tDate " + str(countdown["date"]) + ": " + str(round(countdown["time"])) + " - +" + ratio + " (" + str(countdown["notes"]) + ")")
+                print("\t\t\tDate " + str(countdown["date"]) + ": " 
+                      + str(round(countdown["time"])) 
+                      + " - +" + ratio + " (" + str(countdown["notes"]) + ")")
             prev = countdown["time"]
 
 
@@ -134,7 +138,11 @@ def choose_operator(projects, selected_project, selected_task):
     option = -1
     while (option > 3 or option < 1):
         try:
-            option = int(input("Choose operator: \n\t1. Lap time\n\t2. Count down\n\t3. Show stats of selected project\n, Your choice: "))
+            option = int(input("Choose operator: \n\t"
+            +"1. Lap time\n\t"
+            +"2. Count down\n\t" 
+            +"3. Show stats of selected project\n"
+            +"Your choice: "))
         except ValueError:
             print("Option must be integer")
     if (option == 1):
@@ -176,7 +184,13 @@ def select_task(tasks, selected_task):
 def run_task_manage():
     selected_task = None
     while (True):
-        overall_option = input("Overall option: \n\t1. Continue selected task\n\t2. Choose task\n\t3. Choose project\n\t4. Show statistics of all projects\n\te. Exit\n. Your Choice: ")
+        overall_option = input("Overall option: \n\t"
+                               + "1. Continue selected task\n\t" 
+                               + "2. Choose task\n\t"
+                               + "3. Choose project\n\t"
+                               + "4. Show statistics of all projects\n\t"
+                               + "e. Exit\n"
+                               + "Your Choice: ")
         projects = load_from_file(projectfilepath.get_abs_path("projects.json"))
         if (overall_option == "e"):
             break
@@ -197,6 +211,7 @@ def run_task_manage():
             choose_operator(projects, selected_project, selected_task)
         elif (overall_option == "4"):
             show_all_project_stats(projects)
+
 
 def Main():
     try:
