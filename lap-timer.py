@@ -64,6 +64,12 @@ def run_countdown(projects, task):
     dump_to_file(projectfilepath.get_abs_path("projects.json"), projects)
     print("Done")
 
+def is_same_day(date1, date2):
+    if (date1.day == date2.day and date1.month == date2.month 
+        and date1.year == date2.year):
+        return True
+    return False
+
 
 def run_laptime(projects, task):
     starttime = time.time()
@@ -211,6 +217,7 @@ def run_task_manage():
                                +"2. Choose task\n\t"
                                +"3. Choose project\n\t"
                                +"4. Show statistics of all projects\n\t"
+                               +"5. Show statistics of today\n\t"
                                +"e. Exit\n"
                                +"Your Choice: ")
         projects = load_from_file(projectfilepath.get_abs_path("projects.json"))
@@ -232,6 +239,8 @@ def run_task_manage():
             selected_task = select_task(selected_project["tasks"], selected_task)
             choose_operator(projects, selected_project, selected_task)
         elif (overall_option == "4"):
+            show_all_project_stats(projects)
+        elif (overall_option == "5"):
             show_all_project_stats(projects)
 
 
