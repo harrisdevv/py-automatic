@@ -6,6 +6,7 @@ import routine
 import threading
 from time import sleep
 import projectfilepath
+import threading
 
 
 def dump_to_file(filename, obj):
@@ -63,6 +64,7 @@ def run_countdown(projects, task):
     task[1]["countdown"].append(countdown_obj)
     dump_to_file(projectfilepath.get_abs_path("projects.json"), projects)
     print("Done")
+
 
 def is_same_day(date1, date2):
     if (date1.day == date2.day and date1.month == date2.month 
@@ -210,6 +212,9 @@ def select_task(tasks, selected_task):
 
 
 def run_task_manage():
+    routine_thread = StoppableThread(target=routine.main, args=())
+    routine_thread.start()
+    sleep(1)
     selected_task = None
     while (True):
         overall_option = input("Overall option: \n\t"
@@ -218,6 +223,7 @@ def run_task_manage():
                                +"3. Choose project\n\t"
                                +"4. Show statistics of all projects\n\t"
                                +"5. Show statistics of today\n\t"
+                               +"6. Reload routines\n\t"
                                +"e. Exit\n"
                                +"Your Choice: ")
         projects = load_from_file(projectfilepath.get_abs_path("projects.json"))
@@ -242,19 +248,35 @@ def run_task_manage():
             show_all_project_stats(projects)
         elif (overall_option == "5"):
             show_all_project_stats(projects)
+        elif (overall_option == "6"):
+            routine_thread.stop()
+            routine_thread = StoppableThread(target=routine.main, args=())
+            routine_thread.start()
+            sleep(1)
+    
+    routine_thread.stop()
+    routine_thread.join()
+
+
+class StoppableThread(threading.Thread):
+
+    def __init__(self, *args, **kwargs):
+        super(StoppableThread, self).__init__(*args, **kwargs)
+        self._stop_event = threading.Event()
+
+    def stop(self):
+        self._stop_event.set()
+
+    def stopped(self):
+        return self._stop_event.is_set()
 
 
 def Main():
     try:
-        routine_thread = threading.Thread(target=routine.main, args=())
-        routine_thread.start()
-        sleep(1)
         task_manage_thread = threading.Thread(target=run_task_manage, args=())
         task_manage_thread.start()
-        routine_thread.join()
         task_manage_thread.join()
     except:
-        routine_thread.join()
         task_manage_thread.join()
 
 

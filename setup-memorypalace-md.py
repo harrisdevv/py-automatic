@@ -8,7 +8,7 @@ import sys
 import glob
 import hashlib
 
-FILE_IMAGE_JSON = "/home/harrison-hienp/Desktop/code/script/py-automatic/image-excalidraw.json"
+FILE_IMAGE_JSON = "/home/harrison-hienp/Desktop/code/script/py-automatic/resources/image-excalidraw.json"
 NOTES_FOLDER = "/home/harrison-hienp/Desktop/notes/"
 
 
@@ -90,7 +90,7 @@ def setup_memory_palace(input):
         files_with_id.append({"file_id":genFileId(dest), "rel_file_md":"[[Attachment/" + pasted_file_name_with_ext + "]]",
                 "file_abs_path":dest})
     
-    full_image_obj = load_from_file("full-image.json")
+    full_image_obj = load_from_file("resources/full-image.json")
     elements = full_image_obj["elements"]
     for idx, file in enumerate(files_with_id):
         image_obj = load_from_file(FILE_IMAGE_JSON)

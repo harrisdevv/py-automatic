@@ -5,7 +5,7 @@ from playsound import playsound
 import projectfilepath
 import re
 
-BELL_RING_FILE = 'bell-ringing-04.wav'
+BELL_RING_FILE = 'resources/bell-ringing-04.wav'
 
 
 class Routine:
@@ -46,10 +46,10 @@ def load_routine_from_day_planner():
             
 
 def print_routines(routines):
-    print("-------------------Day Planner---------------")
+    print("\n-------------------Day Planner---------------")
     for routine in routines:
         print("At " + routine.time + ", do " + routine.voice)
-    print("----------------------------------------------")
+    print("----------------------------------------------\n")
 
 
 def transform_same_task(routine_from_dayplanner):

@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-PREFIX_FILE_PATH = "/home/harrison-hienp/Desktop/code/script/py-automatic/"
+PREFIX_FILE_PATH = "/home/harrison-hienp/Desktop/code/script/py-automatic/resources/"
 
 
 def get_abs_path(path):
