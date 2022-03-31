@@ -10,6 +10,10 @@ import hashlib
 
 FILE_IMAGE_JSON = "/home/harrison-hienp/Desktop/code/script/py-automatic/resources/image-excalidraw.json"
 NOTES_FOLDER = "/home/harrison-hienp/Desktop/notes/"
+DEFAULT_MP_IMAGE_FOLDER = "/home/harrison-hienp/Downloads/MemoryPalace/"
+NOTE_ATTACHMENT_FOLDER = "/home/harrison-hienp/Desktop/notes/Attachment/"
+PROJECT_PATH = "/home/harrison-hienp/Desktop/code/script/py-automatic/"
+# NOTE_ATTACHMENT_FOLDER = "/home/harrison-hienp/Desktop/notes/🧠 Second Brain/Memory Palace/Attachment/"
 
 
 def dump_to_file(filename, obj):
@@ -75,7 +79,6 @@ def setup_memory_palace(input):
     filenames_in_image_folder = list(filter(os.path.isfile, glob.glob(input.mp_folder + "*")))
     filenames_in_image_folder.sort(key=lambda x:os.path.getmtime(x))
     counter = 1
-    NOTE_ATTACHMENT_FOLDER = "/home/harrison-hienp/Desktop/notes/Attachment/"
     files_with_id = []
     for file in filenames_in_image_folder:
         now = datetime.now()
@@ -90,13 +93,13 @@ def setup_memory_palace(input):
         files_with_id.append({"file_id":genFileId(dest), "rel_file_md":"[[Attachment/" + pasted_file_name_with_ext + "]]",
                 "file_abs_path":dest})
     
-    full_image_obj = load_from_file("resources/full-image.json")
+    full_image_obj = load_from_file(PROJECT_PATH + "resources/full-image.json")
     elements = full_image_obj["elements"]
     for idx, file in enumerate(files_with_id):
         image_obj = load_from_file(FILE_IMAGE_JSON)
         new_image_obj = copy.copy(image_obj)
         new_image_obj["id"] = genId(file["file_abs_path"])
-        new_image_obj["y"] += 730 * idx
+        new_image_obj["y"] += 710 * idx
         new_image_obj["seed"] = hash((datetime.now()))
         new_image_obj["versionNonce"] = hash((datetime.now()))
         new_image_obj["fileId"] = file["file_id"]
@@ -104,19 +107,19 @@ def setup_memory_palace(input):
 
     input_file_path = NOTES_FOLDER + input.excalidraw_folder
     output_file_path = NOTES_FOLDER + input.excalidraw_folder
-    backup_file_path = input_file_path[0:input_file_path.rindex("/")] + "/backup/" + input_file_path[input_file_path.rindex("/") + 1:]
+    second_right_slash = input_file_path[0:len(input_file_path) - 1].rindex("/")
+    backup_file_path = input_file_path[0:second_right_slash] + "/backup/" + input_file_path[input_file_path.rindex("/") + 1:]
     shutil.move(input_file_path, backup_file_path)
     write_excalidraw(files_with_id, full_image_obj, backup_file_path, output_file_path)
 
 
 def main():
-    DEFAULT_MP_IMAGE_FOLDER = "/home/harrison-hienp/Downloads/MemoryPalace/"
     if (len(sys.argv) <= 1):
         print("Missing argument!")
     elif (len(sys.argv) == 2):
         if (sys.argv[1] == "-h"):
             print("python3 setup-memorypalace-md.py [ <memorypalace_image_folder> <excalidraw_folder> ]+ " 
-                  + "\n(Default MP folder: " + DEFAULT_MP_IMAGE_FOLDER + ")")
+                  +"\n(Default MP folder: " + DEFAULT_MP_IMAGE_FOLDER + ")")
             return
         arg_input = Input(DEFAULT_MP_IMAGE_FOLDER, sys.argv[1])
         print("Processing: " + str(arg_input))
