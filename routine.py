@@ -61,8 +61,8 @@ def transform_same_task(routine_from_dayplanner):
             and not routine_from_dayplanner[idx - 1].is_cmd()):
             if origin == None:
                 origin = routine_from_dayplanner[idx - 1].voice
-                routine_from_dayplanner[idx - 1].voice = "Section number 1, " + routine_from_dayplanner[idx - 1].voice
-            routine_from_dayplanner[idx].voice = "Section number " + str(section_num) + ", " + origin
+                routine_from_dayplanner[idx - 1].voice = "Section 1, " + routine_from_dayplanner[idx - 1].voice
+            routine_from_dayplanner[idx].voice = "Section " + str(section_num) + ", " + origin
             section_num += 1
         else:
             origin = None
@@ -102,7 +102,7 @@ def frequent_notification(routines, projectfilepath, routine):
                 else:
                     voice_cmd = '/home/harrison-hienp/mimic1/mimic -t "' + routine.voice + '" -voice slt'
                     start_time = datetime.now().timestamp()
-                    for i in range(0, 2):
+                    for i in range(0, 1):
                         playsound(projectfilepath.get_abs_path(BELL_RING_FILE))
                         os.system(voice_cmd)
                     end_time = datetime.now().timestamp()

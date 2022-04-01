@@ -1,9 +1,15 @@
 
-05:30 Good morning, hihi
+05:40 Good morning
 06:41 cmd: xdg-open "/media/harrison-hienp/My Passport/thinkpad/Desk/sound/aspiration/DISCIPLINE- Jocko Willink motivation compilation-LwGa-VY-UkU.mp4"
 
 07:00 review yesterday, plan today
-07:20 Let's do the mission
+07:30 Email checking
+07:40 Let's do the mission
+08:00 Relax 6 minutes
+08:06 Start, start, start
+09:10 Relax 20 minutes
+09:29 Start, start, start
+11:20 Email checking
 11:30 Eat Lunch!
 11:31 cmd: /home/harrison-hienp/Tool/toggle_dnd/toggle_dnd2 true
 
@@ -11,6 +17,9 @@
 12:00 Wake up
 12:10 Evening working session, Drink 500 mili litre water
 12:31 cmd: /home/harrison-hienp/Tool/toggle_dnd/toggle_dnd2 false
+15:00 Relax 20 minutes
+15:19 Start, start, start
+17:10 Email checking
 17:20 Off work, relaxing
 17:21 cmd: /home/harrison-hienp/Tool/toggle_dnd/toggle_dnd2 true
 
