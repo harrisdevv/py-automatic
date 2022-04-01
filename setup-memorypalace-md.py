@@ -43,12 +43,14 @@ def format_json_obj(obj):
     return json_formatted_str
 
 
-def write_excalidraw(files_with_id, full_image_obj, input_file_path, output_file_path):
+def write_excalidraw(files_with_id, full_image_obj, input_file_path, output_file_path, number_of_image):
     with open(output_file_path, "w") as output_file:
         with open(input_file_path, "r") as input_file:
             for line in input_file.readlines():
                 output_file.write(line)
-                if (line.startswith("# Text Elements")):
+                if (line.startswith("---")):
+                    output_file.write("number-of-image: " + str(number_of_image) + "\n")
+                elif (line.startswith("# Text Elements")):
                     output_file.write("# Embedded files\n")
                     for file in files_with_id:
                         output_file.write(file["file_id"] + ": " + file["rel_file_md"] + "\n")
@@ -107,10 +109,9 @@ def setup_memory_palace(input):
 
     input_file_path = NOTES_FOLDER + input.excalidraw_folder
     output_file_path = NOTES_FOLDER + input.excalidraw_folder
-    second_right_slash = input_file_path[0:len(input_file_path) - 1].rindex("/")
-    backup_file_path = input_file_path[0:second_right_slash] + "/backup/" + input_file_path[input_file_path.rindex("/") + 1:]
+    backup_file_path = NOTES_FOLDER + "backup/" + input_file_path[input_file_path.rindex("/") + 1:]
     shutil.move(input_file_path, backup_file_path)
-    write_excalidraw(files_with_id, full_image_obj, backup_file_path, output_file_path)
+    write_excalidraw(files_with_id, full_image_obj, backup_file_path, output_file_path, len(files_with_id))
 
 
 def main():

@@ -5,7 +5,7 @@ from playsound import playsound
 import projectfilepath
 import re
 
-BELL_RING_FILE = 'resources/bell-ringing-04.wav'
+BELL_RING_FILE = 'bell-ringing-04.wav'
 
 
 class Routine:
