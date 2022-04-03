@@ -31,4 +31,4 @@
 21:00 God Bless time
 21:01 cmd: xdg-open "/media/harrison-hienp/My Passport/thinkpad/Desk/sound/aspiration/10 Min End of Day Gratitude and Sleep Guided Meditation-ReGPjwr2chQ.mkv"
 21:10 Sleep, Good night!
-21:11 cmd: shutdown now
+21:12 cmd: shutdown now

@@ -87,7 +87,8 @@ def concate_voicce_same_time_task(routines, pattern):
 
 def frequent_notification(routines, projectfilepath, routine):
     while True:
-        time_play_sound = 0
+        start_time = datetime.now().timestamp()
+        time_use_process = 0
         now = datetime.now()
         now_time_format = now.strftime("%H:%M")
         for routine in routines:
@@ -101,13 +102,12 @@ def frequent_notification(routines, projectfilepath, routine):
                         print("Missing ':' in cmd routine. " + str(routine))
                 else:
                     voice_cmd = '/home/harrison-hienp/mimic1/mimic -t "' + routine.voice + '" -voice slt'
-                    start_time = datetime.now().timestamp()
                     for i in range(0, 1):
                         playsound(projectfilepath.get_abs_path(BELL_RING_FILE))
                         os.system(voice_cmd)
-                    end_time = datetime.now().timestamp()
-                    time_play_sound = end_time - start_time
-        time.sleep(60 - time_play_sound)
+        end_time = datetime.now().timestamp()
+        time_use_process = end_time - start_time
+        time.sleep(60 - time_use_process) # make sure do 60 sec for single loop
 
 
 def main():
