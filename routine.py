@@ -6,6 +6,7 @@ import projectfilepath
 import re
 
 BELL_RING_FILE = 'bell-ringing-04.wav'
+SHORT_TICK_FILE = 'tick-tock.mp3'
 
 
 class Routine:
@@ -85,7 +86,27 @@ def concate_voicce_same_time_task(routines, pattern):
             idx += 1
 
 
+class Duration:
+
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+
+    
+def check_time_in_flow(time):
+    durations = []
+    durations.append(Duration("07:00", "11:30"))
+    durations.append(Duration("12:30", "17:20"))
+    durations.append(Duration("19:00", "20:40"))
+    for dur in durations: 
+        if (time >= dur.start and time <= dur.end):
+            return True
+    return False
+
+
 def frequent_notification(routines, projectfilepath, routine):
+    NOTIFY_INTERVAL_MIN = 1
+    un_notify_time = 0
     while True:
         start_time = datetime.now().timestamp()
         time_use_process = 0
@@ -105,9 +126,13 @@ def frequent_notification(routines, projectfilepath, routine):
                     for i in range(0, 1):
                         playsound(projectfilepath.get_abs_path(BELL_RING_FILE))
                         os.system(voice_cmd)
+        if (un_notify_time == NOTIFY_INTERVAL_MIN and check_time_in_flow(now_time_format)):
+            playsound(projectfilepath.get_abs_path(SHORT_TICK_FILE))
+            un_notify_time = 0
         end_time = datetime.now().timestamp()
         time_use_process = end_time - start_time
-        time.sleep(60 - time_use_process) # make sure do 60 sec for single loop
+        time.sleep(60 - time_use_process)  # make sure do 60 sec for single loop
+        un_notify_time += 1
 
 
 def main():
