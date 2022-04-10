@@ -126,7 +126,7 @@ def frequent_notification(routines, projectfilepath, routine):
                     for i in range(0, 1):
                         playsound(projectfilepath.get_abs_path(BELL_RING_FILE))
                         os.system(voice_cmd)
-        if (un_notify_time == NOTIFY_INTERVAL_MIN and check_time_in_flow(now_time_format)):
+        if (un_notify_time >= NOTIFY_INTERVAL_MIN and check_time_in_flow(now_time_format)):
             playsound(projectfilepath.get_abs_path(SHORT_TICK_FILE))
             un_notify_time = 0
         end_time = datetime.now().timestamp()
