@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import time
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 import routine
 import threading
 from time import sleep
@@ -130,6 +130,16 @@ def is_today_stat(time_rec):
     return False
 
 
+def is_week_stat(time_rec):
+    today = datetime.now()
+    for idx in range(7):
+        prev_time = today - timedelta(days=idx)
+        day_str = prev_time.strftime("%d/%m/%Y")
+        if (time_rec["date"].split()[0] == day_str):
+            return True
+    return False
+
+
 def show_stats_pre(predicate, selected_project):
     for tasks in selected_project["tasks"]:
         laps = tasks["lap"]
@@ -177,7 +187,7 @@ def show_all_project_stats(projects):
     print("\n##########################\n")
 
 
-def show_all_project_stats_pre(predicate, projects):
+def show_all_project_stats(predicate, projects):
     print("\n##########################\n")
     for project in projects:
         show_stats_pre(predicate, project)
@@ -243,7 +253,8 @@ def run_task_manage():
                                +"3. Choose project\n\t"
                                +"4. Show statistics of all projects\n\t"
                                +"5. Show statistics of today\n\t"
-                               +"6. Reload routines\n\t"
+                               +"6. Show statistics of week\n\t"
+                               +"7. Reload routines\n\t"
                                +"e. Exit\n"
                                +"Your Choice: ")
         projects = load_from_file(projectfilepath.get_abs_path("projects.json"))
@@ -265,10 +276,12 @@ def run_task_manage():
             selected_task = select_task(selected_project["tasks"], selected_task)
             choose_operator(projects, selected_project, selected_task)
         elif (overall_option == "4"):
-            show_all_project_stats_pre(lambda pre: True, projects)
+            show_all_project_stats(lambda pred: True, projects)
         elif (overall_option == "5"):
-            show_all_project_stats_pre(is_today_stat, projects)
+            show_all_project_stats(is_today_stat, projects)
         elif (overall_option == "6"):
+            show_all_project_stats(is_week_stat, projects)
+        elif (overall_option == "7"):
             routine_thread.stop()
             routine_thread = StoppableThread(target=routine.main, args=())
             routine_thread.start()
