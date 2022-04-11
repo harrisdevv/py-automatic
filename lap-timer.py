@@ -106,6 +106,7 @@ def run_laptime(projects, task):
 
 
 def convert_sec_hour(nsecs):
+    nsecs = int(round(nsecs))
     hours, minsecs = divmod(nsecs, 3600)
     mins, secs = divmod(minsecs, 60)
     timer = '{:02d}h{:02d}m{:02d}s'.format(hours, mins, secs)
@@ -122,51 +123,64 @@ def get_avg(arr):
     return avg
 
 
-def show_stats(selected_project):
-    print()
-    print("*** Project: " + selected_project["proj_name"])
+def is_today_stat(time_rec):
+    today_str = datetime.now().strftime("%d/%m/%Y")
+    if (time_rec["date"].split()[0] == today_str):
+        return True
+    return False
+
+
+def show_stats_pre(predicate, selected_project):
     for tasks in selected_project["tasks"]:
-        print("\tTask: " + tasks["name"])
         laps = tasks["lap"]
-        print("\t\t[Lap]:")
-        if (len(laps) > 0):
-            prev = laps[0]["time"]
-        
-        avg = get_avg(laps)
-        print ("\t\t\tAverage speed = " + str(avg))
-        for lap in laps:
-            ratio = str(round(lap["time"] * 100 / prev, 1)) + "%"
-            ratio_avg = str(round(lap["time"] * 100 / avg, 1)) + "%"
-            print("\t\t\tDate " + str(lap["date"]) + ": " 
-                  +str(convert_sec_hour(int(round(lap["time"], 0)))) 
-                  +" - +" + ratio + "(vs. prev)"
-                  +" - +" + ratio_avg + "(vs. avg)"
-                  +" (" + str(lap["notes"]) + ")")
-            prev = lap["time"]
+        filtered_laps = list(filter(predicate, laps))
+        if (len(filtered_laps) > 0):
+            prev = filtered_laps[0]["time"]
+            print("*** Project: " + selected_project["proj_name"])
+            print("\tTask: " + tasks["name"])
+            print("\t\t[Lap]:")
+            avg = get_avg(filtered_laps)
+            print ("\t\t\tAverage speed = " + str(avg) + " ( " + convert_sec_hour(avg) + " )")
+            for lap in filtered_laps:
+                ratio = str(round(lap["time"] * 100 / prev, 1)) + "%"
+                ratio_avg = str(round(lap["time"] * 100 / avg, 1)) + "%"
+                print("\t\t\tDate " + str(lap["date"]) + ": " 
+                    +str(convert_sec_hour(int(round(lap["time"], 0)))) 
+                    +" - +" + ratio + "(vs. prev)"
+                    +" - +" + ratio_avg + "(vs. avg)"
+                    +" (" + str(lap["notes"]) + ")")
+                prev = lap["time"]
 
-        print("\t\t[CountDown]:")
         countdowns = tasks["countdown"]
-        if (len(countdowns) > 0):
-            prev = countdowns[0]["time"]
-
-        avg = get_avg(countdowns)
-        print ("\t\t\tAverage speed = " + str(avg))
-        for countdown in countdowns:
-            if (prev != 0):
-                ratio = str(round(countdown["time"] * 100 / prev, 1)) + "%"
-                ratio_avg = str(round(countdown["time"] * 100 / avg, 1)) + "%"
-                print("\t\t\tDate " + str(countdown["date"]) + ": " 
-                      +str(convert_sec_hour(int(round(countdown["time"], 0)))) 
-                      +" - +" + ratio + "(vs. prev)"
-                      +" - +" + ratio_avg + "(vs. avg)"
-                      +" (" + str(countdown["notes"]) + ")")
-            prev = countdown["time"]
+        filtered_countdowns = list(filter(predicate, countdowns))
+        if (len(filtered_countdowns) > 0):
+            prev = filtered_countdowns[0]["time"]
+            print("\t\t[CountDown]:")
+            avg = get_avg(filtered_countdowns)
+            print ("\t\t\tAverage speed = " + str(avg) + " ( " + convert_sec_hour(avg) + " )")
+            for countdown in filtered_countdowns:
+                if (prev != 0):
+                    ratio = str(round(countdown["time"] * 100 / prev, 1)) + "%"
+                    ratio_avg = str(round(countdown["time"] * 100 / avg, 1)) + "%"
+                    print("\t\t\tDate " + str(countdown["date"]) + ": " 
+                        +str(convert_sec_hour(int(round(countdown["time"], 0)))) 
+                        +" - +" + ratio + "(vs. prev)"
+                        +" - +" + ratio_avg + "(vs. avg)"
+                        +" (" + str(countdown["notes"]) + ")")
+                prev = countdown["time"]
 
 
 def show_all_project_stats(projects):
     print("\n##########################\n")
     for project in projects:
         show_stats(project)
+    print("\n##########################\n")
+
+
+def show_all_project_stats_pre(predicate, projects):
+    print("\n##########################\n")
+    for project in projects:
+        show_stats_pre(predicate, project)
     print("\n##########################\n")
 
 
@@ -251,9 +265,9 @@ def run_task_manage():
             selected_task = select_task(selected_project["tasks"], selected_task)
             choose_operator(projects, selected_project, selected_task)
         elif (overall_option == "4"):
-            show_all_project_stats(projects)
+            show_all_project_stats_pre(lambda pre: True, projects)
         elif (overall_option == "5"):
-            show_all_project_stats(projects)
+            show_all_project_stats_pre(is_today_stat, projects)
         elif (overall_option == "6"):
             routine_thread.stop()
             routine_thread = StoppableThread(target=routine.main, args=())
