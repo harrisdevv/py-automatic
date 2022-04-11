@@ -73,6 +73,12 @@ def is_same_day(date1, date2):
     return False
 
 
+def convert_to_minsec(laptime):
+    mins, secs = divmod(laptime, 60)
+    min_and_sec = '{:02d}m{:02d}s'.format(mins, secs)
+    return min_and_sec
+
+
 def run_laptime(projects, task):
     starttime = time.time()
     lasttime = starttime
@@ -90,8 +96,8 @@ def run_laptime(projects, task):
         totaltime = round((time.time() - starttime), 2)
         laptime = round((time.time() - lasttime), 2)
         print("Lap No. " + str(lapnum))
-        print("Total Time: " + str(totaltime))
-        print("Lap Time: " + str(laptime))
+        print("Total Time: " + str(totaltime) + " ( " + convert_to_minsec(totaltime) + " )")
+        print("Lap Time: " + str(laptime) + " ( " + convert_to_minsec(laptime) + " )")
         print("*"*20)
         notes = input("Notes? ")
         task[1]["lap"].append({"date": date_str, "time":laptime, "notes": notes})
