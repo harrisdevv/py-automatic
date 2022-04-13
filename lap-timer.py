@@ -74,6 +74,7 @@ def is_same_day(date1, date2):
 
 
 def convert_to_minsec(laptime):
+    nsecs = int(round(laptime))
     mins, secs = divmod(laptime, 60)
     min_and_sec = '{:02d}m{:02d}s'.format(mins, secs)
     return min_and_sec
