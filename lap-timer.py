@@ -74,8 +74,8 @@ def is_same_day(date1, date2):
 
 
 def convert_to_minsec(laptime):
-    nsecs = int(round(laptime))
-    mins, secs = divmod(laptime, 60)
+    laptime_round = int(round(laptime))
+    mins, secs = divmod(laptime_round, 60)
     min_and_sec = '{:02d}m{:02d}s'.format(mins, secs)
     return min_and_sec
 
@@ -140,6 +140,14 @@ def is_week_stat(time_rec):
             return True
     return False
 
+def is_month_stat(time_rec):
+    today = datetime.now()
+    for idx in range(28):
+        prev_time = today - timedelta(days=idx)
+        day_str = prev_time.strftime("%d/%m/%Y")
+        if (time_rec["date"].split()[0] == day_str):
+            return True
+    return False
 
 def show_stats_pre(predicate, selected_project):
     for tasks in selected_project["tasks"]:
@@ -255,7 +263,8 @@ def run_task_manage():
                                +"4. Show statistics of all projects\n\t"
                                +"5. Show statistics of today\n\t"
                                +"6. Show statistics of week\n\t"
-                               +"7. Reload routines\n\t"
+                               +"7. Show statistics of month\n\t"
+                               +"8. Reload routines\n\t"
                                +"e. Exit\n"
                                +"Your Choice: ")
         projects = load_from_file(projectfilepath.get_abs_path("projects.json"))
@@ -283,6 +292,8 @@ def run_task_manage():
         elif (overall_option == "6"):
             show_all_project_stats(is_week_stat, projects)
         elif (overall_option == "7"):
+            show_all_project_stats(is_month_stat, projects)
+        elif (overall_option == "8"):
             routine_thread.stop()
             routine_thread = StoppableThread(target=routine.main, args=())
             routine_thread.start()
