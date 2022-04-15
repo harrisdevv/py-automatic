@@ -49,7 +49,7 @@ def select_project(projects):
                 selected_project = p
         if (selected_project == None):
             print("Project index is not exist !")
-            exit()
+            return None
     except ValueError:
         print("OK, create new project " + str(proj_input))
         selected_project = {"index": maxIndex + 1,
@@ -190,13 +190,6 @@ def show_stats_pre(predicate, selected_project):
                 prev = countdown["time"]
 
 
-def show_all_project_stats(projects):
-    print("\n##########################\n")
-    for project in projects:
-        show_stats(project)
-    print("\n##########################\n")
-
-
 def show_all_project_stats(predicate, projects):
     print("\n##########################\n")
     for project in projects:
@@ -220,7 +213,7 @@ def choose_operator(projects, selected_project, selected_task):
     elif (option == 2):
         run_countdown(projects, selected_task)
     elif (option == 3):
-        show_stats(selected_project)
+        show_stats_pre(lambda pred: True, selected_project)
 
 
 def show_tasks_name(tasks):
@@ -250,14 +243,22 @@ def select_task(tasks, selected_task):
     print("Selected task: " + selected_task["name"])
     return int_option, selected_task
 
+
 def print_select_project_task(selected_project, selected_task):
+    print("---")
     print("Selected project: " + (selected_project["proj_name"] if selected_project != None else "None"))
-    print("Selected task: " + (selected_task["name"] if selected_task != None else "None"))
+    print("Selected task: " + (selected_task[1]["name"] if selected_task != None else "None"))
+
+
+def write_line_file(file, content):
+    file.write(content + "\n")
+
 
 def run_task_manage():
     routine_thread = StoppableThread(target=routine.main, args=())
     routine_thread.start()
     sleep(1)
+    selected_project = None
     selected_task = None
     while (True):
         print_select_project_task(selected_project, selected_task)
@@ -288,6 +289,9 @@ def run_task_manage():
             choose_operator(projects, selected_project, selected_task)
         elif (overall_option == "3"):
             selected_project = select_project(projects)
+            if (selected_project == None):
+                print("Fail choosing project!")
+                continue
             selected_task = None
             selected_task = select_task(selected_project["tasks"], selected_task)
             choose_operator(projects, selected_project, selected_task)
@@ -308,44 +312,46 @@ def run_task_manage():
             if (selected_project == None):
                 print ("Select project first.")
                 continue
-            with open("resources/performance.md", "w") as file:
-                file.write("*** Project: " + selected_project["proj_name"])
+            with open("resources/performance.md", "w+") as file:
+                write_line_file(file, "*** Project: " + selected_project["proj_name"])
                 for tasks in selected_project["tasks"]:
                     laps = tasks["lap"]
                     filtered_laps = list(filter(is_month_stat, laps))
                     if (len(filtered_laps) > 0):
                         prev = filtered_laps[0]["time"]
                         avg = get_avg(filtered_laps)
-                        file.write("| Task: " + tasks["name"] + "| Average speed = " 
-                                   +str(avg) + " ( " + convert_sec_hour(avg) + " )")
-                        file.write("| Date | Time | Ratio vs Prev | Ratio vs Avg | Note")
+                        write_line_file(file, "| Task: " + tasks["name"] + "| Average speed = " 
+                                   +str(avg) + " ( " + convert_sec_hour(avg) + " ) |")
+                        write_line_file(file, "|--|--|--|--|--|")
+                        write_line_file(file, "| Date | Time | Ratio vs Prev | Ratio vs Avg | Note |")
                         for lap in filtered_laps:
                             ratio = str(round(lap["time"] * 100 / prev, 1)) + "%"
                             ratio_avg = str(round(lap["time"] * 100 / avg, 1)) + "%"
-                            file.write(str(lap["date"])
+                            write_line_file(file, "| " + str(lap["date"])
                                 +" | " + str(convert_sec_hour(int(round(lap["time"], 0)))) 
                                 +" | +" + ratio + "(vs. prev)"
                                 +" | +" + ratio_avg + "(vs. avg)"
-                                +" | " + str(lap["notes"]))
+                                +" | " + str(lap["notes"]) + " |")
                             prev = lap["time"]
-                    file.write("|||||")
+                    # write_line_file(file, "|||||")
                     countdowns = tasks["countdown"]
-                    filtered_countdowns = list(filter(predicate, countdowns))
+                    filtered_countdowns = list(filter(is_month_stat, countdowns))
                     if (len(filtered_countdowns) > 0):
                         prev = filtered_countdowns[0]["time"]
-                        file.write("| CountDown | Average speed = " + str(avg) + " ( " + convert_sec_hour(avg) + " )")
+                        write_line_file(file, "| CountDown | Average speed = " + str(avg) + " ( " + convert_sec_hour(avg) + " ) |")
                         avg = get_avg(filtered_countdowns)
-                        file.write("| Date | Time | Ratio vs Prev | Ratio vs Avg | Note")
+                        write_line_file(file, "| Date | Time | Ratio vs Prev | Ratio vs Avg | Note |")
                         for countdown in filtered_countdowns:
                             if (prev != 0):
                                 ratio = str(round(countdown["time"] * 100 / prev, 1)) + "%"
                                 ratio_avg = str(round(countdown["time"] * 100 / avg, 1)) + "%"
-                                file.write("Date " + str(countdown["date"]) 
+                                write_line_file(file, "| " + str(countdown["date"]) 
                                     +" | " + str(convert_sec_hour(int(round(countdown["time"], 0)))) 
                                     +" | +" + ratio + "(vs. prev)"
                                     +" | +" + ratio_avg + "(vs. avg)"
-                                    +" | " + str(countdown["notes"]))
+                                    +" | " + str(countdown["notes"]) + " |")
                             prev = countdown["time"]
+                file.close()
                 print("Generated done.")
     
     routine_thread.stop()
