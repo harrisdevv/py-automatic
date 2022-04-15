@@ -84,12 +84,11 @@ def run_laptime(projects, task):
     starttime = time.time()
     lasttime = starttime
     lapnum = 1
-    print("Press ENTER to count laps.\nPress CTRL+C to stop")
     while True:
         print("Start...")
         now = datetime.now()
         date_str = now.strftime("%d/%m/%Y %H:%M:%S")
-        continous = input("Want to stop ? (Enter to continue, e to exit)")
+        continous = input("Want to stop ? (Enter to continue, e to exit) ")
         if (continous == "e"):
             dump_to_file(projectfilepath.get_abs_path("projects.json"), projects)
             print("Done")
@@ -140,6 +139,7 @@ def is_week_stat(time_rec):
             return True
     return False
 
+
 def is_month_stat(time_rec):
     today = datetime.now()
     for idx in range(28):
@@ -148,6 +148,7 @@ def is_month_stat(time_rec):
         if (time_rec["date"].split()[0] == day_str):
             return True
     return False
+
 
 def show_stats_pre(predicate, selected_project):
     for tasks in selected_project["tasks"]:
@@ -249,6 +250,9 @@ def select_task(tasks, selected_task):
     print("Selected task: " + selected_task["name"])
     return int_option, selected_task
 
+def print_select_project_task(selected_project, selected_task):
+    print("Selected project: " + (selected_project["proj_name"] if selected_project != None else "None"))
+    print("Selected task: " + (selected_task["name"] if selected_task != None else "None"))
 
 def run_task_manage():
     routine_thread = StoppableThread(target=routine.main, args=())
@@ -256,6 +260,7 @@ def run_task_manage():
     sleep(1)
     selected_task = None
     while (True):
+        print_select_project_task(selected_project, selected_task)
         overall_option = input("Overall option: \n\t"
                                +"1. Continue selected task\n\t" 
                                +"2. Choose task\n\t"
@@ -265,6 +270,7 @@ def run_task_manage():
                                +"6. Show statistics of week\n\t"
                                +"7. Show statistics of month\n\t"
                                +"8. Reload routines\n\t"
+                               +"9. Generate statistics file\n\t"
                                +"e. Exit\n"
                                +"Your Choice: ")
         projects = load_from_file(projectfilepath.get_abs_path("projects.json"))
@@ -298,6 +304,49 @@ def run_task_manage():
             routine_thread = StoppableThread(target=routine.main, args=())
             routine_thread.start()
             sleep(1)
+        elif (overall_option == "9"):
+            if (selected_project == None):
+                print ("Select project first.")
+                continue
+            with open("resources/performance.md", "w") as file:
+                file.write("*** Project: " + selected_project["proj_name"])
+                for tasks in selected_project["tasks"]:
+                    laps = tasks["lap"]
+                    filtered_laps = list(filter(is_month_stat, laps))
+                    if (len(filtered_laps) > 0):
+                        prev = filtered_laps[0]["time"]
+                        avg = get_avg(filtered_laps)
+                        file.write("| Task: " + tasks["name"] + "| Average speed = " 
+                                   +str(avg) + " ( " + convert_sec_hour(avg) + " )")
+                        file.write("| Date | Time | Ratio vs Prev | Ratio vs Avg | Note")
+                        for lap in filtered_laps:
+                            ratio = str(round(lap["time"] * 100 / prev, 1)) + "%"
+                            ratio_avg = str(round(lap["time"] * 100 / avg, 1)) + "%"
+                            file.write(str(lap["date"])
+                                +" | " + str(convert_sec_hour(int(round(lap["time"], 0)))) 
+                                +" | +" + ratio + "(vs. prev)"
+                                +" | +" + ratio_avg + "(vs. avg)"
+                                +" | " + str(lap["notes"]))
+                            prev = lap["time"]
+                    file.write("|||||")
+                    countdowns = tasks["countdown"]
+                    filtered_countdowns = list(filter(predicate, countdowns))
+                    if (len(filtered_countdowns) > 0):
+                        prev = filtered_countdowns[0]["time"]
+                        file.write("| CountDown | Average speed = " + str(avg) + " ( " + convert_sec_hour(avg) + " )")
+                        avg = get_avg(filtered_countdowns)
+                        file.write("| Date | Time | Ratio vs Prev | Ratio vs Avg | Note")
+                        for countdown in filtered_countdowns:
+                            if (prev != 0):
+                                ratio = str(round(countdown["time"] * 100 / prev, 1)) + "%"
+                                ratio_avg = str(round(countdown["time"] * 100 / avg, 1)) + "%"
+                                file.write("Date " + str(countdown["date"]) 
+                                    +" | " + str(convert_sec_hour(int(round(countdown["time"], 0)))) 
+                                    +" | +" + ratio + "(vs. prev)"
+                                    +" | +" + ratio_avg + "(vs. avg)"
+                                    +" | " + str(countdown["notes"]))
+                            prev = countdown["time"]
+                print("Generated done.")
     
     routine_thread.stop()
     routine_thread.join()
