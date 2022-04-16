@@ -71,7 +71,7 @@ def transform_same_task(routine_from_dayplanner):
         idx += 1
 
 
-def concate_voicce_same_time_task(routines, pattern):
+def concate_voice_same_time_task(routines, pattern):
     idx = 0
     while idx < len(routines):
         if (idx == len(routines) - 1):
@@ -105,7 +105,7 @@ def check_time_in_flow(time):
 
 
 def frequent_notification(routines, projectfilepath, routine):
-    NOTIFY_INTERVAL_MIN = 1
+    NOTIFY_INTERVAL_MIN = 5
     un_notify_time = 0
     while True:
         start_time = datetime.now().timestamp()
@@ -142,7 +142,7 @@ def main():
     for routine in routine_from_dayplanner:
         routines.append(routine)
     routines.sort(key=lambda x: x.time, reverse=False)
-    concate_voicce_same_time_task(routines, re.compile("^\d\d:\d\d$"))
+    concate_voice_same_time_task(routines, re.compile("^\d\d:\d\d$"))
     print_routines(routines)
     frequent_notification(routines, projectfilepath, routine)
 
