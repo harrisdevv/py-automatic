@@ -254,6 +254,43 @@ def write_line_file(file, content):
     file.write(content + "\n")
 
 
+def write_stats_markdown_table(selected_project, is_month_stat, file):
+    write_line_file(file, "*** Project: " + selected_project["proj_name"])
+    for tasks in selected_project["tasks"]:
+        laps = tasks["lap"]
+        filtered_laps = list(filter(is_month_stat, laps))
+        if (len(filtered_laps) > 0):
+            prev = filtered_laps[0]["time"]
+            avg = get_avg(filtered_laps)
+            write_line_file(file, "| Task: **" + tasks["name"] + "**| Average speed = " + str(avg) + " ( " + convert_sec_hour(avg) + " ) |")
+            write_line_file(file, "|--|--|--|--|--|")
+            write_line_file(file, "| Date | Time | Ratio vs Prev | Ratio vs Avg | Note |")
+            for lap in filtered_laps:
+                ratio = str(round(lap["time"] * 100 / prev, 1)) + "%"
+                ratio_avg = str(round(lap["time"] * 100 / avg, 1)) + "%"
+                write_line_file(file,
+                    "| " + str(lap["date"]) + " | " + str(convert_sec_hour(int(round(lap["time"], 0)))) + " | +" + ratio + "(vs. prev)" + " | +" + ratio_avg + "(vs. avg)" + " | " + str(lap["notes"]) + " |")
+                prev = lap["time"]
+        
+        # write_line_file(file, "|||||")
+        countdowns = tasks["countdown"]
+        filtered_countdowns = list(filter(is_month_stat, countdowns))
+        if (len(filtered_countdowns) > 0):
+            prev = filtered_countdowns[0]["time"]
+            write_line_file(file, "| CountDown | Average speed = " + str(avg) + " ( " + convert_sec_hour(avg) + " ) |")
+            avg = get_avg(filtered_countdowns)
+            write_line_file(file, "| Date | Time | Ratio vs Prev | Ratio vs Avg | Note |")
+            for countdown in filtered_countdowns:
+                if (prev != 0):
+                    ratio = str(round(countdown["time"] * 100 / prev, 1)) + "%"
+                    ratio_avg = str(round(countdown["time"] * 100 / avg, 1)) + "%"
+                    write_line_file(file,
+                        "| " + str(countdown["date"]) + " | " + str(convert_sec_hour(int(round(countdown["time"], 0)))) + " | +" + ratio + "(vs. prev)" + " | +" + ratio_avg + "(vs. avg)" + " | " + str(countdown["notes"]) + " |")
+                prev = countdown["time"]
+    
+    file.close()
+
+
 def run_task_manage():
     routine_thread = StoppableThread(target=routine.main, args=())
     routine_thread.start()
@@ -312,47 +349,24 @@ def run_task_manage():
             if (selected_project == None):
                 print ("Select project first.")
                 continue
-            with open("resources/performance.md", "w+") as file:
-                write_line_file(file, "*** Project: " + selected_project["proj_name"])
-                for tasks in selected_project["tasks"]:
-                    laps = tasks["lap"]
-                    filtered_laps = list(filter(is_month_stat, laps))
-                    if (len(filtered_laps) > 0):
-                        prev = filtered_laps[0]["time"]
-                        avg = get_avg(filtered_laps)
-                        write_line_file(file, "| Task: " + tasks["name"] + "| Average speed = " 
-                                   +str(avg) + " ( " + convert_sec_hour(avg) + " ) |")
-                        write_line_file(file, "|--|--|--|--|--|")
-                        write_line_file(file, "| Date | Time | Ratio vs Prev | Ratio vs Avg | Note |")
-                        for lap in filtered_laps:
-                            ratio = str(round(lap["time"] * 100 / prev, 1)) + "%"
-                            ratio_avg = str(round(lap["time"] * 100 / avg, 1)) + "%"
-                            write_line_file(file, "| " + str(lap["date"])
-                                +" | " + str(convert_sec_hour(int(round(lap["time"], 0)))) 
-                                +" | +" + ratio + "(vs. prev)"
-                                +" | +" + ratio_avg + "(vs. avg)"
-                                +" | " + str(lap["notes"]) + " |")
-                            prev = lap["time"]
-                    # write_line_file(file, "|||||")
-                    countdowns = tasks["countdown"]
-                    filtered_countdowns = list(filter(is_month_stat, countdowns))
-                    if (len(filtered_countdowns) > 0):
-                        prev = filtered_countdowns[0]["time"]
-                        write_line_file(file, "| CountDown | Average speed = " + str(avg) + " ( " + convert_sec_hour(avg) + " ) |")
-                        avg = get_avg(filtered_countdowns)
-                        write_line_file(file, "| Date | Time | Ratio vs Prev | Ratio vs Avg | Note |")
-                        for countdown in filtered_countdowns:
-                            if (prev != 0):
-                                ratio = str(round(countdown["time"] * 100 / prev, 1)) + "%"
-                                ratio_avg = str(round(countdown["time"] * 100 / avg, 1)) + "%"
-                                write_line_file(file, "| " + str(countdown["date"]) 
-                                    +" | " + str(convert_sec_hour(int(round(countdown["time"], 0)))) 
-                                    +" | +" + ratio + "(vs. prev)"
-                                    +" | +" + ratio_avg + "(vs. avg)"
-                                    +" | " + str(countdown["notes"]) + " |")
-                            prev = countdown["time"]
-                file.close()
-                print("Generated done.")
+            gen_markdown_opt = input("Generate table markdown option: \n\t"
+                               +"1. generate week stat\n\t" 
+                               +"2. generate month stat\n\t"
+                               +"2. generate full stat\n\t"
+                               +"e. Exit\n"
+                               +"Your Choice: ")
+            if (gen_markdown_opt == "e"):
+                continue
+            elif (gen_markdown_opt == "1"):
+                with open("resources/performance.md", "w+") as file:
+                    write_stats_markdown_table(selected_project, is_week_stat, file)
+            elif (gen_markdown_opt == "2"):
+                with open("resources/performance.md", "w+") as file:
+                    write_stats_markdown_table(selected_project, is_month_stat, file)
+            elif (gen_markdown_opt == "3"):
+                with open("resources/performance.md", "w+") as file:
+                    write_stats_markdown_table(selected_project, lambda pred: True, file)
+            print("Generated done.")
     
     routine_thread.stop()
     routine_thread.join()
