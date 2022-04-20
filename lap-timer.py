@@ -252,10 +252,15 @@ def print_select_project_task(selected_project, selected_task):
 
 def write_line_file(file, content):
     file.write(content + "\n")
+    
+
+def write_stats_markdown_table_all_projects(projects, time_predicate, file):
+    for project in projects:
+        write_stats_markdown_table(project, time_predicate, file);
 
 
 def write_stats_markdown_table(selected_project, is_month_stat, file):
-    write_line_file(file, "*** Project: " + selected_project["proj_name"])
+    write_line_file(file, "\n*** Project: " + selected_project["proj_name"] + "***")
     for tasks in selected_project["tasks"]:
         laps = tasks["lap"]
         filtered_laps = list(filter(is_month_stat, laps))
@@ -287,8 +292,11 @@ def write_stats_markdown_table(selected_project, is_month_stat, file):
                     write_line_file(file,
                         "| " + str(countdown["date"]) + " | " + str(convert_sec_hour(int(round(countdown["time"], 0)))) + " | +" + ratio + "(vs. prev)" + " | +" + ratio_avg + "(vs. avg)" + " | " + str(countdown["notes"]) + " |")
                 prev = countdown["time"]
-    
     file.close()
+
+
+def confirmed_yes(confirm_str):
+    return confirm_str == "y" or confirm_str == "Y" 
 
 
 def run_task_manage():
@@ -346,9 +354,13 @@ def run_task_manage():
             routine_thread.start()
             sleep(1)
         elif (overall_option == "9"):
-            if (selected_project == None):
-                print ("Select project first.")
+            opt = input("Select all projects ? (Y/N): ")
+            if (opt != "y" and opt != "Y"):
                 continue
+            else:
+                if (selected_project == None):
+                    print("Please select project first!")
+                    continue
             gen_markdown_opt = input("Generate table markdown option: \n\t"
                                +"1. generate week stat\n\t" 
                                +"2. generate month stat\n\t"
@@ -359,13 +371,22 @@ def run_task_manage():
                 continue
             elif (gen_markdown_opt == "1"):
                 with open("resources/performance.md", "w+") as file:
-                    write_stats_markdown_table(selected_project, is_week_stat, file)
+                    if (confirmed_yes(opt)):
+                        write_stats_markdown_table_all_projects(projects, is_week_stat, file)
+                    else: 
+                        write_stats_markdown_table(selected_project, is_week_stat, file)
             elif (gen_markdown_opt == "2"):
                 with open("resources/performance.md", "w+") as file:
-                    write_stats_markdown_table(selected_project, is_month_stat, file)
+                    if (confirmed_yes(opt)):
+                        write_stats_markdown_table_all_projects(projects, is_month_stat, file)
+                    else: 
+                        write_stats_markdown_table(selected_project, is_month_stat, file)
             elif (gen_markdown_opt == "3"):
                 with open("resources/performance.md", "w+") as file:
-                    write_stats_markdown_table(selected_project, lambda pred: True, file)
+                    if (confirmed_yes(opt)):
+                        write_stats_markdown_table_all_projects(projects, lambda pred: True, file)
+                    else: 
+                        write_stats_markdown_table(selected_project, lambda pred: True, file)
             print("Generated done.")
     
     routine_thread.stop()
