@@ -282,8 +282,8 @@ def write_stats_markdown_table(selected_project, is_month_stat, file):
         filtered_countdowns = list(filter(is_month_stat, countdowns))
         if (len(filtered_countdowns) > 0):
             prev = filtered_countdowns[0]["time"]
-            write_line_file(file, "| CountDown | Average speed = " + str(avg) + " ( " + convert_sec_hour(avg) + " ) |")
             avg = get_avg(filtered_countdowns)
+            write_line_file(file, "| CountDown | Average speed = " + str(avg) + " ( " + convert_sec_hour(avg) + " ) |")
             write_line_file(file, "| Date | Time | Ratio vs Prev | Ratio vs Avg | Note |")
             for countdown in filtered_countdowns:
                 if (prev != 0):
@@ -292,7 +292,6 @@ def write_stats_markdown_table(selected_project, is_month_stat, file):
                     write_line_file(file,
                         "| " + str(countdown["date"]) + " | " + str(convert_sec_hour(int(round(countdown["time"], 0)))) + " | +" + ratio + "(vs. prev)" + " | +" + ratio_avg + "(vs. avg)" + " | " + str(countdown["notes"]) + " |")
                 prev = countdown["time"]
-    file.close()
 
 
 def confirmed_yes(confirm_str):
@@ -355,16 +354,14 @@ def run_task_manage():
             sleep(1)
         elif (overall_option == "9"):
             opt = input("Select all projects ? (Y/N): ")
-            if (opt != "y" and opt != "Y"):
-                continue
-            else:
+            if (not confirmed_yes(opt)):
                 if (selected_project == None):
                     print("Please select project first!")
                     continue
             gen_markdown_opt = input("Generate table markdown option: \n\t"
                                +"1. generate week stat\n\t" 
                                +"2. generate month stat\n\t"
-                               +"2. generate full stat\n\t"
+                               +"3. generate full stat\n\t"
                                +"e. Exit\n"
                                +"Your Choice: ")
             if (gen_markdown_opt == "e"):
@@ -387,6 +384,7 @@ def run_task_manage():
                         write_stats_markdown_table_all_projects(projects, lambda pred: True, file)
                     else: 
                         write_stats_markdown_table(selected_project, lambda pred: True, file)
+            file.close()
             print("Generated done.")
     
     routine_thread.stop()
