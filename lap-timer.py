@@ -260,7 +260,7 @@ def write_stats_markdown_table_all_projects(projects, time_predicate, file):
 
 
 def write_stats_markdown_table(selected_project, is_month_stat, file):
-    write_line_file(file, "\n*** Project: " + selected_project["proj_name"] + "***")
+    write_line_file(file, "\n***Project: " + selected_project["proj_name"] + "***")
     for tasks in selected_project["tasks"]:
         laps = tasks["lap"]
         filtered_laps = list(filter(is_month_stat, laps))
@@ -370,19 +370,19 @@ def run_task_manage():
             if (gen_markdown_opt == "e"):
                 continue
             elif (gen_markdown_opt == "1"):
-                with open(to_file, "w+") as file:
+                with open(to_file, "a") as file:
                     if (confirmed_yes(opt)):
                         write_stats_markdown_table_all_projects(projects, is_week_stat, file)
                     else: 
                         write_stats_markdown_table(selected_project, is_week_stat, file)
             elif (gen_markdown_opt == "2"):
-                with open(to_file, "w+") as file:
+                with open(to_file, "a") as file:
                     if (confirmed_yes(opt)):
                         write_stats_markdown_table_all_projects(projects, is_month_stat, file)
                     else: 
                         write_stats_markdown_table(selected_project, is_month_stat, file)
             elif (gen_markdown_opt == "3"):
-                with open(to_file, "w+") as file:
+                with open(to_file, "a") as file:
                     if (confirmed_yes(opt)):
                         write_stats_markdown_table_all_projects(projects, lambda pred: True, file)
                     else: 
