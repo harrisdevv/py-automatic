@@ -315,7 +315,7 @@ def run_task_manage():
                                +"6. Show statistics of week\n\t"
                                +"7. Show statistics of month\n\t"
                                +"8. Reload routines\n\t"
-                               +"9. Generate statistics file\n\t"
+                               +"9. Generate statistics file (as Markdown table format)\n\t"
                                +"e. Exit\n"
                                +"Your Choice: ")
         projects = load_from_file(projectfilepath.get_abs_path("projects.json"))
@@ -358,28 +358,31 @@ def run_task_manage():
                 if (selected_project == None):
                     print("Please select project first!")
                     continue
+            to_file = input("Append to file path: ")
+            if (to_file == ""):
+                to_file = "resources/performance.md"
             gen_markdown_opt = input("Generate table markdown option: \n\t"
-                               +"1. generate week stat\n\t" 
-                               +"2. generate month stat\n\t"
-                               +"3. generate full stat\n\t"
+                               +"1. Generate week stat\n\t" 
+                               +"2. Generate month stat\n\t"
+                               +"3. Generate full stat\n\t"
                                +"e. Exit\n"
                                +"Your Choice: ")
             if (gen_markdown_opt == "e"):
                 continue
             elif (gen_markdown_opt == "1"):
-                with open("resources/performance.md", "w+") as file:
+                with open(to_file, "w+") as file:
                     if (confirmed_yes(opt)):
                         write_stats_markdown_table_all_projects(projects, is_week_stat, file)
                     else: 
                         write_stats_markdown_table(selected_project, is_week_stat, file)
             elif (gen_markdown_opt == "2"):
-                with open("resources/performance.md", "w+") as file:
+                with open(to_file, "w+") as file:
                     if (confirmed_yes(opt)):
                         write_stats_markdown_table_all_projects(projects, is_month_stat, file)
                     else: 
                         write_stats_markdown_table(selected_project, is_month_stat, file)
             elif (gen_markdown_opt == "3"):
-                with open("resources/performance.md", "w+") as file:
+                with open(to_file, "w+") as file:
                     if (confirmed_yes(opt)):
                         write_stats_markdown_table_all_projects(projects, lambda pred: True, file)
                     else: 
