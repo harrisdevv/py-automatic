@@ -150,6 +150,16 @@ def is_month_stat(time_rec):
     return False
 
 
+def is_n_prev_day_stat(time_rec):
+    today = datetime.now()
+    for idx in range(28):
+        prev_time = today - timedelta(days=idx)
+        day_str = prev_time.strftime("%d/%m/%Y")
+        if (time_rec["date"].split()[0] == day_str):
+            return True
+    return False
+
+
 def show_stats_pre(predicate, selected_project):
     for tasks in selected_project["tasks"]:
         laps = tasks["lap"]
@@ -259,11 +269,11 @@ def write_stats_markdown_table_all_projects(projects, time_predicate, file):
         write_stats_markdown_table(project, time_predicate, file);
 
 
-def write_stats_markdown_table(selected_project, is_month_stat, file):
+def write_stats_markdown_table(selected_project, time_predicate, file):
     write_line_file(file, "\n***Project: " + selected_project["proj_name"] + "***")
     for tasks in selected_project["tasks"]:
         laps = tasks["lap"]
-        filtered_laps = list(filter(is_month_stat, laps))
+        filtered_laps = list(filter(time_predicate, laps))
         if (len(filtered_laps) > 0):
             prev = filtered_laps[0]["time"]
             avg = get_avg(filtered_laps)
@@ -279,7 +289,7 @@ def write_stats_markdown_table(selected_project, is_month_stat, file):
         
         # write_line_file(file, "|||||")
         countdowns = tasks["countdown"]
-        filtered_countdowns = list(filter(is_month_stat, countdowns))
+        filtered_countdowns = list(filter(time_predicate, countdowns))
         if (len(filtered_countdowns) > 0):
             prev = filtered_countdowns[0]["time"]
             avg = get_avg(filtered_countdowns)
@@ -316,6 +326,7 @@ def run_task_manage():
                                +"7. Show statistics of month\n\t"
                                +"8. Reload routines\n\t"
                                +"9. Generate statistics file (as Markdown table format)\n\t"
+                               +"10. Show statistics of number of previous day\n\t"
                                +"e. Exit\n"
                                +"Your Choice: ")
         projects = load_from_file(projectfilepath.get_abs_path("projects.json"))
