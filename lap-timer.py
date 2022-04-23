@@ -7,6 +7,7 @@ import threading
 from time import sleep
 import projectfilepath
 import threading
+from pyrfc3339.generator import generate
 
 
 def dump_to_file(filename, obj):
@@ -308,6 +309,45 @@ def confirmed_yes(confirm_str):
     return confirm_str == "y" or confirm_str == "Y" 
 
 
+def generate_markdown_table_to_file():
+    opt = input("Select all projects ? (Y/N): ")
+    if (not confirmed_yes(opt)):
+        if (selected_project == None):
+            print("Please select project first!")
+            return
+    to_file = input("Append to file path: ")
+    if (to_file == ""):
+        to_file = "resources/performance.md"
+    gen_markdown_opt = input("Generate table markdown option: \n\t"
+                        +"1. Generate week stat\n\t" 
+                        +"2. Generate month stat\n\t"
+                        +"3. Generate full stat\n\t"
+                        +"e. Exit\n"
+                        +"Your Choice: ")
+    if (gen_markdown_opt == "e"):
+        return
+    elif (gen_markdown_opt == "1"):
+        with open(to_file, "a") as file:
+            if (confirmed_yes(opt)):
+                write_stats_markdown_table_all_projects(projects, is_week_stat, file)
+            else: 
+                write_stats_markdown_table(selected_project, is_week_stat, file)
+    elif (gen_markdown_opt == "2"):
+        with open(to_file, "a") as file:
+            if (confirmed_yes(opt)):
+                write_stats_markdown_table_all_projects(projects, is_month_stat, file)
+            else: 
+                write_stats_markdown_table(selected_project, is_month_stat, file)
+    elif (gen_markdown_opt == "3"):
+        with open(to_file, "a") as file:
+            if (confirmed_yes(opt)):
+                write_stats_markdown_table_all_projects(projects, lambda pred: True, file)
+            else: 
+                write_stats_markdown_table(selected_project, lambda pred: True, file)
+    file.close()
+    print("Generated done.")
+
+
 def run_task_manage():
     routine_thread = StoppableThread(target=routine.main, args=())
     routine_thread.start()
@@ -364,42 +404,9 @@ def run_task_manage():
             routine_thread.start()
             sleep(1)
         elif (overall_option == "9"):
-            opt = input("Select all projects ? (Y/N): ")
-            if (not confirmed_yes(opt)):
-                if (selected_project == None):
-                    print("Please select project first!")
-                    continue
-            to_file = input("Append to file path: ")
-            if (to_file == ""):
-                to_file = "resources/performance.md"
-            gen_markdown_opt = input("Generate table markdown option: \n\t"
-                               +"1. Generate week stat\n\t" 
-                               +"2. Generate month stat\n\t"
-                               +"3. Generate full stat\n\t"
-                               +"e. Exit\n"
-                               +"Your Choice: ")
-            if (gen_markdown_opt == "e"):
-                continue
-            elif (gen_markdown_opt == "1"):
-                with open(to_file, "a") as file:
-                    if (confirmed_yes(opt)):
-                        write_stats_markdown_table_all_projects(projects, is_week_stat, file)
-                    else: 
-                        write_stats_markdown_table(selected_project, is_week_stat, file)
-            elif (gen_markdown_opt == "2"):
-                with open(to_file, "a") as file:
-                    if (confirmed_yes(opt)):
-                        write_stats_markdown_table_all_projects(projects, is_month_stat, file)
-                    else: 
-                        write_stats_markdown_table(selected_project, is_month_stat, file)
-            elif (gen_markdown_opt == "3"):
-                with open(to_file, "a") as file:
-                    if (confirmed_yes(opt)):
-                        write_stats_markdown_table_all_projects(projects, lambda pred: True, file)
-                    else: 
-                        write_stats_markdown_table(selected_project, lambda pred: True, file)
-            file.close()
-            print("Generated done.")
+            generate_markdown_table_to_file()
+        elif (overall_option == "10"):
+            print("Unsupported")
     
     routine_thread.stop()
     routine_thread.join()
