@@ -288,7 +288,6 @@ def write_stats_markdown_table(selected_project, time_predicate, file):
                     "| " + str(lap["date"]) + " | " + str(convert_sec_hour(int(round(lap["time"], 0)))) + " | +" + ratio + "(vs. prev)" + " | +" + ratio_avg + "(vs. avg)" + " | " + str(lap["notes"]) + " |")
                 prev = lap["time"]
         
-        # write_line_file(file, "|||||")
         countdowns = tasks["countdown"]
         filtered_countdowns = list(filter(time_predicate, countdowns))
         if (len(filtered_countdowns) > 0):
