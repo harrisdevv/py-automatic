@@ -103,7 +103,7 @@ def run_laptime(projects, task):
         notes = input("Notes? ")
         task[1]["lap"].append({"date": date_str, "time":laptime, "notes": notes})
         lasttime = time.time()
-        lapnum += 1
+        lapnum += 1    
 
 
 def convert_sec_hour(nsecs):
@@ -208,29 +208,8 @@ def show_all_project_stats(predicate, projects):
     print("\n##########################\n")
 
 
-def choose_operator(projects, selected_project, selected_task):
-    option = -1
-    while (option > 3 or option < 1):
-        try:
-            option = int(input("Choose operator: \n\t"
-            +"1. Lap time\n\t"
-            +"2. Count down\n\t" 
-            +"3. Show stats of selected project\n"
-            +"4. Add entry of forgot task\n"
-            +"Your choice: "))
-        except ValueError:
-            print("Option must be integer")
-    if (option == 1):
-        run_laptime(projects, selected_task)
-    elif (option == 2):
-        run_countdown(projects, selected_task)
-    elif (option == 3):
-        show_stats_pre(lambda pred: True, selected_project)
-    elif (option == 4):
-        add_task(projects, selected_task)
-
-
 def add_task(projects, task):
+    print("Add task...")
     date_input = input("Date time? (format %d/%m/%Y %H:%M:%S) ")
     date = None
     if (date_input == ""):
@@ -243,8 +222,31 @@ def add_task(projects, task):
         secs = int(input("Time in Secs? "))
         laptime = round(secs, 2)
         task[1]["lap"].append({"date": date_str, "time":laptime, "notes": notes})
+        dump_to_file(projectfilepath.get_abs_path("projects.json"), projects)
     except ValueError:
         print('Please enter an integer to represents seconds')
+
+
+def choose_operator(projects, selected_project, selected_task):
+    option = -1
+    while (option > 4 or option < 1):
+        try:
+            option = int(input("Choose operator: \n\t"
+            +"1. Lap time\n\t"
+            +"2. Count down\n\t" 
+            +"3. Show stats of selected project\n\t"
+            +"4. Add entry of forgot task\n"
+            +"Your choice: "))
+        except ValueError:
+            print("Option must be integer")
+    if (option == 1):
+        run_laptime(projects, selected_task)
+    elif (option == 2):
+        run_countdown(projects, selected_task)
+    elif (option == 3):
+        show_stats_pre(lambda pred: True, selected_project)
+    elif (option == 4):
+        add_task(projects, selected_task)
 
 
 def show_tasks_name(tasks):
