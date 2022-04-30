@@ -235,7 +235,7 @@ def choose_operator(projects, selected_project, selected_task):
             +"1. Lap time\n\t"
             +"2. Count down\n\t" 
             +"3. Show stats of selected project\n\t"
-            +"4. Add entry of forgot task\n"
+            +"4. Add task entry\n"
             +"Your choice: "))
         except ValueError:
             print("Option must be integer")
