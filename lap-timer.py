@@ -227,8 +227,21 @@ def add_task(projects, task):
         print('Please enter an integer to represents seconds')
 
 
+def print_option(options):
+    for option in options:
+        print (option["index"] + ". " + option["name"])
+
+
+class Option:
+
+    def __init__(self, index, name):
+        self.index = index
+        self.name = name
+
+
 def choose_operator(projects, selected_project, selected_task):
     option = -1
+    options = []
     while (option > 4 or option < 1):
         try:
             option = int(input("Choose operator: \n\t"
