@@ -273,7 +273,8 @@ def show_tasks_name(tasks):
         ind += 1
 
 
-def select_task(tasks, selected_task):
+def select_task(tasks):
+    selected_task = None
     while (selected_task == None):
         show_tasks_name(tasks)
         try:
@@ -413,16 +414,14 @@ def run_task_manage():
             else:
                 choose_operator(projects, selected_project, selected_task)
         elif (overall_option == "2"):
-            selected_task = None
-            selected_task = select_task(selected_project["tasks"], selected_task)
+            selected_task = select_task(selected_project["tasks"])
             choose_operator(projects, selected_project, selected_task)
         elif (overall_option == "3"):
             selected_project = select_project(projects)
             if (selected_project == None):
                 print("Fail choosing project!")
                 continue
-            selected_task = None
-            selected_task = select_task(selected_project["tasks"], selected_task)
+            selected_task = select_task(selected_project["tasks"])
             choose_operator(projects, selected_project, selected_task)
         elif (overall_option == "4"):
             show_all_project_stats(lambda pred: True, projects)
