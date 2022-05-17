@@ -77,7 +77,7 @@ def is_same_day(date1, date2):
 def convert_to_minsec(laptime):
     laptime_round = int(round(laptime))
     mins, secs = divmod(laptime_round, 60)
-    min_and_sec = '{:02d}m{:02d}s'.format(mins, secs)
+    min_and_sec = '{:02d}:{:02d}'.format(mins, secs)
     return min_and_sec
 
 
@@ -110,7 +110,7 @@ def convert_sec_hour(nsecs):
     nsecs = int(round(nsecs))
     hours, minsecs = divmod(nsecs, 3600)
     mins, secs = divmod(minsecs, 60)
-    timer = '{:02d}h{:02d}m{:02d}s'.format(hours, mins, secs)
+    timer = '{:02d}:{:02d}:{:02d}'.format(hours, mins, secs)
     return timer
 
 
@@ -161,44 +161,62 @@ def is_n_prev_day_stat(time_rec):
     return False
 
 
+def show_stats_laptime(predicate, tasks):
+    laps = tasks["lap"]
+    filtered_laps = list(filter(predicate, laps))
+    if (len(filtered_laps) > 0):
+        prev = filtered_laps[0]["time"]
+        print("\tTask: " + tasks["name"])
+        print("\t\t[Lap]:")
+        avg = get_avg(filtered_laps)
+        print("\t\t\tAverage speed = " + str(avg) + " ( " + convert_sec_hour(avg) + " )")
+        prev_date = None
+        for lap in filtered_laps:
+            date_str = lap["date"].split()[0]
+            if (prev_date != None):
+                if (prev_date != date_str):
+                    prev_date = date_str
+                    print("\n\t\t\tDate " + prev_date + ": ")
+            else:
+                prev_date = date_str
+                print("\n\t\t\tDate " + prev_date + ": ")
+            ratio = str(round(lap["time"] * 100 / prev, 1)) + "%"
+            ratio_avg = str(round(lap["time"] * 100 / avg, 1)) + "%"
+            print(
+                "\t\t\t\tAt " + str(lap["date"].split()[1]) + ") " + str(convert_sec_hour(int(round(lap["time"], 0)))) + " - +" + ratio + "(vs. prev)" + " - +" + ratio_avg + "(vs. avg)" + " (" + str(lap["notes"]) + ")")
+            prev = lap["time"]
+
+
+def show_stats_countdown(predicate, tasks):
+    countdowns = tasks["countdown"]
+    filtered_countdowns = list(filter(predicate, countdowns))
+    if (len(filtered_countdowns) > 0):
+        prev = filtered_countdowns[0]["time"]
+        print("\t\t[CountDown]:")
+        avg = get_avg(filtered_countdowns)
+        print("\t\t\tAverage speed = " + str(avg) + " ( " + convert_sec_hour(avg) + " )")
+        prev_date = None
+        for countdown in filtered_countdowns:
+            date_str = countdown["date"].split()[0]
+            if (prev_date != None):
+                if (prev_date != date_str):
+                    prev_date = date_str
+                    print("\n\t\t\tDate " + prev_date + ": ")
+            else:
+                prev_date = date_str
+            if (prev != 0):
+                ratio = str(round(countdown["time"] * 100 / prev, 1)) + "%"
+                ratio_avg = str(round(countdown["time"] * 100 / avg, 1)) + "%"
+                print(
+                    "\t\t\t\tAt " + str(countdown["date"].split()[1]) + ") " + str(convert_sec_hour(int(round(countdown["time"], 0)))) + " - +" + ratio + "(vs. prev)" + " - +" + ratio_avg + "(vs. avg)" + " (" + str(countdown["notes"]) + ")")
+            prev = countdown["time"]
+
+
 def show_stats_pre(predicate, selected_project):
     for tasks in selected_project["tasks"]:
-        laps = tasks["lap"]
-        filtered_laps = list(filter(predicate, laps))
-        if (len(filtered_laps) > 0):
-            prev = filtered_laps[0]["time"]
-            print("*** Project: " + selected_project["proj_name"])
-            print("\tTask: " + tasks["name"])
-            print("\t\t[Lap]:")
-            avg = get_avg(filtered_laps)
-            print ("\t\t\tAverage speed = " + str(avg) + " ( " + convert_sec_hour(avg) + " )")
-            for lap in filtered_laps:
-                ratio = str(round(lap["time"] * 100 / prev, 1)) + "%"
-                ratio_avg = str(round(lap["time"] * 100 / avg, 1)) + "%"
-                print("\t\t\tDate " + str(lap["date"]) + ": " 
-                    +str(convert_sec_hour(int(round(lap["time"], 0)))) 
-                    +" - +" + ratio + "(vs. prev)"
-                    +" - +" + ratio_avg + "(vs. avg)"
-                    +" (" + str(lap["notes"]) + ")")
-                prev = lap["time"]
-
-        countdowns = tasks["countdown"]
-        filtered_countdowns = list(filter(predicate, countdowns))
-        if (len(filtered_countdowns) > 0):
-            prev = filtered_countdowns[0]["time"]
-            print("\t\t[CountDown]:")
-            avg = get_avg(filtered_countdowns)
-            print ("\t\t\tAverage speed = " + str(avg) + " ( " + convert_sec_hour(avg) + " )")
-            for countdown in filtered_countdowns:
-                if (prev != 0):
-                    ratio = str(round(countdown["time"] * 100 / prev, 1)) + "%"
-                    ratio_avg = str(round(countdown["time"] * 100 / avg, 1)) + "%"
-                    print("\t\t\tDate " + str(countdown["date"]) + ": " 
-                        +str(convert_sec_hour(int(round(countdown["time"], 0)))) 
-                        +" - +" + ratio + "(vs. prev)"
-                        +" - +" + ratio_avg + "(vs. avg)"
-                        +" (" + str(countdown["notes"]) + ")")
-                prev = countdown["time"]
+        print("*** Project: " + selected_project["proj_name"])
+        show_stats_laptime(predicate, tasks)
+        show_stats_countdown(predicate, tasks)
 
 
 def show_all_project_stats(predicate, projects):
