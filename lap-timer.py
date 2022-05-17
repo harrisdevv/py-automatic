@@ -38,7 +38,7 @@ def select_project(projects):
     maxIndex = 0
     print("Projects:")
     for p in projects:
-        print("\t{}. {}".format(p["index"], p["proj_name"]))
+        print(" {}. {}".format(p["index"], p["proj_name"]))
         if (maxIndex < p["index"]):
             maxIndex = p["index"]
     proj_input = input("Choose project: ")
@@ -97,7 +97,7 @@ def run_laptime(projects, task):
         totaltime = round((time.time() - starttime), 2)
         laptime = round((time.time() - lasttime), 2)
         print("Lap No. " + str(lapnum))
-        print("Total Time: " + str(totaltime) + " ( " + convert_to_minsec(totaltime) + " )")
+        # print("Total Time: " + str(totaltime) + " ( " + convert_to_minsec(totaltime) + " )")
         print("Lap Time: " + str(laptime) + " ( " + convert_to_minsec(laptime) + " )")
         print("*"*20)
         notes = input("Notes? ")
@@ -166,24 +166,24 @@ def show_stats_laptime(predicate, tasks):
     filtered_laps = list(filter(predicate, laps))
     if (len(filtered_laps) > 0):
         prev = filtered_laps[0]["time"]
-        print("\tTask: " + tasks["name"])
-        print("\t\t[Lap]:")
+        print(" Task: " + tasks["name"])
+        print("  [Lap]:")
         avg = get_avg(filtered_laps)
-        print("\t\t\tAverage speed = " + str(avg) + " ( " + convert_sec_hour(avg) + " )")
+        print("   Average speed = " + str(avg) + " ( " + convert_sec_hour(avg) + " )")
         prev_date = None
         for lap in filtered_laps:
             date_str = lap["date"].split()[0]
             if (prev_date != None):
                 if (prev_date != date_str):
                     prev_date = date_str
-                    print("\n\t\t\tDate " + prev_date + ": ")
+                    print("\n   Date " + prev_date + ": ")
             else:
                 prev_date = date_str
-                print("\n\t\t\tDate " + prev_date + ": ")
-            ratio = str(round(lap["time"] * 100 / prev, 1)) + "%"
-            ratio_avg = str(round(lap["time"] * 100 / avg, 1)) + "%"
+                print("\n   Date " + prev_date + ": ")
+            ratio = str(int(lap["time"] * 100 / prev)) + " %"
+            ratio_avg = str(int(lap["time"] * 100 / avg)) + " %"
             print(
-                "\t\t\t\tAt " + str(lap["date"].split()[1]) + ") " + str(convert_sec_hour(int(round(lap["time"], 0)))) + " - +" + ratio + "(vs. prev)" + " - +" + ratio_avg + "(vs. avg)" + " (" + str(lap["notes"]) + ")")
+                "     At " + str(lap["date"].split()[1]) + ") " + str(convert_sec_hour(int(round(lap["time"], 0)))) + " - " + ratio + " - " + ratio_avg + " (" + str(lap["notes"]) + ")")
             prev = lap["time"]
 
 
@@ -192,23 +192,23 @@ def show_stats_countdown(predicate, tasks):
     filtered_countdowns = list(filter(predicate, countdowns))
     if (len(filtered_countdowns) > 0):
         prev = filtered_countdowns[0]["time"]
-        print("\t\t[CountDown]:")
+        print("  [CountDown]:")
         avg = get_avg(filtered_countdowns)
-        print("\t\t\tAverage speed = " + str(avg) + " ( " + convert_sec_hour(avg) + " )")
+        print("   Average speed = " + str(avg) + " ( " + convert_sec_hour(avg) + " )")
         prev_date = None
         for countdown in filtered_countdowns:
             date_str = countdown["date"].split()[0]
             if (prev_date != None):
                 if (prev_date != date_str):
                     prev_date = date_str
-                    print("\n\t\t\tDate " + prev_date + ": ")
+                    print("\n   Date " + prev_date + ": ")
             else:
                 prev_date = date_str
             if (prev != 0):
-                ratio = str(round(countdown["time"] * 100 / prev, 1)) + "%"
-                ratio_avg = str(round(countdown["time"] * 100 / avg, 1)) + "%"
+                ratio = str(int(countdown["time"] * 100 / prev)) + " %"
+                ratio_avg = str(int(countdown["time"] * 100 / avg)) + " %"
                 print(
-                    "\t\t\t\tAt " + str(countdown["date"].split()[1]) + ") " + str(convert_sec_hour(int(round(countdown["time"], 0)))) + " - +" + ratio + "(vs. prev)" + " - +" + ratio_avg + "(vs. avg)" + " (" + str(countdown["notes"]) + ")")
+                    "     At " + str(countdown["date"].split()[1]) + ") " + str(convert_sec_hour(int(round(countdown["time"], 0)))) + " - " + ratio + " - " + ratio_avg + " (" + str(countdown["notes"]) + ")")
             prev = countdown["time"]
 
 
@@ -262,10 +262,10 @@ def choose_operator(projects, selected_project, selected_task):
     options = []
     while (option > 4 or option < 1):
         try:
-            option = int(input("Choose operator: \n\t"
-            +"1. Lap time\n\t"
-            +"2. Count down\n\t" 
-            +"3. Show stats of selected project\n\t"
+            option = int(input("Choose operator: \n "
+            +"1. Lap time\n "
+            +"2. Count down\n " 
+            +"3. Show stats of selected project\n "
             +"4. Add task entry\n"
             +"Your choice: "))
         except ValueError:
@@ -287,7 +287,7 @@ def show_tasks_name(tasks):
         print ("There is NO task!")
     ind = 1
     for task in tasks:
-        print("\t" + str(ind) + ". " + task["name"])
+        print(" " + str(ind) + ". " + task["name"])
         ind += 1
 
 
@@ -339,7 +339,7 @@ def write_stats_markdown_table(selected_project, time_predicate, file):
                 ratio = str(round(lap["time"] * 100 / prev, 1)) + "%"
                 ratio_avg = str(round(lap["time"] * 100 / avg, 1)) + "%"
                 write_line_file(file,
-                    "| " + str(lap["date"]) + " | " + str(convert_sec_hour(int(round(lap["time"], 0)))) + " | +" + ratio + "(vs. prev)" + " | +" + ratio_avg + "(vs. avg)" + " | " + str(lap["notes"]) + " |")
+                    "| " + str(lap["date"]) + " | " + str(convert_sec_hour(int(round(lap["time"], 0)))) + " | +" + ratio + " | +" + ratio_avg + " | " + str(lap["notes"]) + " |")
                 prev = lap["time"]
         
         countdowns = tasks["countdown"]
@@ -354,7 +354,7 @@ def write_stats_markdown_table(selected_project, time_predicate, file):
                     ratio = str(round(countdown["time"] * 100 / prev, 1)) + "%"
                     ratio_avg = str(round(countdown["time"] * 100 / avg, 1)) + "%"
                     write_line_file(file,
-                        "| " + str(countdown["date"]) + " | " + str(convert_sec_hour(int(round(countdown["time"], 0)))) + " | +" + ratio + "(vs. prev)" + " | +" + ratio_avg + "(vs. avg)" + " | " + str(countdown["notes"]) + " |")
+                        "| " + str(countdown["date"]) + " | " + str(convert_sec_hour(int(round(countdown["time"], 0)))) + " | +" + ratio + " | +" + ratio_avg + " | " + str(countdown["notes"]) + " |")
                 prev = countdown["time"]
 
 
@@ -371,10 +371,10 @@ def generate_markdown_table_to_file():
     to_file = input("Append to file path: ")
     if (to_file == ""):
         to_file = "resources/performance.md"
-    gen_markdown_opt = input("Generate table markdown option: \n\t"
-                        +"1. Generate week stat\n\t" 
-                        +"2. Generate month stat\n\t"
-                        +"3. Generate full stat\n\t"
+    gen_markdown_opt = input("Generate table markdown option: \n "
+                        +"1. Generate week stat\n " 
+                        +"2. Generate month stat\n "
+                        +"3. Generate full stat\n "
                         +"e. Exit\n"
                         +"Your Choice: ")
     if (gen_markdown_opt == "e"):
@@ -401,7 +401,7 @@ def generate_markdown_table_to_file():
     print("Generated done.")
 
 
-def run_task_manage():
+def run_task_management():
     routine_thread = StoppableThread(target=routine.main, args=())
     routine_thread.start()
     sleep(1)
@@ -409,17 +409,17 @@ def run_task_manage():
     selected_task = None
     while (True):
         print_select_project_task(selected_project, selected_task)
-        overall_option = input("Overall option: \n\t"
-                               +"1. Continue selected task\n\t" 
-                               +"2. Choose task\n\t"
-                               +"3. Choose project\n\t"
-                               +"4. Show statistics of all projects\n\t"
-                               +"5. Show statistics of today\n\t"
-                               +"6. Show statistics of week\n\t"
-                               +"7. Show statistics of month\n\t"
-                               +"8. Reload routines\n\t"
-                               +"9. Generate statistics file (as Markdown table format)\n\t"
-                               +"10. Show statistics of number of previous day\n\t"
+        overall_option = input("Overall option: \n "
+                               +"1. Continue selected task\n " 
+                               +"2. Choose task\n "
+                               +"3. Choose project\n "
+                               +"4. Show statistics of all projects\n "
+                               +"5. Show statistics of today\n "
+                               +"6. Show statistics of week\n "
+                               +"7. Show statistics of month\n "
+                               +"8. Reload routines\n "
+                               +"9. Generate statistics file (as Markdown table format)\n "
+                               +"10. Show statistics of number of previous day\n "
                                +"e. Exit\n"
                                +"Your Choice: ")
         projects = load_from_file(projectfilepath.get_abs_path("projects.json"))
@@ -478,7 +478,7 @@ class StoppableThread(threading.Thread):
 
 def Main():
     try:
-        task_manage_thread = threading.Thread(target=run_task_manage, args=())
+        task_manage_thread = threading.Thread(target=run_task_management, args=())
         task_manage_thread.start()
         task_manage_thread.join()
     except:
