@@ -8,6 +8,10 @@ from time import sleep
 import projectfilepath
 import threading
 from pyrfc3339.generator import generate
+import calendar
+
+DATE_FORMAT = "%d/%m/%Y"
+DATETIME_FORMAT = DATE_FORMAT + " " + "%H:%M:%S"
 
 
 def dump_to_file(filename, obj):
@@ -23,7 +27,7 @@ def load_from_file(filename):
 def countdown():
 	nsecs = int(input("Enter number of seconds: "))
 	now = datetime.now()
-	date_str = now.strftime("%d/%m/%Y %H:%M:%S")
+	date_str = now.strftime(DATETIME_FORMAT)
 	while nsecs:
 		mins, secs = divmod(nsecs, 60)
 		timer = '{:02d}:{:02d}'.format(mins, secs)
@@ -88,7 +92,7 @@ def run_laptime(projects, task):
     while True:
         print("Start...")
         now = datetime.now()
-        date_str = now.strftime("%d/%m/%Y %H:%M:%S")
+        date_str = now.strftime(DATETIME_FORMAT)
         continous = input("Want to stop ? (Enter to continue, e to exit) ")
         if (continous == "e"):
             dump_to_file(projectfilepath.get_abs_path("projects.json"), projects)
@@ -125,7 +129,7 @@ def get_avg(arr):
 
 
 def is_today_stat(time_rec):
-    today_str = datetime.now().strftime("%d/%m/%Y")
+    today_str = datetime.now().strftime(DATE_FORMAT)
     if (time_rec["date"].split()[0] == today_str):
         return True
     return False
@@ -135,7 +139,7 @@ def is_week_stat(time_rec):
     today = datetime.now()
     for idx in range(7):
         prev_time = today - timedelta(days=idx)
-        day_str = prev_time.strftime("%d/%m/%Y")
+        day_str = prev_time.strftime(DATE_FORMAT)
         if (time_rec["date"].split()[0] == day_str):
             return True
     return False
@@ -145,7 +149,7 @@ def is_month_stat(time_rec):
     today = datetime.now()
     for idx in range(28):
         prev_time = today - timedelta(days=idx)
-        day_str = prev_time.strftime("%d/%m/%Y")
+        day_str = prev_time.strftime(DATE_FORMAT)
         if (time_rec["date"].split()[0] == day_str):
             return True
     return False
@@ -155,91 +159,117 @@ def is_n_prev_day_stat(time_rec):
     today = datetime.now()
     for idx in range(28):
         prev_time = today - timedelta(days=idx)
-        day_str = prev_time.strftime("%d/%m/%Y")
+        day_str = prev_time.strftime(DATE_FORMAT)
         if (time_rec["date"].split()[0] == day_str):
             return True
     return False
 
 
+def date_and_delta_day(date_from_str, date_to):
+    date_from = datetime.strptime(date_from_str, DATE_FORMAT)
+    return date_from_str + " " + calendar.day_name[date_from.weekday()] + \
+        " (" + str((date_to - date_from).days) + " day ago)"
+
+
 def show_stats_laptime(predicate, tasks):
     laps = tasks["lap"]
     filtered_laps = list(filter(predicate, laps))
+    result = ""
     if (len(filtered_laps) > 0):
         prev = filtered_laps[0]["time"]
-        print(" Task: " + tasks["name"])
-        print("  [Lap]:")
+        result += " Task: " + tasks["name"] + "\n"
+        result += "  [Lap]:\n"
         avg = get_avg(filtered_laps)
-        print("   Average speed = " + str(avg) + " ( " + convert_sec_hour(avg) + " )")
+        result += "   Average speed = " + str(avg) + " ( " + convert_sec_hour(avg) + " )\n"
         prev_date = None
         for lap in filtered_laps:
             date_str = lap["date"].split()[0]
             if (prev_date != None):
                 if (prev_date != date_str):
                     prev_date = date_str
-                    print("\n   Date " + prev_date + ": ")
+                    result += "\n   Date " + date_and_delta_day(prev_date, datetime.now()) + ": \n"
             else:
                 prev_date = date_str
-                print("\n   Date " + prev_date + ": ")
+                result += "\n   Date " + date_and_delta_day(prev_date, datetime.now()) + ": \n"
             ratio = str(int(lap["time"] * 100 / prev)) + " %"
             ratio_avg = str(int(lap["time"] * 100 / avg)) + " %"
-            print(
-                "     At " + str(lap["date"].split()[1]) + ") " + str(convert_sec_hour(int(round(lap["time"], 0)))) + " - " + ratio + " - " + ratio_avg + " (" + str(lap["notes"]) + ")")
+            result += "     At " + str(lap["date"].split()[1]) + ") " + \
+             str(convert_sec_hour(int(round(lap["time"], 0)))) + " - " + \
+              ratio + " - " + ratio_avg + " (" + str(lap["notes"]) + ")\n"
             prev = lap["time"]
+        result += "\n"
+    return result
 
 
 def show_stats_countdown(predicate, tasks):
     countdowns = tasks["countdown"]
     filtered_countdowns = list(filter(predicate, countdowns))
+    result = ""
     if (len(filtered_countdowns) > 0):
         prev = filtered_countdowns[0]["time"]
-        print("  [CountDown]:")
+        result += "  [CountDown]:"
         avg = get_avg(filtered_countdowns)
-        print("   Average speed = " + str(avg) + " ( " + convert_sec_hour(avg) + " )")
+        result += "   Average speed = " + str(avg) + " ( " + convert_sec_hour(avg) + " )\n"
         prev_date = None
         for countdown in filtered_countdowns:
             date_str = countdown["date"].split()[0]
             if (prev_date != None):
                 if (prev_date != date_str):
                     prev_date = date_str
-                    print("\n   Date " + prev_date + ": ")
+                    result += "\n   Date " + date_and_delta_day(prev_date, datetime.now()) + ": \n"
             else:
                 prev_date = date_str
+                result += "\n   Date " + date_and_delta_day(prev_date, datetime.now()) + ": \n"
             if (prev != 0):
                 ratio = str(int(countdown["time"] * 100 / prev)) + " %"
                 ratio_avg = str(int(countdown["time"] * 100 / avg)) + " %"
-                print(
-                    "     At " + str(countdown["date"].split()[1]) + ") " + str(convert_sec_hour(int(round(countdown["time"], 0)))) + " - " + ratio + " - " + ratio_avg + " (" + str(countdown["notes"]) + ")")
+                result += "     At " + str(countdown["date"].split()[1]) + ") " + \
+                 str(convert_sec_hour(int(round(countdown["time"], 0)))) + " - " + \
+                 ratio + " - " + ratio_avg + " (" + str(countdown["notes"]) + ")\n"
             prev = countdown["time"]
+        result += "\n"
+    return result
 
 
 def show_stats_pre(predicate, selected_project):
+    result = ""
     for tasks in selected_project["tasks"]:
-        print("*** Project: " + selected_project["proj_name"])
-        show_stats_laptime(predicate, tasks)
-        show_stats_countdown(predicate, tasks)
+        result += show_stats_laptime(predicate, tasks)
+        result += show_stats_countdown(predicate, tasks)
+    return result
 
 
 def show_all_project_stats(predicate, projects):
     print("\n##########################\n")
     for project in projects:
-        show_stats_pre(predicate, project)
+        result = show_stats_pre(predicate, project)
+        if (result != ""):
+            print("***Project: " + project["proj_name"])
+            print(result)
     print("\n##########################\n")
 
 
 def add_task(projects, task):
     print("Add task...")
-    date_input = input("Date time? (format %d/%m/%Y %H:%M:%S) ")
-    date = None
+    date_input = input("Date time? (format " + DATETIME_FORMAT + " or hh:mm:ss): ")
+    date_time_str = ""
     if (date_input == ""):
-        date = datetime.now()
+        date_time_str = datetime.now().strftime(DATETIME_FORMAT)
     else:
-        date = datetime.strptime(date_input, '%d/%m/%y %H:%M:%S')
-    date_str = date.strftime("%d/%m/%Y %H:%M:%S")
+        if (len(date_input.split()) == 1):
+            date_str = datetime.now().strftime(DATE_FORMAT)
+            time_str = date_input
+            date_time_str = date_str + " " + time_str
+        elif (len(date_input.split()) == 2): 
+            date_time_str = date_input
+        else:
+            print("Wrong date format!")
+            return
     notes = input("Notes? ")
     try:
         secs = int(input("Time in Secs? "))
         laptime = round(secs, 2)
-        task[1]["lap"].append({"date": date_str, "time":laptime, "notes": notes})
+        task[1]["lap"].append({"date": date_time_str, "time":laptime, "notes": notes})
         dump_to_file(projectfilepath.get_abs_path("projects.json"), projects)
     except ValueError:
         print('Please enter an integer to represents seconds')
