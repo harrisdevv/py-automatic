@@ -49,7 +49,8 @@ def load_routine_from_day_planner():
 def print_routines(routines):
     print("\n-------------------Day Planner---------------")
     for routine in routines:
-        print("At " + routine.time + ", do " + routine.voice)
+        if (not routine.is_cmd()):
+            print("At " + routine.time + ", do " + routine.voice)
     print("----------------------------------------------\n")
 
 
