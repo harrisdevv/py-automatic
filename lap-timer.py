@@ -389,7 +389,10 @@ def write_stats_markdown_table(selected_project, time_predicate, file):
 
 
 def confirmed_yes(confirm_str):
-    return confirm_str == "y" or confirm_str == "Y" 
+    return confirm_str == "y" or confirm_str == "Y"
+
+def confirmed_yes_accept_empty(confirm_str):
+    return confirmed_yes(confirm_str) or confirm_str == ""
 
 
 def generate_markdown_table_to_file():
@@ -432,9 +435,11 @@ def generate_markdown_table_to_file():
 
 
 def run_task_management():
-    routine_thread = StoppableThread(target=routine.main, args=())
-    routine_thread.start()
-    sleep(1)
+    run_routine_notification = input("Run routine notification (y or n)? ")
+    if (confirmed_yes_accept_empty(run_routine_notification)):
+        routine_thread = StoppableThread(target=routine.main, args=())
+        routine_thread.start()
+        sleep(1)
     selected_project = None
     selected_task = None
     while (True):
