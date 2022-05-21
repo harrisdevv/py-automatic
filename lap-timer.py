@@ -88,18 +88,26 @@ def convert_to_minsec(laptime):
 def run_laptime(projects, task):
     starttime = time.time()
     lasttime = starttime
+    pause_time = 0
     lapnum = 1
     while True:
         print("Start...")
         now = datetime.now()
         date_str = now.strftime(DATETIME_FORMAT)
-        continous = input("Want to stop ? (Enter to continue, e to exit) ")
+        continous = input("Want to stop ? (Enter to stop, p to pause, e to exit) ")
+        if (continous == "p"):
+            start_pause_time = time.time();
+            input("Enter to un-pause.")
+            pause_time += time.time() - start_pause_time
+            continue
         if (continous == "e"):
             dump_to_file(projectfilepath.get_abs_path("projects.json"), projects)
+            pause_time = 0
             print("Done")
             break
         totaltime = round((time.time() - starttime), 2)
-        laptime = round((time.time() - lasttime), 2)
+        laptime = round((time.time() - lasttime - pause_time), 2)
+        pause_time = 0
         print("Lap No. " + str(lapnum))
         # print("Total Time: " + str(totaltime) + " ( " + convert_to_minsec(totaltime) + " )")
         print("Lap Time: " + str(laptime) + " ( " + convert_to_minsec(laptime) + " )")
@@ -391,6 +399,7 @@ def write_stats_markdown_table(selected_project, time_predicate, file):
 def confirmed_yes(confirm_str):
     return confirm_str == "y" or confirm_str == "Y"
 
+
 def confirmed_yes_accept_empty(confirm_str):
     return confirmed_yes(confirm_str) or confirm_str == ""
 
@@ -455,6 +464,7 @@ def run_task_management():
                                +"8. Reload routines\n "
                                +"9. Generate statistics file (as Markdown table format)\n "
                                +"10. Show statistics of number of previous day\n "
+                               +"11. Show statistics by day\n "
                                +"e. Exit\n"
                                +"Your Choice: ")
         projects = load_from_file(projectfilepath.get_abs_path("projects.json"))
@@ -493,10 +503,39 @@ def run_task_management():
             generate_markdown_table_to_file()
         elif (overall_option == "10"):
             print("Unsupported")
+        elif (overall_option == "11"):
+            try:
+                ndays = int(input("Number of previous day: "))
+                show_stats_prev_day(projects, ndays)
+            except ValueError:
+                print("Number of previous day must be integer")
     
     routine_thread.stop()
     routine_thread.join()
 
+
+def show_stats_prev_day(projects, ndays):
+    today = datetime.now()
+    for idx in range(ndays, 0, -1):
+        prev_time = today - timedelta(days=idx)
+        day_str = prev_time.strftime(DATE_FORMAT)
+        same_date_tasks = []
+        for project in projects:
+            for task in project["tasks"]:
+                for task_lap in task["lap"]:
+                    if (task_lap["date"].split()[0] == day_str):
+                        same_date_tasks.append({"project_name": project["proj_name"], "name": task["name"], "record": task_lap})
+                for task_countdown in task["countdown"]:
+                    if (task_countdown["date"].split()[0] == day_str):
+                        same_date_tasks.append({"project_name": project["proj_name"], "name": task["name"], "record": task_countdown})
+        if (len(same_date_tasks) > 0):
+            print (" Date " + date_and_delta_day(day_str, datetime.now()) + ": ")
+            for task in same_date_tasks: 
+                print("  At " + str(task["record"]["date"].split()[1]) + " do [" + task["project_name"] + "/" + task["name"] + "] in " + 
+                      str(convert_sec_hour(int(round(task["record"]["time"], 0)))) + " - " + 
+                      str(task["record"]["notes"]))
+            print()
+    
 
 class StoppableThread(threading.Thread):
 
