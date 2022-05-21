@@ -114,6 +114,7 @@ def run_laptime(projects, task):
         print("*"*20)
         notes = input("Notes? ")
         task[1]["lap"].append({"date": date_str, "time":laptime, "notes": notes})
+        dump_to_file(projectfilepath.get_abs_path("projects.json"), projects)
         lasttime = time.time()
         lapnum += 1    
 
@@ -247,14 +248,18 @@ def show_stats_pre(predicate, selected_project):
     return result
 
 
-def show_all_project_stats(predicate, projects):
+def print_strong_divider():
     print("\n##########################\n")
+
+
+def show_all_project_stats(predicate, projects):
+    print_strong_divider()
     for project in projects:
         result = show_stats_pre(predicate, project)
         if (result != ""):
             print("***Project: " + project["proj_name"])
             print(result)
-    print("\n##########################\n")
+    print_strong_divider()
 
 
 def add_task(projects, task):
@@ -455,7 +460,7 @@ def run_task_management():
         print_select_project_task(selected_project, selected_task)
         overall_option = input("Overall option: \n "
                                +"1. Continue selected task\n " 
-                               +"2. Choose task\n "
+                               +"2. Choose task of current project\n "
                                +"3. Choose project\n "
                                +"4. Show statistics of all projects\n "
                                +"5. Show statistics of today\n "
@@ -515,6 +520,7 @@ def run_task_management():
 
 
 def show_stats_prev_day(projects, ndays):
+    print_strong_divider()
     today = datetime.now()
     for idx in range(ndays, 0, -1):
         prev_time = today - timedelta(days=idx)
@@ -535,6 +541,7 @@ def show_stats_prev_day(projects, ndays):
                       str(convert_sec_hour(int(round(task["record"]["time"], 0)))) + " - " + 
                       str(task["record"]["notes"]))
             print()
+    print_strong_divider()
     
 
 class StoppableThread(threading.Thread):
