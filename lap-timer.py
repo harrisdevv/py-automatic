@@ -97,8 +97,9 @@ def run_laptime(projects, task):
         continous = input("Want to stop ? (Enter to stop, p to pause, e to exit) ")
         if (continous == "p"):
             start_pause_time = time.time();
-            input("Enter to un-pause.")
+            input("Pausing!. Enter to un-pause.")
             pause_time += time.time() - start_pause_time
+            print("Un-paused")
             continue
         if (continous == "e"):
             dump_to_file(projectfilepath.get_abs_path("projects.json"), projects)
@@ -409,7 +410,7 @@ def confirmed_yes_accept_empty(confirm_str):
     return confirmed_yes(confirm_str) or confirm_str == ""
 
 
-def generate_markdown_table_to_file():
+def generate_markdown_table_to_file(projects, selected_project):
     opt = input("Select all projects ? (Y/N): ")
     if (not confirmed_yes(opt)):
         if (selected_project == None):
@@ -422,6 +423,7 @@ def generate_markdown_table_to_file():
                         +"1. Generate week stat\n " 
                         +"2. Generate month stat\n "
                         +"3. Generate full stat\n "
+                        +"4. Generate full stat group by date\n "
                         +"e. Exit\n"
                         +"Your Choice: ")
     if (gen_markdown_opt == "e"):
@@ -444,10 +446,42 @@ def generate_markdown_table_to_file():
                 write_stats_markdown_table_all_projects(projects, lambda pred: True, file)
             else: 
                 write_stats_markdown_table(selected_project, lambda pred: True, file)
+    elif (gen_markdown_opt == "4"):
+        try:
+            ndays = int(input("Number of previous day: "))
+            with open(to_file, "a") as file:
+                write_stats_markdown_table_all_projects_by_date(projects, file, ndays)
+        except ValueError:
+            print("Number of previous day must be integer")
     file.close()
     print("Generated done.")
 
 
+def write_stats_markdown_table_all_projects_by_date(projects, file, ndays):
+    today = datetime.now()
+    for idx in range(ndays + 1, 0, -1):
+        prev_time = today - timedelta(days=idx)
+        day_str = prev_time.strftime(DATE_FORMAT)
+        same_date_tasks = []
+        for project in projects:
+            for task in project["tasks"]:
+                for task_lap in task["lap"]:
+                    if (task_lap["date"].split()[0] == day_str):
+                        same_date_tasks.append({"project_name": project["proj_name"], "name": task["name"], "record": task_lap})
+                for task_countdown in task["countdown"]:
+                    if (task_countdown["date"].split()[0] == day_str):
+                        same_date_tasks.append({"project_name": project["proj_name"], "name": task["name"], "record": task_countdown})
+        if (len(same_date_tasks) > 0):
+            write_line_file(file, "| Date " + date_and_delta_day(day_str, datetime.now()) + "||||")
+            write_line_file(file, "|--|--|--|--|--|")
+            write_line_file(file, "| Time | Task | In | Note |")
+            for task in same_date_tasks: 
+                write_line_file(file, "| " + str(task["record"]["date"].split()[1]) + " | [" 
+                                +task["project_name"] + "/" + task["name"] + "] | " 
+                                +str(convert_sec_hour(int(round(task["record"]["time"], 0)))) 
+                                +" | " + str(task["record"]["notes"]) + "|")
+
+    
 def run_task_management():
     run_routine_notification = input("Run routine notification (y or n)? ")
     if (confirmed_yes_accept_empty(run_routine_notification)):
@@ -505,7 +539,7 @@ def run_task_management():
             routine_thread.start()
             sleep(1)
         elif (overall_option == "9"):
-            generate_markdown_table_to_file()
+            generate_markdown_table_to_file(projects, selected_project)
         elif (overall_option == "10"):
             print("Unsupported")
         elif (overall_option == "11"):
@@ -522,7 +556,7 @@ def run_task_management():
 def show_stats_prev_day(projects, ndays):
     print_strong_divider()
     today = datetime.now()
-    for idx in range(ndays, 0, -1):
+    for idx in range(ndays + 1, 0, -1):
         prev_time = today - timedelta(days=idx)
         day_str = prev_time.strftime(DATE_FORMAT)
         same_date_tasks = []
