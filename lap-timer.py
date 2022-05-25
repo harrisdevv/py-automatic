@@ -418,7 +418,7 @@ def generate_markdown_table_to_file(projects, selected_project):
             return
     to_file = input("Append to file path: ")
     if (to_file == ""):
-        to_file = "resources/performance.md"
+        to_file = "/home/harrison-hienp/Desktop/code/script/py-automatic/resources/performance.md"
     gen_markdown_opt = input("Generate table markdown option: \n "
                         +"1. Generate week stat\n " 
                         +"2. Generate month stat\n "
@@ -459,6 +459,8 @@ def generate_markdown_table_to_file(projects, selected_project):
 
 def write_stats_markdown_table_all_projects_by_date(projects, file, ndays):
     today = datetime.now()
+    write_line_file(file, "| Performance Summary |||")
+    write_line_file(file, "|--|--|--|--|")
     for idx in range(ndays + 1, 0, -1):
         prev_time = today - timedelta(days=idx)
         day_str = prev_time.strftime(DATE_FORMAT)
@@ -472,14 +474,14 @@ def write_stats_markdown_table_all_projects_by_date(projects, file, ndays):
                     if (task_countdown["date"].split()[0] == day_str):
                         same_date_tasks.append({"project_name": project["proj_name"], "name": task["name"], "record": task_countdown})
         if (len(same_date_tasks) > 0):
-            write_line_file(file, "| Date " + date_and_delta_day(day_str, datetime.now()) + "||||")
-            write_line_file(file, "|--|--|--|--|--|")
+            write_line_file(file, "| " + date_and_delta_day(day_str, datetime.now()) + "||||")
             write_line_file(file, "| Time | Task | In | Note |")
             for task in same_date_tasks: 
                 write_line_file(file, "| " + str(task["record"]["date"].split()[1]) + " | [" 
                                 +task["project_name"] + "/" + task["name"] + "] | " 
                                 +str(convert_sec_hour(int(round(task["record"]["time"], 0)))) 
                                 +" | " + str(task["record"]["notes"]) + "|")
+            write_line_file(file, "|||||")
 
     
 def run_task_management():
