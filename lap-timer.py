@@ -34,7 +34,10 @@ def countdown():
 		print(timer, end="\r")
 		time.sleep(1)
 		nsecs -= 1
-	notes = input("Notes? ")
+    
+	notes = input("Notes (e = exit)? ")
+	if (notes == "e"):
+		return None
 	return {"date": date_str, "time": nsecs, "notes": notes}
 
 
@@ -85,6 +88,23 @@ def convert_to_minsec(laptime):
     return min_and_sec
 
 
+def getch():
+    import termios
+    import sys, tty
+
+    def _getch():
+        fd = sys.stdin.fileno()
+        old_settings = termios.tcgetattr(fd)
+        try:
+            tty.setraw(fd)
+            ch = sys.stdin.read(1)
+        finally:
+            termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+        return ch
+
+    return _getch()
+
+
 def run_laptime(projects, task):
     starttime = time.time()
     lasttime = starttime
@@ -94,7 +114,9 @@ def run_laptime(projects, task):
         print("Start...")
         now = datetime.now()
         date_str = now.strftime(DATETIME_FORMAT)
-        continous = input("Want to stop ? (Enter to stop, p to pause, e to exit) ")
+        # continous = input("Want to stop ? (Enter to stop, p to pause, e to exit) ")
+        print("Want to stop ? (Enter to stop, p to pause, e to exit) ")
+        continous = getch()
         if (continous == "p"):
             start_pause_time = time.time();
             input("Pausing!. Enter to un-pause.")
@@ -104,16 +126,17 @@ def run_laptime(projects, task):
         if (continous == "e"):
             dump_to_file(projectfilepath.get_abs_path("projects.json"), projects)
             pause_time = 0
-            print("Done")
+            print("Stop")
             break
         totaltime = round((time.time() - starttime), 2)
         laptime = round((time.time() - lasttime - pause_time), 2)
         pause_time = 0
         print("Lap No. " + str(lapnum))
-        # print("Total Time: " + str(totaltime) + " ( " + convert_to_minsec(totaltime) + " )")
         print("Lap Time: " + str(laptime) + " ( " + convert_to_minsec(laptime) + " )")
         print("*"*20)
-        notes = input("Notes? ")
+        notes = input("Notes (e = exit)? ")
+        if (notes == "e"):
+            return
         task[1]["lap"].append({"date": date_str, "time":laptime, "notes": notes})
         dump_to_file(projectfilepath.get_abs_path("projects.json"), projects)
         lasttime = time.time()
@@ -279,7 +302,9 @@ def add_task(projects, task):
         else:
             print("Wrong date format!")
             return
-    notes = input("Notes? ")
+    notes = input("Notes (e = exit)? ")
+    if (notes == "e"):
+        return
     try:
         secs = int(input("Time in Secs? "))
         laptime = round(secs, 2)
