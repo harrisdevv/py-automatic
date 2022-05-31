@@ -529,8 +529,8 @@ def run_task_management():
                                +"7. Show statistics of month\n "
                                +"8. Reload routines\n "
                                +"9. Generate statistics file (as Markdown table format)\n "
-                               +"10. Show statistics of number of previous day\n "
-                               +"11. Show statistics by day\n "
+                               +"a. Show statistics of number of previous day\n "
+                               +"b. Show statistics by day\n "
                                +"e. Exit\n"
                                +"Your Choice: ")
         projects = load_from_file(projectfilepath.get_abs_path("projects.json"))
@@ -567,15 +567,25 @@ def run_task_management():
             sleep(1)
         elif (overall_option == "9"):
             generate_markdown_table_to_file(projects, selected_project)
-        elif (overall_option == "10"):
+        elif (overall_option == "a"):
             print("Unsupported")
-        elif (overall_option == "11"):
-            try:
-                ndays = int(input("Number of previous day: "))
-                show_stats_prev_day(projects, ndays)
-            except ValueError:
-                print("Number of previous day must be integer")
-    
+        elif (overall_option == "b"):
+            date_stat_opt = input("Generate table markdown option: \n "
+                        +"1. Show week stat\n " 
+                        +"2. Show month stat\n "
+                        +"3. Customized day\n ")
+            if (date_stat_opt == 1):
+                show_stats_prev_day(projects, 7)
+            if (date_stat_opt == 2):
+                show_stats_prev_day(projects, 30)
+            if (date_stat_opt == 3):
+                try:
+                    ndays = int(input("Number of previous day: "))
+                    show_stats_prev_day(projects, ndays)
+                except ValueError:
+                    print("Number of previous day must be integer")
+        else:
+            print ("Not supported")
     routine_thread.stop()
     routine_thread.join()
 
@@ -583,7 +593,7 @@ def run_task_management():
 def show_stats_prev_day(projects, ndays):
     print_strong_divider()
     today = datetime.now()
-    for idx in range(ndays + 1, 0, -1):
+    for idx in range(ndays, -1, -1):
         prev_time = today - timedelta(days=idx)
         day_str = prev_time.strftime(DATE_FORMAT)
         same_date_tasks = []
