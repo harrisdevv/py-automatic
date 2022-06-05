@@ -12,6 +12,8 @@ import calendar
 
 DATE_FORMAT = "%d/%m/%Y"
 DATETIME_FORMAT = DATE_FORMAT + " " + "%H:%M:%S"
+GLASS_SOUND_FILE = "35631__reinsamba__crystal-glass.wav"
+COMPLETED_SOUND_FILE = "609336__kenneth-cooney__completed.wav"
 
 
 def dump_to_file(filename, obj):
@@ -112,6 +114,7 @@ def run_laptime(projects, task):
     lapnum = 1
     while True:
         print("Start...")
+        playsound(projectfilepath.get_abs_path(GLASS_SOUND_FILE))
         now = datetime.now()
         date_str = now.strftime(DATETIME_FORMAT)
         # continous = input("Want to stop ? (Enter to stop, p to pause, e to exit) ")
@@ -128,6 +131,7 @@ def run_laptime(projects, task):
             pause_time = 0
             print("Stop")
             break
+        playsound(projectfilepath.get_abs_path(COMPLETED_SOUND_FILE))
         totaltime = round((time.time() - starttime), 2)
         laptime = round((time.time() - lasttime - pause_time), 2)
         pause_time = 0
@@ -574,11 +578,11 @@ def run_task_management():
                         +"1. Show week stat\n " 
                         +"2. Show month stat\n "
                         +"3. Customized day\n ")
-            if (date_stat_opt == 1):
+            if (date_stat_opt == "1"):
                 show_stats_prev_day(projects, 7)
-            if (date_stat_opt == 2):
+            if (date_stat_opt == "2"):
                 show_stats_prev_day(projects, 30)
-            if (date_stat_opt == 3):
+            if (date_stat_opt == "3"):
                 try:
                     ndays = int(input("Number of previous day: "))
                     show_stats_prev_day(projects, ndays)
