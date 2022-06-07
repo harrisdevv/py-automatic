@@ -9,6 +9,7 @@ import projectfilepath
 import threading
 from pyrfc3339.generator import generate
 import calendar
+from playsound import playsound
 
 DATE_FORMAT = "%d/%m/%Y"
 DATETIME_FORMAT = DATE_FORMAT + " " + "%H:%M:%S"
@@ -69,9 +70,10 @@ def select_project(projects):
     return selected_project
 
 
-def run_countdown(projects, task):
+def run_countdown(projects, selected_project, task):
     countdown_obj = countdown()
-    task[1]["countdown"].append(countdown_obj)
+    # task[1]["countdown"].append(countdown_obj)
+    add_task_item(projects, selected_project, task, "countdown", date_time_str, laptime, notes);
     dump_to_file(projectfilepath.get_abs_path("projects.json"), projects)
     print("Done")
 
@@ -107,7 +109,7 @@ def getch():
     return _getch()
 
 
-def run_laptime(projects, task):
+def run_laptime(projects, selected_project, task):
     starttime = time.time()
     lasttime = starttime
     pause_time = 0
@@ -117,7 +119,6 @@ def run_laptime(projects, task):
         playsound(projectfilepath.get_abs_path(GLASS_SOUND_FILE))
         now = datetime.now()
         date_str = now.strftime(DATETIME_FORMAT)
-        # continous = input("Want to stop ? (Enter to stop, p to pause, e to exit) ")
         print("Want to stop ? (Enter to stop, p to pause, e to exit) ")
         continous = getch()
         if (continous == "p"):
@@ -131,9 +132,8 @@ def run_laptime(projects, task):
             pause_time = 0
             print("Stop")
             break
-        playsound(projectfilepath.get_abs_path(COMPLETED_SOUND_FILE))
-        totaltime = round((time.time() - starttime), 2)
         laptime = round((time.time() - lasttime - pause_time), 2)
+        playsound(projectfilepath.get_abs_path(COMPLETED_SOUND_FILE))
         pause_time = 0
         print("Lap No. " + str(lapnum))
         print("Lap Time: " + str(laptime) + " ( " + convert_to_minsec(laptime) + " )")
@@ -141,7 +141,7 @@ def run_laptime(projects, task):
         notes = input("Notes (e = exit)? ")
         if (notes == "e"):
             return
-        task[1]["lap"].append({"date": date_str, "time":laptime, "notes": notes})
+        add_task_item(projects, selected_project, task, "lap", date_str, laptime, notes);
         dump_to_file(projectfilepath.get_abs_path("projects.json"), projects)
         lasttime = time.time()
         lapnum += 1    
@@ -290,7 +290,16 @@ def show_all_project_stats(predicate, projects):
     print_strong_divider()
 
 
-def add_task(projects, task):
+def add_task_item(projects, selected_project, task, type, date_time_str, time, notes):
+    for project in projects:
+        if (project["proj_name"] == selected_project["proj_name"]):
+            for task_iter in project["tasks"]:
+                if (task_iter["name"] == task[1]["name"]):
+                    task_iter[type].append({"date": date_time_str, "time":time, "notes": notes})
+                    break
+
+
+def add_task(projects, selected_project, task):
     print("Add task...")
     date_input = input("Date time? (format " + DATETIME_FORMAT + " or hh:mm:ss): ")
     date_time_str = ""
@@ -312,7 +321,8 @@ def add_task(projects, task):
     try:
         secs = int(input("Time in Secs? "))
         laptime = round(secs, 2)
-        task[1]["lap"].append({"date": date_time_str, "time":laptime, "notes": notes})
+        add_task_item(projects, selected_project, task, "lap", date_time_str, laptime, notes);
+        # task[1]["lap"].append({"date": date_time_str, "time":laptime, "notes": notes})
         dump_to_file(projectfilepath.get_abs_path("projects.json"), projects)
     except ValueError:
         print('Please enter an integer to represents seconds')
@@ -331,26 +341,29 @@ class Option:
 
 
 def choose_operator(projects, selected_project, selected_task):
-    option = -1
+    option = -2
     options = []
-    while (option > 4 or option < 1):
+    while (option > 4 or option < -1):
         try:
             option = int(input("Choose operator: \n "
             +"1. Lap time\n "
             +"2. Count down\n " 
             +"3. Show stats of selected project\n "
             +"4. Add task entry\n"
+            +"-1. Exit\n"
             +"Your choice: "))
         except ValueError:
             print("Option must be integer")
     if (option == 1):
-        run_laptime(projects, selected_task)
+        run_laptime(projects, selected_project, selected_task)
     elif (option == 2):
-        run_countdown(projects, selected_task)
+        run_countdown(projects, selected_project, selected_task)
     elif (option == 3):
         show_stats_pre(lambda pred: True, selected_project)
     elif (option == 4):
-        add_task(projects, selected_task)
+        add_task(projects, selected_project, selected_task)
+    elif (option == -1):
+        return
 
 
 def show_tasks_name(tasks):
@@ -364,12 +377,14 @@ def show_tasks_name(tasks):
         ind += 1
 
 
-def select_task(tasks):
+def select_task(projects, tasks):
     selected_task = None
     while (selected_task == None):
         show_tasks_name(tasks)
         try:
             option = input("Your task: ")
+            if (option == "e"):
+                return
             int_option = int(option)
             if (int_option > len(tasks) or int_option < 1):
                 print("Option must be integer in range 1.." + str(len(tasks)))
@@ -378,6 +393,7 @@ def select_task(tasks):
         except ValueError:
             print("Create new task: " + option)
             tasks.append({"name": option, "lap": [], "countdown":[]})
+            dump_to_file(projectfilepath.get_abs_path("projects.json"), projects)
     print("Selected task: " + selected_task["name"])
     return int_option, selected_task
 
@@ -547,14 +563,17 @@ def run_task_management():
             else:
                 choose_operator(projects, selected_project, selected_task)
         elif (overall_option == "2"):
-            selected_task = select_task(selected_project["tasks"])
+            if (selected_project == None):
+                print("Choose your project first.")
+                continue
+            selected_task = select_task(projects, selected_project["tasks"])
             choose_operator(projects, selected_project, selected_task)
         elif (overall_option == "3"):
             selected_project = select_project(projects)
             if (selected_project == None):
                 print("Fail choosing project!")
                 continue
-            selected_task = select_task(selected_project["tasks"])
+            selected_task = select_task(projects, selected_project["tasks"])
             choose_operator(projects, selected_project, selected_task)
         elif (overall_option == "4"):
             show_all_project_stats(lambda pred: True, projects)
