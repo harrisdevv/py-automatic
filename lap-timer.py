@@ -341,6 +341,12 @@ class Option:
 
 
 def choose_operator(projects, selected_project, selected_task):
+    if (selected_project == None):
+        print("Please choose project.")
+        return
+    if (selected_task == None):
+        print("Please choose task.")
+        return
     option = -2
     options = []
     while (option > 4 or option < -1):
@@ -379,10 +385,13 @@ def show_tasks_name(tasks):
 
 def select_task(projects, tasks):
     selected_task = None
+    int_option = None
     while (selected_task == None):
         show_tasks_name(tasks)
         try:
             option = input("Your task: ")
+            if (option.strip() == ""):
+                return
             if (option == "e"):
                 return
             int_option = int(option)
@@ -392,9 +401,13 @@ def select_task(projects, tasks):
             selected_task = tasks[int_option - 1]
         except ValueError:
             print("Create new task: " + option)
-            tasks.append({"name": option, "lap": [], "countdown":[]})
-            dump_to_file(projectfilepath.get_abs_path("projects.json"), projects)
-    print("Selected task: " + selected_task["name"])
+            if (option.strip() != ""):
+                tasks.append({"name": option, "lap": [], "countdown":[]})
+                dump_to_file(projectfilepath.get_abs_path("projects.json"), projects)
+            else:
+                break
+    if (selected_task != None):
+        print("Selected task: " + selected_task["name"])
     return int_option, selected_task
 
 
@@ -630,10 +643,13 @@ def show_stats_prev_day(projects, ndays):
                         same_date_tasks.append({"project_name": project["proj_name"], "name": task["name"], "record": task_countdown})
         if (len(same_date_tasks) > 0):
             print (" Date " + date_and_delta_day(day_str, datetime.now()) + ": ")
+            total_time = 0
             for task in same_date_tasks: 
+                total_time += int(round(task["record"]["time"], 0))
                 print("  At " + str(task["record"]["date"].split()[1]) + " do [" + task["project_name"] + "/" + task["name"] + "] in " + 
                       str(convert_sec_hour(int(round(task["record"]["time"], 0)))) + " - " + 
                       str(task["record"]["notes"]))
+            print(">> Total Time: " + str(convert_sec_hour(total_time)))
             print()
     print_strong_divider()
     
