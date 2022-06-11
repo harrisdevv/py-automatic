@@ -10,6 +10,7 @@ import threading
 from pyrfc3339.generator import generate
 import calendar
 from playsound import playsound
+import sys
 
 DATE_FORMAT = "%d/%m/%Y"
 DATETIME_FORMAT = DATE_FORMAT + " " + "%H:%M:%S"
@@ -543,7 +544,11 @@ def write_stats_markdown_table_all_projects_by_date(projects, file, ndays):
 
     
 def run_task_management():
-    run_routine_notification = input("Run routine notification (y or n)? ")
+    run_routine_notification = None
+    if (len(sys.argv) > 1):
+        run_routine_notification = sys.argv[1]
+    else: 
+        run_routine_notification = input("Run routine notification (y or n)? ")
     if (confirmed_yes_accept_empty(run_routine_notification)):
         routine_thread = StoppableThread(target=routine.main, args=())
         routine_thread.start()
