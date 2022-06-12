@@ -7,6 +7,7 @@ import re
 
 BELL_RING_FILE = 'bell-ringing-04.wav'
 SHORT_TICK_FILE = 'tick-tock.mp3'
+MIMIC_VOICE_BIN_PATH = "/home/harrison-hienp/mimic1/mimic" 
 
 
 class Routine:
@@ -17,6 +18,20 @@ class Routine:
         
     def is_cmd(self):
         return self.voice.startswith("cmd")
+    
+    def execute(self):
+        if (self.is_cmd()):
+            find_separator = self.voice.find(":")
+            if (find_separator > 0):
+                cmd = self.voice[find_separator + 1:]
+                os.system(cmd)
+            else:
+                print("Missing ':' in cmd routine. " + str(self))
+        else:
+            voice_cmd = MIMIC_VOICE_BIN_PATH + ' -t "' + self.voice + '" -voice slt'
+            for i in range(0, 1):
+                playsound(projectfilepath.get_abs_path(BELL_RING_FILE))
+                os.system(voice_cmd)
 
 
 def load_routine_from_file(filename):
@@ -107,7 +122,6 @@ def check_time_in_flow(time):
 
 def frequent_notification(routines, projectfilepath, routine):
     NOTIFY_INTERVAL_MIN = 5
-    un_notify_time = 0
     while True:
         start_time = datetime.now().timestamp()
         time_use_process = 0
@@ -115,25 +129,12 @@ def frequent_notification(routines, projectfilepath, routine):
         now_time_format = now.strftime("%H:%M")
         for routine in routines:
             if (routine.time == now_time_format):
-                if (routine.is_cmd()):
-                    find_separator = routine.voice.find(":")
-                    if (find_separator > 0):
-                        cmd = routine.voice[find_separator + 1:]
-                        os.system(cmd)
-                    else:
-                        print("Missing ':' in cmd routine. " + str(routine))
-                else:
-                    voice_cmd = '/home/harrison-hienp/mimic1/mimic -t "' + routine.voice + '" -voice slt'
-                    for i in range(0, 1):
-                        playsound(projectfilepath.get_abs_path(BELL_RING_FILE))
-                        os.system(voice_cmd)
-        if (un_notify_time >= NOTIFY_INTERVAL_MIN and check_time_in_flow(now_time_format)):
+                routine.execute()
+        if (now.minute != 0 and now.minute % NOTIFY_INTERVAL_MIN == 0 and check_time_in_flow(now_time_format)):
             playsound(projectfilepath.get_abs_path(SHORT_TICK_FILE))
-            un_notify_time = 0
         end_time = datetime.now().timestamp()
         time_use_process = end_time - start_time
         time.sleep(60 - time_use_process)  # make sure do 60 sec for single loop
-        un_notify_time += 1
 
 
 def main():
