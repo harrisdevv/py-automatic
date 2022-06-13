@@ -146,7 +146,7 @@ def main():
     routines.sort(key=lambda x: x.time, reverse=False)
     concate_voice_same_time_task(routines, re.compile("^\d\d:\d\d$"))
     print_routines(routines)
-    frequent_notification(routines, projectfilepath, routine)
+    frequent_notification(routines, projectfilepath, routines)
 
         
 def test():
