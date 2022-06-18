@@ -569,6 +569,7 @@ def run_task_management():
                                +"9. Generate statistics file (as Markdown table format)\n "
                                +"a. Show statistics of number of previous day\n "
                                +"b. Show statistics by day\n "
+                               +"c. Stop routine notification\n "
                                +"e. Exit\n"
                                +"Your Choice: ")
         projects = load_from_file(projectfilepath.get_abs_path("projects.json"))
@@ -625,6 +626,8 @@ def run_task_management():
                     show_stats_prev_day(projects, ndays)
                 except ValueError:
                     print("Number of previous day must be integer")
+        elif (overall_option == "c"):
+            routine_thread.stop()
         else:
             print ("Not supported")
     routine_thread.stop()
