@@ -29,6 +29,6 @@
 20:40 Leave the work, Relax
 20:50 Review Full Day, habit check
 21:00 God Bless time
-21:01 cmd: xdg-open "/media/harrison-hienp/My Passport/thinkpad/Desk/sound/aspiration/10 Min End of Day Gratitude and Sleep Guided Meditation-ReGPjwr2chQ.mkv"
+21:01 cmd: xdg-open "/home/harrison-hienp/Desktop/doit/10 Min End of Day Gratitude and Sleep Guided Meditation-ReGPjwr2chQ.mkv"
 21:12 Sleep, Good night!
 21:13 cmd: shutdown now
