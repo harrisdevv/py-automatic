@@ -6,7 +6,7 @@ import projectfilepath
 import re
 
 BELL_RING_FILE = 'bell-ringing-04.wav'
-SHORT_TICK_FILE = 'tick-tock.mp3'
+SHORT_TICK_FILE = 'tick-tock2.mp3'
 MIMIC_VOICE_BIN_PATH = "/home/harrison-hienp/mimic1/mimic" 
 
 
