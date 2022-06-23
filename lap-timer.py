@@ -11,6 +11,10 @@ from pyrfc3339.generator import generate
 import calendar
 from playsound import playsound
 import sys
+from art import text2art
+from colorama import Fore
+from colorama import init as colorama_init
+from tqdm import trange
 
 DATE_FORMAT = "%d/%m/%Y"
 DATETIME_FORMAT = DATE_FORMAT + " " + "%H:%M:%S"
@@ -52,7 +56,7 @@ def select_project(projects):
         print(" {}. {}".format(p["index"], p["proj_name"]))
         if (maxIndex < p["index"]):
             maxIndex = p["index"]
-    proj_input = input("Choose project: ")
+    proj_input = color_input("Choose project: ")
     selected_project = None
     try:
         val = int(proj_input)
@@ -341,6 +345,10 @@ class Option:
         self.name = name
 
 
+def color_input(str):
+    return input(f"{Fore.LIGHTCYAN_EX}" + str + f"{Fore.WHITE}")
+
+
 def choose_operator(projects, selected_project, selected_task):
     if (selected_project == None):
         print("Please choose project.")
@@ -387,6 +395,8 @@ def show_tasks_name(tasks):
 def select_task(projects, tasks):
     selected_task = None
     int_option = None
+    Art = text2art("Task?", font='small')
+    print(f"{Fore.BLUE}{Art}{Fore.WHITE}")
     while (selected_task == None):
         show_tasks_name(tasks)
         try:
@@ -414,8 +424,8 @@ def select_task(projects, tasks):
 
 def print_select_project_task(selected_project, selected_task):
     print("---")
-    print("Selected project: " + (selected_project["proj_name"] if selected_project != None else "None"))
-    print("Selected task: " + (selected_task[1]["name"] if selected_task != None else "None"))
+    print(f"Selected project: {Fore.YELLOW}" + (selected_project["proj_name"] if selected_project != None else "None") + f"{Fore.WHITE}")
+    print(f"Selected task: {Fore.RED}" + (selected_task[1]["name"] if selected_task != None else "None") + f"{Fore.RED}")
 
 
 def write_line_file(file, content):
@@ -541,9 +551,12 @@ def write_stats_markdown_table_all_projects_by_date(projects, file, ndays):
                                 +str(convert_sec_hour(int(round(task["record"]["time"], 0)))) 
                                 +" | " + str(task["record"]["notes"]) + "|")
             write_line_file(file, "|||||")
+   
 
-    
 def run_task_management():
+    Art = text2art("MR. ROBOT !", font='big')
+    print(f"{Fore.BLUE}{Art}{Fore.WHITE}")
+ 
     run_routine_notification = None
     if (len(sys.argv) > 1):
         run_routine_notification = sys.argv[1]
@@ -556,8 +569,10 @@ def run_task_management():
     selected_project = None
     selected_task = None
     while (True):
+        Art = text2art("Operation?", font='small')
+        print(f"{Fore.BLUE}{Art}{Fore.WHITE}")
         print_select_project_task(selected_project, selected_task)
-        overall_option = input("Overall option: \n "
+        print(f"{Fore.WHITE}Overall option: \n "
                                +"1. Continue selected task\n " 
                                +"2. Choose task of current project\n "
                                +"3. Choose project\n "
@@ -570,8 +585,8 @@ def run_task_management():
                                +"a. Show statistics of number of previous day\n "
                                +"b. Show statistics by day\n "
                                +"c. Stop routine notification\n "
-                               +"e. Exit\n"
-                               +"Your Choice: ")
+                               +"e. Exit")
+        overall_option = color_input("Your Choice: ")
         projects = load_from_file(projectfilepath.get_abs_path("projects.json"))
         if (overall_option == "e"):
             break
@@ -588,6 +603,8 @@ def run_task_management():
             selected_task = select_task(projects, selected_project["tasks"])
             choose_operator(projects, selected_project, selected_task)
         elif (overall_option == "3"):
+            Art = text2art("Project?", font='small')
+            print(f"{Fore.BLUE}{Art}{Fore.WHITE}")
             selected_project = select_project(projects)
             if (selected_project == None):
                 print("Fail choosing project!")
