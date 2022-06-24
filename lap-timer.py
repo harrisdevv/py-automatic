@@ -349,6 +349,10 @@ def color_input(str):
     return input(f"{Fore.LIGHTCYAN_EX}" + str + f"{Fore.WHITE}")
 
 
+def color_line(str):
+    print(f"{Fore.LIGHTCYAN_EX}" + str + f"{Fore.WHITE}", end='')
+
+
 def choose_operator(projects, selected_project, selected_task):
     if (selected_project == None):
         print("Please choose project.")
@@ -357,16 +361,16 @@ def choose_operator(projects, selected_project, selected_task):
         print("Please choose task.")
         return
     option = -2
-    options = []
-    while (option > 4 or option < -1):
+    while (option > 4 or option < 0):
         try:
-            option = int(input("Choose operator: \n "
+            print("Choose operator: \n "
             +"1. Lap time\n "
             +"2. Count down\n " 
             +"3. Show stats of selected project\n "
-            +"4. Add task entry\n"
-            +"-1. Exit\n"
-            +"Your choice: "))
+            +"4. Add task entry\n "
+            +"0. Exit\n"
+            +"Your choice: ")
+            option = int(getch())
         except ValueError:
             print("Option must be integer")
     if (option == 1):
@@ -377,7 +381,7 @@ def choose_operator(projects, selected_project, selected_task):
         show_stats_pre(lambda pred: True, selected_project)
     elif (option == 4):
         add_task(projects, selected_project, selected_task)
-    elif (option == -1):
+    elif (option == 0):
         return
 
 
@@ -586,9 +590,11 @@ def run_task_management():
                                +"b. Show statistics by day\n "
                                +"c. Stop routine notification\n "
                                +"e. Exit")
-        overall_option = color_input("Your Choice: ")
+        color_line("Your Choice: ")
+        overall_option = getch();
         projects = load_from_file(projectfilepath.get_abs_path("projects.json"))
         if (overall_option == "e"):
+            print("Exit.")
             break
         elif (overall_option == "1"):
             print("Continue task")
@@ -649,6 +655,7 @@ def run_task_management():
             print ("Not supported")
     routine_thread.stop()
     routine_thread.join()
+    print("Stopped all thread.")
 
 
 def show_stats_prev_day(projects, ndays):
