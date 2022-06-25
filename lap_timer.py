@@ -656,6 +656,10 @@ def run_task_management():
     routine_thread.stop()
     routine_thread.join()
     print("Stopped all thread.")
+    
+    
+def highlight_text(text):
+    return f"{Fore.GREEN}{text}{Fore.WHITE}"
 
 
 def show_stats_prev_day(projects, ndays):
@@ -678,7 +682,7 @@ def show_stats_prev_day(projects, ndays):
             total_time = 0
             for task in same_date_tasks: 
                 total_time += int(round(task["record"]["time"], 0))
-                print("  At " + str(task["record"]["date"].split()[1]) + " do [" + task["project_name"] + "/" + task["name"] + "] in " + 
+                print("  At " + highlight_text(str(task["record"]["date"].split()[1])) + " | [" + task["project_name"] + "/" + task["name"] + "] in " + 
                       str(convert_sec_hour(int(round(task["record"]["time"], 0)))) + " - " + 
                       str(task["record"]["notes"]))
             print(">> Total Time: " + str(convert_sec_hour(total_time)))

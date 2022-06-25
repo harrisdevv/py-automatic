@@ -4,6 +4,7 @@ import os
 from playsound import playsound
 import projectfilepath
 import re
+from colorama import Fore
 
 BELL_RING_FILE = 'bell-ringing-04.wav'
 SHORT_TICK_FILE = 'tick-tock2.mp3'
@@ -32,6 +33,10 @@ class Routine:
             for i in range(0, 1):
                 playsound(projectfilepath.get_abs_path(BELL_RING_FILE))
                 os.system(voice_cmd)
+
+
+def highlight_text(text):
+    return f"{Fore.GREEN}{text}{Fore.WHITE}"
 
 
 def load_routine_from_file(filename):
@@ -65,7 +70,7 @@ def print_routines(routines):
     print("\n-------------------Day Planner---------------")
     for routine in routines:
         if (not routine.is_cmd()):
-            print("At " + routine.time + ", do " + routine.voice)
+            print("At " + highlight_text(routine.time) + " | " + routine.voice)
     print("----------------------------------------------\n")
 
 
