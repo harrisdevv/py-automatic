@@ -657,6 +657,8 @@ def run_task_management():
 def highlight_text(text):
     return f"{Fore.GREEN}{text}{Fore.WHITE}"
 
+def sort_by_time(e):
+    return str(e["record"]["date"].split()[1]);
 
 def show_stats_prev_day(projects, ndays):
     print_strong_divider()
@@ -676,6 +678,7 @@ def show_stats_prev_day(projects, ndays):
         if (len(same_date_tasks) > 0):
             print (" Date " + date_and_delta_day(day_str, datetime.now()) + ": ")
             total_time = 0
+            same_date_tasks.sort(key=sort_by_time)
             for task in same_date_tasks: 
                 total_time += int(round(task["record"]["time"], 0))
                 print("  At " + highlight_text(str(task["record"]["date"].split()[1])) + " | [" + task["project_name"] + "/" + task["name"] + "] in " + 
