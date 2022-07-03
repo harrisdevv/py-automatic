@@ -77,7 +77,6 @@ def select_project(projects):
 
 def run_countdown(projects, selected_project, task):
     countdown_obj = countdown()
-    # task[1]["countdown"].append(countdown_obj)
     add_task_item(projects, selected_project, task, "countdown", date_time_str, laptime, notes);
     dump_to_file(projectfilepath.get_abs_path("projects.json"), projects)
     print("Done")
@@ -327,7 +326,6 @@ def add_task(projects, selected_project, task):
         secs = int(input("Time in Secs? "))
         laptime = round(secs, 2)
         add_task_item(projects, selected_project, task, "lap", date_time_str, laptime, notes);
-        # task[1]["lap"].append({"date": date_time_str, "time":laptime, "notes": notes})
         dump_to_file(projectfilepath.get_abs_path("projects.json"), projects)
     except ValueError:
         print('Please enter an integer to represents seconds')
@@ -561,11 +559,9 @@ def run_task_management():
     Art = text2art("MR. ROBOT !", font='big')
     print(f"{Fore.BLUE}{Art}{Fore.WHITE}")
  
-    run_routine_notification = None
+    run_routine_notification = "y"
     if (len(sys.argv) > 1):
         run_routine_notification = sys.argv[1]
-    else: 
-        run_routine_notification = input("Run routine notification (y or n)? ")
     if (confirmed_yes_accept_empty(run_routine_notification)):
         routine_thread = StoppableThread(target=routine.main, args=())
         routine_thread.start()
