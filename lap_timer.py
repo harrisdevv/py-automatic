@@ -657,8 +657,10 @@ def run_task_management():
 def highlight_text(text):
     return f"{Fore.GREEN}{text}{Fore.WHITE}"
 
+
 def sort_by_time(e):
     return str(e["record"]["date"].split()[1]);
+
 
 def show_stats_prev_day(projects, ndays):
     print_strong_divider()
