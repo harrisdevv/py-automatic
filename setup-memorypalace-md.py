@@ -8,12 +8,12 @@ import sys
 import glob
 import hashlib
 
-FILE_IMAGE_JSON = "/home/harrison-hienp/Desktop/code/script/py-automatic/resources/image-excalidraw.json"
-NOTES_FOLDER = "/home/harrison-hienp/Desktop/notes/"
-DEFAULT_MP_IMAGE_FOLDER = "/home/harrison-hienp/Downloads/MemoryPalace/"
-NOTE_ATTACHMENT_FOLDER = "/home/harrison-hienp/Desktop/notes/Attachment/"
-PROJECT_PATH = "/home/harrison-hienp/Desktop/code/script/py-automatic/"
-# NOTE_ATTACHMENT_FOLDER = "/home/harrison-hienp/Desktop/notes/🧠 Second Brain/Memory Palace/Attachment/"
+FILE_IMAGE_JSON = "/home/hienphan/Desktop/code/script/py-automatic/resources/image-excalidraw.json"
+NOTES_FOLDER = "/home/hienphan/Desktop/notes/"
+DEFAULT_MP_IMAGE_FOLDER = "/home/hienphan/Downloads/MemoryPalace/"
+NOTE_ATTACHMENT_FOLDER = "/home/hienphan/Desktop/notes/Attachment/"
+PROJECT_PATH = "/home/hienphan/Desktop/code/script/py-automatic/"
+# NOTE_ATTACHMENT_FOLDER = "/home/hienphan/Desktop/notes/🧠 Second Brain/Memory Palace/Attachment/"
 
 
 def dump_to_file(filename, obj):

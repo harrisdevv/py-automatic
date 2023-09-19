@@ -1,1 +1,1269 @@
-[{"index": 2, "proj_name": "Read book", "tasks": [{"name": "Cracking The Tech Career", "lap": [{"date": "28/02/2022 15:35:20", "time": 3108.95, "notes": "2 chap, 66.2"}, {"date": "28/02/2022 16:41:04", "time": 2318.01, "notes": "done chap 3, 94.2l"}, {"date": "28/02/2022 19:19:02", "time": 2943.04, "notes": "136l"}, {"date": "01/03/2022 09:28:06", "time": 4176.76, "notes": "1"}, {"date": "01/03/2022 10:50:06", "time": 646.88, "notes": "216l"}, {"date": "01/03/2022 12:47:34", "time": 3441.53, "notes": "292l,..other section duplicate with book CtCI"}], "countdown": []}, {"name": "Java-design-pattern Principle", "lap": [{"date": "16/03/2022 09:04:20", "time": 5957.22, "notes": "read done, representate done 26 principles"}, {"date": "16/03/2022 12:24:44", "time": 3102.79, "notes": "text->image"}, {"date": "16/03/2022 13:16:37", "time": 233.22, "notes": "push text to excalidraw"}, {"date": "16/03/2022 13:20:46", "time": 1148.11, "notes": "12 principle"}, {"date": "16/03/2022 14:56:54", "time": 381.25, "notes": "13->26 (text img -> loci) yeah"}, {"date": "16/03/2022 20:48:32", "time": 258.75, "notes": "23/26 preview"}], "countdown": []}, {"name": "the way of superior man - deida", "lap": [{"date": "20/03/2022 15:53:41", "time": 4102.55, "notes": "read p1"}, {"date": "20/03/2022 17:02:10", "time": 1145.58, "notes": "pg 57"}], "countdown": []}]}, {"index": 3, "proj_name": "Planning", "tasks": [{"name": "1 months get Job", "lap": [{"date": "01/03/2022 16:34:31", "time": 3506.87, "notes": "1 week plan :D "}], "countdown": []}]}, {"index": 4, "proj_name": "Solve hackerrank", "tasks": [{"name": "1 week interview prepare", "lap": [{"date": "01/03/2022 19:41:42", "time": 8487.83, "notes": "hard problem @@"}, {"date": "02/03/2022 12:39:07", "time": 2281.14, "notes": "complete decode D7"}, {"date": "02/03/2022 13:17:22", "time": 1743.92, "notes": "done no prefix set but 27/42 :("}], "countdown": []}, {"name": "1 month", "lap": [{"date": "02/03/2022 19:07:51", "time": 2863.25, "notes": "nice 4-5 prob"}, {"date": "02/03/2022 20:00:18", "time": 752.58, "notes": "done solve subarr div 1"}, {"date": "03/03/2022 13:07:35", "time": 3913.8, "notes": "5 prob"}, {"date": "04/03/2022 14:05:59", "time": 9086.87, "notes": "distract linkedin"}, {"date": "05/03/2022 12:31:49", "time": 7763.06, "notes": "omg, ... implement valid sherlock is take a long time :D "}, {"date": "08/03/2022 12:12:24", "time": 2688.64, "notes": "nice work, stop here to get more time for spring boot"}, {"date": "08/03/2022 12:57:29", "time": 3.72, "notes": "eaeraer"}, {"date": "09/03/2022 12:39:03", "time": 12779.85, "notes": "e"}], "countdown": []}]}, {"index": 5, "proj_name": "Blog", "tasks": [{"name": "obsidian", "lap": [{"date": "02/03/2022 13:57:06", "time": 1504.95, "notes": "update jekyll blog"}], "countdown": []}]}, {"index": 6, "proj_name": "interview", "tasks": [{"name": "30min", "lap": [], "countdown": [{"date": "08/03/2022 08:17:06", "time": 0, "notes": "done, stuff nose"}]}]}, {"index": 7, "proj_name": "memorypalace", "tasks": [{"name": "book how to winfriend and influ", "lap": [{"date": "12/03/2022 15:39:05", "time": 1328.68, "notes": "screenshot + setup-mp (44 img)"}, {"date": "12/03/2022 16:01:56", "time": 3049.57, "notes": "highlight 30 + push text exca"}], "countdown": []}]}, {"index": 8, "proj_name": "spring boot", "tasks": [{"name": "spring boot side project", "lap": [{"date": "23/03/2022 16:25:21", "time": 4561.78, "notes": "wow, nice"}], "countdown": []}]}, {"index": 9, "proj_name": "maven", "tasks": [{"name": "learn tutorialpoint", "lap": [{"date": "24/03/2022 10:55:16", "time": 2561.87, "notes": "1k2 line"}], "countdown": []}]}, {"index": 10, "proj_name": "memorize deck card", "tasks": [{"name": "24 cards", "lap": [{"date": "11/04/2022 13:10:18", "time": 190.5, "notes": "6 card, remem, with ref"}, {"date": "11/04/2022 13:13:44", "time": 253.65, "notes": "6c, retrieve "}, {"date": "13/04/2022 12:37:47", "time": 52.33, "notes": "52 chat -> club/diamond/heart/spade"}, {"date": "13/04/2022 12:39:09", "time": 52.49, "notes": "52 chat 0> cdhs"}, {"date": "13/04/2022 13:33:41", "time": 24.97, "notes": "-r"}, {"date": "13/04/2022 13:34:19", "time": 355.07, "notes": "12 card; to symbol"}, {"date": "13/04/2022 13:40:42", "time": 787.09, "notes": "a"}], "countdown": []}]}]
+[
+  {
+    "index": 2,
+    "proj_name": "Read book",
+    "tasks": [
+      {
+        "name": "Cracking The Tech Career",
+        "lap": [
+          {
+            "date": "28/02/2022 15:35:20",
+            "time": 3108.95,
+            "notes": "2 chap, 66.2"
+          },
+          {
+            "date": "28/02/2022 16:41:04",
+            "time": 2318.01,
+            "notes": "done chap 3, 94.2l"
+          },
+          {
+            "date": "28/02/2022 19:19:02",
+            "time": 2943.04,
+            "notes": "136l"
+          },
+          {
+            "date": "01/03/2022 09:28:06",
+            "time": 4176.76,
+            "notes": "1"
+          },
+          {
+            "date": "01/03/2022 10:50:06",
+            "time": 646.88,
+            "notes": "216l"
+          },
+          {
+            "date": "01/03/2022 12:47:34",
+            "time": 3441.53,
+            "notes": "292l,..other section duplicate with book CtCI"
+          }
+        ],
+        "countdown": []
+      },
+      {
+        "name": "Java-design-pattern Principle",
+        "lap": [
+          {
+            "date": "16/03/2022 09:04:20",
+            "time": 5957.22,
+            "notes": "read done, representate done 26 principles"
+          },
+          {
+            "date": "16/03/2022 12:24:44",
+            "time": 3102.79,
+            "notes": "text->image"
+          },
+          {
+            "date": "16/03/2022 13:16:37",
+            "time": 233.22,
+            "notes": "push text to excalidraw"
+          },
+          {
+            "date": "16/03/2022 13:20:46",
+            "time": 1148.11,
+            "notes": "12 principle"
+          },
+          {
+            "date": "16/03/2022 14:56:54",
+            "time": 381.25,
+            "notes": "13->26 (text img -> loci) yeah"
+          },
+          {
+            "date": "16/03/2022 20:48:32",
+            "time": 258.75,
+            "notes": "23/26 preview"
+          }
+        ],
+        "countdown": []
+      },
+      {
+        "name": "the way of superior man - deida",
+        "lap": [
+          {
+            "date": "20/03/2022 15:53:41",
+            "time": 4102.55,
+            "notes": "read p1"
+          },
+          {
+            "date": "20/03/2022 17:02:10",
+            "time": 1145.58,
+            "notes": "pg 57"
+          }
+        ],
+        "countdown": []
+      },
+      {
+        "name": "clean code",
+        "lap": [
+          {
+            "date": "28/04/2022 16:52:33",
+            "time": 14496.93,
+            "notes": "no, i forgot to stop the lap !"
+          }
+        ],
+        "countdown": []
+      },
+      {
+        "name": "dieu ky dieu doi thuong - robin sharma",
+        "lap": [
+          {
+            "date": "06/06/2022 10:30:00",
+            "time": 1800,
+            "notes": "54 page, 18 chapter, with use mem"
+          },
+          {
+            "date": "06/06/2022 00:00:00",
+            "time": 80,
+            "notes": "test"
+          },
+          {
+            "date": "06/06/2022 14:47:32",
+            "time": 16.2,
+            "notes": "test"
+          },
+          {
+            "date": "06/06/2022 00:00:00",
+            "time": 90,
+            "notes": "test"
+          }
+        ],
+        "countdown": []
+      }
+    ]
+  },
+  {
+    "index": 3,
+    "proj_name": "Planning",
+    "tasks": [
+      {
+        "name": "1 months get Job",
+        "lap": [
+          {
+            "date": "01/03/2022 16:34:31",
+            "time": 3506.87,
+            "notes": "1 week plan :D "
+          },
+          {
+            "date": "05/06/2022 21:18:49",
+            "time": 10.14,
+            "notes": "-e"
+          }
+        ],
+        "countdown": []
+      }
+    ]
+  },
+  {
+    "index": 4,
+    "proj_name": "Solve hackerrank",
+    "tasks": [
+      {
+        "name": "1 week interview prepare",
+        "lap": [
+          {
+            "date": "01/03/2022 19:41:42",
+            "time": 8487.83,
+            "notes": "hard problem @@"
+          },
+          {
+            "date": "02/03/2022 12:39:07",
+            "time": 2281.14,
+            "notes": "complete decode D7"
+          },
+          {
+            "date": "02/03/2022 13:17:22",
+            "time": 1743.92,
+            "notes": "done no prefix set but 27/42 :("
+          }
+        ],
+        "countdown": []
+      },
+      {
+        "name": "1 month",
+        "lap": [
+          {
+            "date": "02/03/2022 19:07:51",
+            "time": 2863.25,
+            "notes": "nice 4-5 prob"
+          },
+          {
+            "date": "02/03/2022 20:00:18",
+            "time": 752.58,
+            "notes": "done solve subarr div 1"
+          },
+          {
+            "date": "03/03/2022 13:07:35",
+            "time": 3913.8,
+            "notes": "5 prob"
+          },
+          {
+            "date": "04/03/2022 14:05:59",
+            "time": 9086.87,
+            "notes": "distract linkedin"
+          },
+          {
+            "date": "05/03/2022 12:31:49",
+            "time": 7763.06,
+            "notes": "omg, ... implement valid sherlock is take a long time :D "
+          },
+          {
+            "date": "08/03/2022 12:12:24",
+            "time": 2688.64,
+            "notes": "nice work, stop here to get more time for spring boot"
+          },
+          {
+            "date": "08/03/2022 12:57:29",
+            "time": 3.72,
+            "notes": "eaeraer"
+          },
+          {
+            "date": "09/03/2022 12:39:03",
+            "time": 12779.85,
+            "notes": "e"
+          }
+        ],
+        "countdown": []
+      }
+    ]
+  },
+  {
+    "index": 5,
+    "proj_name": "Blog",
+    "tasks": [
+      {
+        "name": "obsidian",
+        "lap": [
+          {
+            "date": "02/03/2022 13:57:06",
+            "time": 1504.95,
+            "notes": "update jekyll blog"
+          }
+        ],
+        "countdown": []
+      }
+    ]
+  },
+  {
+    "index": 6,
+    "proj_name": "interview",
+    "tasks": [
+      {
+        "name": "30min",
+        "lap": [],
+        "countdown": [
+          {
+            "date": "08/03/2022 08:17:06",
+            "time": 0,
+            "notes": "done, stuff nose"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 7,
+    "proj_name": "memorypalace",
+    "tasks": [
+      {
+        "name": "book how to winfriend and influ",
+        "lap": [
+          {
+            "date": "12/03/2022 15:39:05",
+            "time": 1328.68,
+            "notes": "screenshot + setup-mp (44 img)"
+          },
+          {
+            "date": "12/03/2022 16:01:56",
+            "time": 3049.57,
+            "notes": "highlight 30 + push text exca"
+          }
+        ],
+        "countdown": []
+      }
+    ]
+  },
+  {
+    "index": 8,
+    "proj_name": "spring boot",
+    "tasks": [
+      {
+        "name": "spring boot side project",
+        "lap": [
+          {
+            "date": "23/03/2022 16:25:21",
+            "time": 4561.78,
+            "notes": "wow, nice"
+          }
+        ],
+        "countdown": []
+      }
+    ]
+  },
+  {
+    "index": 9,
+    "proj_name": "maven",
+    "tasks": [
+      {
+        "name": "learn tutorialpoint",
+        "lap": [
+          {
+            "date": "24/03/2022 10:55:16",
+            "time": 2561.87,
+            "notes": "1k2 line"
+          }
+        ],
+        "countdown": []
+      }
+    ]
+  },
+  {
+    "index": 10,
+    "proj_name": "memorize deck card",
+    "tasks": [
+      {
+        "name": "24 cards",
+        "lap": [
+          {
+            "date": "11/04/2022 13:10:18",
+            "time": 190.5,
+            "notes": "6 card, remem, with ref"
+          },
+          {
+            "date": "11/04/2022 13:13:44",
+            "time": 253.65,
+            "notes": "6c, retrieve "
+          },
+          {
+            "date": "13/04/2022 12:37:47",
+            "time": 52.33,
+            "notes": "52 chat -> club/diamond/heart/spade"
+          },
+          {
+            "date": "13/04/2022 12:39:09",
+            "time": 52.49,
+            "notes": "52 chat 0> cdhs"
+          },
+          {
+            "date": "13/04/2022 13:33:41",
+            "time": 24.97,
+            "notes": "-r"
+          },
+          {
+            "date": "13/04/2022 13:34:19",
+            "time": 355.07,
+            "notes": "12 card; to symbol"
+          },
+          {
+            "date": "13/04/2022 13:40:42",
+            "time": 787.09,
+            "notes": "a"
+          }
+        ],
+        "countdown": []
+      }
+    ]
+  },
+  {
+    "index": 11,
+    "proj_name": "memorize word",
+    "tasks": [
+      {
+        "name": "100 word",
+        "lap": [
+          {
+            "date": "13/05/2022 16:40:32",
+            "time": 304.99,
+            "notes": "learn, revise 20 word"
+          },
+          {
+            "date": "13/05/2022 16:54:46",
+            "time": 78.39,
+            "notes": "review 9/10"
+          },
+          {
+            "date": "13/05/2022 17:00:00",
+            "time": 25,
+            "notes": "revise 20/20"
+          },
+          {
+            "date": "13/05/2022 17:52:00",
+            "time": 45,
+            "notes": "rev 20/20"
+          },
+          {
+            "date": "13/05/2022 22:04:23",
+            "time": 50.86,
+            "notes": "re 20/20"
+          },
+          {
+            "date": "14/05/2022 11:39:31",
+            "time": 256.48,
+            "notes": "l+re 10, 7/10 1st"
+          },
+          {
+            "date": "14/05/2022 11:54:00",
+            "time": 205,
+            "notes": "rev 30/30"
+          },
+          {
+            "date": "14/05/2022 14:40:04",
+            "time": 216.53,
+            "notes": "l+re 10/10"
+          },
+          {
+            "date": "14/05/2022 14:43:53",
+            "time": 291.85,
+            "notes": "l+re 10/10"
+          },
+          {
+            "date": "14/05/2022 15:56:04",
+            "time": 156.18,
+            "notes": "re 18/20"
+          },
+          {
+            "date": "14/05/2022 15:58:51",
+            "time": 257.85,
+            "notes": "rev 48/50, wow, false: failure, matter = matheur but I can get matter"
+          },
+          {
+            "date": "14/05/2022 17:12:33",
+            "time": 208.56,
+            "notes": "l+re 10"
+          },
+          {
+            "date": "15/05/2022 17:27:03",
+            "time": 244.37,
+            "notes": "recall 58/60, nice"
+          }
+        ],
+        "countdown": []
+      },
+      {
+        "name": "50 word",
+        "lap": [],
+        "countdown": []
+      },
+      {
+        "name": "50 word - remember",
+        "lap": [
+          {
+            "date": "18/05/2022 14:43:13",
+            "time": 1622.11,
+            "notes": "55 word, rev each 10, last time rev 55/55 wow"
+          }
+        ],
+        "countdown": []
+      },
+      {
+        "name": "50 word - revise",
+        "lap": [
+          {
+            "date": "18/05/2022 16:42:15",
+            "time": 163.87,
+            "notes": "prev 52/55 -> now 55/55 :wow"
+          },
+          {
+            "date": "18/05/2022 19:57:53",
+            "time": 121.05,
+            "notes": "re 55/55"
+          },
+          {
+            "date": "19/05/2022 10:30:34",
+            "time": 267.94,
+            "notes": "re 55/60 day (13-05)"
+          }
+        ],
+        "countdown": []
+      }
+    ]
+  },
+  {
+    "index": 12,
+    "proj_name": "memorize number",
+    "tasks": [
+      {
+        "name": "mem 50 digit",
+        "lap": [
+          {
+            "date": "20/05/2022 16:13:25",
+            "time": 374.6,
+            "notes": ""
+          },
+          {
+            "date": "02/06/2022 19:06:54",
+            "time": 658.92,
+            "notes": "47/50"
+          },
+          {
+            "date": "02/06/2022 19:38:22",
+            "time": 487.93,
+            "notes": "48/50"
+          }
+        ],
+        "countdown": []
+      },
+      {
+        "name": "mem 20 digit",
+        "lap": [
+          {
+            "date": "20/05/2022 16:20:00",
+            "time": 374,
+            "notes": "l"
+          },
+          {
+            "date": "21/05/2022 15:03:49",
+            "time": 326.17,
+            "notes": "l+re 18/20, 2digit major system"
+          },
+          {
+            "date": "21/05/2022 21:28:43",
+            "time": 277.11,
+            "notes": "l+re 20/20"
+          },
+          {
+            "date": "22/05/2022 15:58:45",
+            "time": 192.93,
+            "notes": "l 20/20, re 18/20"
+          },
+          {
+            "date": "31/05/2022 17:00:00",
+            "time": 230,
+            "notes": "20"
+          },
+          {
+            "date": "31/05/2022 21:33:17",
+            "time": 207.93,
+            "notes": ""
+          },
+          {
+            "date": "31/05/2022 21:45:30",
+            "time": 215.95,
+            "notes": ""
+          },
+          {
+            "date": "31/05/2022 21:55:39",
+            "time": 201.34,
+            "notes": ""
+          },
+          {
+            "date": "17/06/2022 19:00:00",
+            "time": 178,
+            "notes": ""
+          }
+        ],
+        "countdown": [
+          {
+            "date": "22/05/2022 15:55:44",
+            "time": 0,
+            "notes": "e"
+          }
+        ]
+      },
+      {
+        "name": "mem 20 digit review",
+        "lap": [
+          {
+            "date": "20/05/2022 17:44:13",
+            "time": 207.19,
+            "notes": "20"
+          },
+          {
+            "date": "20/05/2022 17:59:44",
+            "time": 4.92,
+            "notes": "del"
+          },
+          {
+            "date": "21/05/2022 15:00:00",
+            "time": 61,
+            "notes": "re 20/20"
+          },
+          {
+            "date": "21/05/2022 20:30:00",
+            "time": 64,
+            "notes": "re 20/20"
+          },
+          {
+            "date": "21/05/2022 21:37:41",
+            "time": 88.49,
+            "notes": "re 20/20"
+          },
+          {
+            "date": "21/05/2022 21:48:03",
+            "time": 65.74,
+            "notes": "re 20/20"
+          },
+          {
+            "date": "21/05/2022 21:49:27",
+            "time": 84.92,
+            "notes": "re 16/20"
+          },
+          {
+            "date": "22/05/2022 16:04:40",
+            "time": 73.48,
+            "notes": "re 20/20"
+          },
+          {
+            "date": "23/05/2022 16:44:19",
+            "time": 144.69,
+            "notes": "re 14/20"
+          }
+        ],
+        "countdown": []
+      },
+      {
+        "name": "mem 40 digit",
+        "lap": [
+          {
+            "date": "01/06/2022 14:00:00",
+            "time": 570,
+            "notes": "in cf, high noise"
+          }
+        ],
+        "countdown": []
+      },
+      {
+        "name": "review",
+        "lap": [
+          {
+            "date": "02/06/2022 20:35:00",
+            "time": 180,
+            "notes": "review 100/100 = 50/50 image, wow"
+          },
+          {
+            "date": "04/06/2022 20:10:18",
+            "time": 213.41,
+            "notes": "rev 50 pic = 100 number "
+          }
+        ],
+        "countdown": []
+      }
+    ]
+  },
+  {
+    "index": 13,
+    "proj_name": "memorize picture",
+    "tasks": [
+      {
+        "name": "10 things/1pic",
+        "lap": [
+          {
+            "date": "26/05/2022 16:31:14",
+            "time": 87.73,
+            "notes": "rev 3 time"
+          },
+          {
+            "date": "26/05/2022 16:35:00",
+            "time": 89.55,
+            "notes": ""
+          },
+          {
+            "date": "26/05/2022 16:50:34",
+            "time": 40.42,
+            "notes": ""
+          },
+          {
+            "date": "26/05/2022 16:55:48",
+            "time": 18.43,
+            "notes": "5 thing"
+          },
+          {
+            "date": "26/05/2022 20:10:50",
+            "time": 46.49,
+            "notes": ""
+          },
+          {
+            "date": "27/05/2022 17:43:36",
+            "time": 20.63,
+            "notes": ""
+          },
+          {
+            "date": "27/05/2022 17:46:45",
+            "time": 23.34,
+            "notes": "7"
+          },
+          {
+            "date": "29/05/2022 16:26:48",
+            "time": 52.89,
+            "notes": ""
+          },
+          {
+            "date": "29/05/2022 16:27:51",
+            "time": 91.46,
+            "notes": "16"
+          },
+          {
+            "date": "30/05/2022 20:14:38",
+            "time": 0.01,
+            "notes": "k"
+          },
+          {
+            "date": "30/05/2022 20:29:30",
+            "time": 3.48,
+            "notes": "e"
+          },
+          {
+            "date": "30/05/2022 21:11:45",
+            "time": 53.68,
+            "notes": "11"
+          },
+          {
+            "date": "30/05/2022 21:13:03",
+            "time": 48.78,
+            "notes": "12"
+          },
+          {
+            "date": "30/05/2022 21:14:23",
+            "time": 87.53,
+            "notes": "12"
+          },
+          {
+            "date": "30/05/2022 21:21:19",
+            "time": 78.3,
+            "notes": "12"
+          },
+          {
+            "date": "30/05/2022 21:23:20",
+            "time": 27.59,
+            "notes": "6"
+          },
+          {
+            "date": "30/05/2022 21:27:43",
+            "time": 48.77,
+            "notes": "11"
+          },
+          {
+            "date": "30/05/2022 21:31:54",
+            "time": 99.76,
+            "notes": "16"
+          },
+          {
+            "date": "30/05/2022 21:37:02",
+            "time": 88.27,
+            "notes": "15"
+          },
+          {
+            "date": "30/05/2022 21:41:37",
+            "time": 78.78,
+            "notes": "13"
+          },
+          {
+            "date": "30/05/2022 21:44:44",
+            "time": 46.84,
+            "notes": "11"
+          },
+          {
+            "date": "30/05/2022 21:47:01",
+            "time": 37.42,
+            "notes": "8"
+          },
+          {
+            "date": "30/05/2022 21:47:51",
+            "time": 41.03,
+            "notes": "10"
+          },
+          {
+            "date": "30/05/2022 21:53:00",
+            "time": 33.52,
+            "notes": "15"
+          },
+          {
+            "date": "03/06/2022 19:42:09",
+            "time": 107.74,
+            "notes": "18"
+          },
+          {
+            "date": "03/06/2022 19:44:08",
+            "time": 89.11,
+            "notes": "13"
+          },
+          {
+            "date": "03/06/2022 19:46:14",
+            "time": 53.39,
+            "notes": "17"
+          },
+          {
+            "date": "03/06/2022 19:48:22",
+            "time": 75.44,
+            "notes": "17"
+          },
+          {
+            "date": "03/06/2022 19:50:58",
+            "time": 62.05,
+            "notes": "12"
+          },
+          {
+            "date": "03/06/2022 19:53:28",
+            "time": 71.62,
+            "notes": "25/30"
+          },
+          {
+            "date": "03/06/2022 19:58:28",
+            "time": 105.14,
+            "notes": "25/28"
+          },
+          {
+            "date": "03/06/2022 20:05:10",
+            "time": 39.75,
+            "notes": "13"
+          }
+        ],
+        "countdown": []
+      }
+    ]
+  },
+  {
+    "index": 14,
+    "proj_name": "collect memory palace",
+    "tasks": [
+      {
+        "name": "https://artsandculture.google.com/partner/the-national-museum-of-western-art",
+        "lap": [
+          {
+            "date": "04/06/2022 13:56:36",
+            "time": 521.89,
+            "notes": "B1"
+          },
+          {
+            "date": "04/06/2022 14:06:06",
+            "time": 0.0,
+            "notes": "B1"
+          },
+          {
+            "date": "04/06/2022 14:06:49",
+            "time": 251.5,
+            "notes": "B2"
+          },
+          {
+            "date": "04/06/2022 14:11:01",
+            "time": 1765.91,
+            "notes": "1"
+          },
+          {
+            "date": "04/06/2022 14:52:11",
+            "time": 726.43,
+            "notes": "-1, large, overlarge place, bored to capture"
+          }
+        ],
+        "countdown": []
+      },
+      {
+        "name": "https://artsandculture.google.com/partner/tokyo-national-museum",
+        "lap": [
+          {
+            "date": "06/06/2022 15:44:18",
+            "time": 1549.26,
+            "notes": "1"
+          },
+          {
+            "date": "07/06/2022 13:32:03",
+            "time": 1588.93,
+            "notes": "go 1 trip forw and backw, but don't revise imme, so don't remember"
+          },
+          {
+            "date": "07/06/2022 14:30:36",
+            "time": 1215.86,
+            "notes": "oh, many locis than my ability"
+          }
+        ],
+        "countdown": []
+      },
+      {
+        "name": "https://artsandculture.google.com/streetview/tokyo-fuji-art-museum/SQF48doDyU5J-g?sv_lng=139.3297142393966&sv_lat=35.68694229332251&sv_h=10.116575328202753&sv_p=-2.0965297967012333&sv_pid=ni-sGaJfCq1MPrmysA1w7Q&sv_z=1",
+        "lap": [
+          {
+            "date": "07/06/2022 15:11:25",
+            "time": 855.77,
+            "notes": "52"
+          }
+        ],
+        "countdown": []
+      },
+      {
+        "name": "https://artsandculture.google.com/streetview/shimane-art-museum/qgEEw0sSXnBD2g?sv_lng=133.0522013164122&sv_lat=35.4597042804575&sv_h=18.853365298842427&sv_p=-6.138510583885704&sv_pid=mdefuW3DYZRvIcBMGn7ItQ&sv_z=0.000757121529257665",
+        "lap": [
+          {
+            "date": "08/06/2022 10:17:40",
+            "time": 2087.52,
+            "notes": "2"
+          }
+        ],
+        "countdown": []
+      },
+      {
+        "name": "https://artsandculture.google.com/streetview/yamatane-museum-of-art/0wH3HVrDAA0XoQ",
+        "lap": [
+          {
+            "date": "08/06/2022 11:16:21",
+            "time": 979.65,
+            "notes": ""
+          }
+        ],
+        "countdown": []
+      },
+      {
+        "name": "https://artsandculture.google.com/streetview/shizuoka-city-tokaido-hiroshige-museum-of-art/_wFKMgQM5doDHw?sv_lng=138.5672477679338&sv_lat=35.1080360916317&sv_h=253.48885060258618&sv_p=-6.977143302610415&sv_pid=9U7UKpiEeBLL0S4dZ0rbEw&sv_z=1",
+        "lap": [
+          {
+            "date": "07/06/2022 16:44:11",
+            "time": 5.24,
+            "notes": ""
+          }
+        ],
+        "countdown": []
+      },
+      {
+        "name": "https://artsandculture.google.com/streetview/shizuoka-prefectural-museum-of-art/-AFBAuXqinAuYA?sv_lng=138.4470484527154&sv_lat=34.99187985314695&sv_h=212.08919692097842&sv_p=-5.385170720911319&sv_pid=ME8S6e_FqLVfoeTU2eFl1A&sv_z=1",
+        "lap": [
+          {
+            "date": "08/06/2022 13:44:07",
+            "time": 1349.53,
+            "notes": "1+2"
+          }
+        ],
+        "countdown": []
+      },
+      {
+        "name": "https://artsandculture.google.com/streetview/kobe-city-museum/GwENnyyX90WcuA?sv_lng=135.1928822093858&sv_lat=34.68735342779435&sv_h=283.4082306627914&sv_p=-3.1590913701176504&sv_pid=tXHNgw5-uvWyTh7swIpE-A&sv_z=1",
+        "lap": [
+          {
+            "date": "08/06/2022 14:09:43",
+            "time": 2053.2,
+            "notes": "DDDDDDDDDDDDD2/3 of 1, too long"
+          }
+        ],
+        "countdown": []
+      },
+      {
+        "name": "test",
+        "lap": [],
+        "countdown": []
+      },
+      {
+        "name": "https://artsandculture.google.com/streetview/kyoto-prefectural-domoto-insho-museum-of-fine-arts/BwGhNG0SOw4yfg?sv_lng=135.7260986758902&sv_lat=35.03513700659752&sv_h=274&sv_p=0&sv_pid=D27FR7pAR_7GtqwvFlIQeA&sv_z=1",
+        "lap": [
+          {
+            "date": "07/06/2022 20:58:33",
+            "time": 1031.07,
+            "notes": "1"
+          },
+          {
+            "date": "07/06/2022 21:15:54",
+            "time": 900.27,
+            "notes": ""
+          }
+        ],
+        "countdown": []
+      },
+      {
+        "name": "https://artsandculture.google.com/streetview/tezuka-osamu/pQGFKpKx3u7nWw?sv_lng=135.348156878024&sv_lat=34.80720246499111&sv_h=95&sv_p=0&sv_pid=g_oMR9hEm46u6d1B1nYSkg&sv_z=1",
+        "lap": [],
+        "countdown": []
+      },
+      {
+        "name": "https://artsandculture.google.com/streetview/iwami-art-museum/4wGeQc8i7E_Ggw?sv_lng=131.8482539435095&sv_lat=34.67267865756165&sv_h=156&sv_p=0&sv_pid=S5ccdzoXP7xw2Oad82VoFQ&sv_z=1",
+        "lap": [],
+        "countdown": []
+      },
+      {
+        "name": "https://artsandculture.google.com/streetview/entrance/sAHvvqSZlUTv6g?sv_lng=138.5811783641083&sv_lat=36.36995178847771&sv_h=263.1&sv_p=0&sv_pid=ciCcDkzBUlRFkvz9Rylz4g&sv_z=1",
+        "lap": [],
+        "countdown": []
+      },
+      {
+        "name": "https://artsandculture.google.com/streetview/japan-gallery/wgFK1kYKN0d6TQ?sv_lng=139.7764833883547&sv_lat=35.71639235912533&sv_h=188.76&sv_p=0&sv_pid=sk79zqfznZIA79-saFTrnQ&sv_z=1",
+        "lap": [
+          {
+            "date": "08/06/2022 16:01:13",
+            "time": 766.32,
+            "notes": "1"
+          },
+          {
+            "date": "08/06/2022 16:14:06",
+            "time": 1029.88,
+            "notes": "2"
+          },
+          {
+            "date": "08/06/2022 20:05:45",
+            "time": 1164.38,
+            "notes": "not done, too many loci"
+          }
+        ],
+        "countdown": []
+      },
+      {
+        "name": "",
+        "lap": [],
+        "countdown": []
+      },
+      {
+        "name": "home to MyTho",
+        "lap": [
+          {
+            "date": "14/06/2022 09:22:29",
+            "time": 1418.33,
+            "notes": "3 road to my tho"
+          },
+          {
+            "date": "14/06/2022 10:22:00",
+            "time": 600,
+            "notes": "go more mytho"
+          }
+        ],
+        "countdown": []
+      },
+      {
+        "name": "Sai gon",
+        "lap": [],
+        "countdown": []
+      }
+    ]
+  },
+  {
+    "index": 15,
+    "proj_name": "reactjs",
+    "tasks": [
+      {
+        "name": "remember",
+        "lap": [
+          {
+            "date": "26/06/2022 12:00:00",
+            "time": 2400,
+            "notes": "remember 28 of Tutorial of Reactjs"
+          }
+        ],
+        "countdown": []
+      },
+      {
+        "name": "revive",
+        "lap": [
+          {
+            "date": "27/06/2022 15:40:00",
+            "time": 300,
+            "notes": "rev 22/28"
+          }
+        ],
+        "countdown": []
+      }
+    ]
+  },
+  {
+    "index": 16,
+    "proj_name": "java8tojava17",
+    "tasks": [
+      {
+        "name": "remember 30 key change",
+        "lap": [
+          {
+            "date": "26/06/2022 11:00:00",
+            "time": 2300,
+            "notes": "remember all"
+          }
+        ],
+        "countdown": []
+      },
+      {
+        "name": "revive",
+        "lap": [
+          {
+            "date": "27/06/2022 15:00:00",
+            "time": 240,
+            "notes": "30/30"
+          },
+          {
+            "date": "03/07/2022 20:17:00",
+            "time": 120,
+            "notes": "rev 28/30, forget inside meaning"
+          }
+        ],
+        "countdown": []
+      }
+    ]
+  },
+  {
+    "index": 17,
+    "proj_name": "test",
+    "tasks": [
+      {
+        "name": "mp",
+        "lap": [],
+        "countdown": [],
+        "loop": [
+          {
+            "date": "30/03/2023 11:18:01",
+            "time": 4.62,
+            "notes": "kjkj"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 18,
+    "proj_name": "memorize stuff",
+    "tasks": [
+      {
+        "name": "randomlist",
+        "lap": [],
+        "countdown": [],
+        "loop": [
+          {
+            "date": "30/03/2023 14:58:42",
+            "time": 4.24,
+            "notes": "no use(Do '20' then relax 1 min for 10 times, Loop 2/10)"
+          },
+          {
+            "date": "10/04/2023 18:34:53",
+            "time": 310.82,
+            "notes": "44/48(Do... then relax 3 min for 4 times, Do Loop 1)"
+          },
+          {
+            "date": "10/04/2023 18:44:59",
+            "time": 222.64,
+            "notes": "yes 40/40(Do... then relax 3 min for 4 times, Do Loop 2)"
+          },
+          {
+            "date": "10/04/2023 18:53:54",
+            "time": 1.49,
+            "notes": "no(Do... then relax 3 min for 4 times, Do Loop 3)"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 19,
+    "proj_name": "mem stuff",
+    "tasks": [
+      {
+        "name": "randomlist",
+        "lap": [
+          {
+            "date": "01/04/2023 13:01:16",
+            "time": 6.31,
+            "notes": "eraer"
+          },
+          {
+            "date": "12/04/2023 14:49:42",
+            "time": 890.35,
+            "notes": "100 stuff"
+          },
+          {
+            "date": "13/04/2023 12:55:02",
+            "time": 320.91,
+            "notes": "40/40, plan 200 but fail"
+          },
+          {
+            "date": "13/04/2023 13:00:44",
+            "time": 1048.63,
+            "notes": "200 , no review"
+          }
+        ],
+        "countdown": [],
+        "loop": [
+          {
+            "date": "30/03/2023 15:05:49",
+            "time": 7.75,
+            "notes": "t(Do 't' then relax 1 min for 100 times, Loop 1/100)"
+          },
+          {
+            "date": "30/03/2023 15:08:15",
+            "time": 4.86,
+            "notes": "t(Do 't' then relax 1 min for 100 times, Loop 2/100)"
+          },
+          {
+            "date": "31/03/2023 09:53:21",
+            "time": 158.83,
+            "notes": "15/20(Do... then relax 2 min for 10000000 times, Loop 1/10000000)"
+          },
+          {
+            "date": "31/03/2023 09:58:14",
+            "time": 208.74,
+            "notes": "20/20(Do... then relax 2 min for 10000000 times, Loop 2/10000000)"
+          },
+          {
+            "date": "31/03/2023 10:04:42",
+            "time": 209.22,
+            "notes": "19/20(Do... then relax 2 min for 10000000 times, Loop 3/10000000)"
+          },
+          {
+            "date": "31/03/2023 10:12:44",
+            "time": 112.38,
+            "notes": "18/20(Do... then relax 2 min for 10000000 times, Loop 4/10000000)"
+          },
+          {
+            "date": "31/03/2023 10:18:03",
+            "time": 182.12,
+            "notes": "18/20 -> then review 93/100(Do... then relax 2 min for 10000000 times, Loop 5/10000000)"
+          },
+          {
+            "date": "31/03/2023 12:54:48",
+            "time": 413.3,
+            "notes": "95/100(Do... then relax 1 min for 1 times, Loop 1/1)"
+          },
+          {
+            "date": "11/04/2023 11:43:04",
+            "time": 352.47,
+            "notes": "40/40 with revive(Do... then relax 2 min for 20 times, Do Loop 1)"
+          },
+          {
+            "date": "11/04/2023 11:51:15",
+            "time": 273.54,
+            "notes": "yeah 40/40(Do... then relax 2 min for 20 times, Do Loop 2)"
+          },
+          {
+            "date": "11/04/2023 11:59:55",
+            "time": 232.11,
+            "notes": "40/40 (Do... then relax 2 min for 20 times, Do Loop 3)"
+          },
+          {
+            "date": "11/04/2023 12:07:53",
+            "time": 235.47,
+            "notes": "40/40(Do... then relax 2 min for 20 times, Do Loop 4)"
+          },
+          {
+            "date": "11/04/2023 13:56:01",
+            "time": 175.39,
+            "notes": "30/30(Do... then relax 2 min for 20 times, Do Loop 6)"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 20,
+    "proj_name": "nofboryoutube,justMP",
+    "tasks": [
+      {
+        "name": "justimagine",
+        "lap": [],
+        "countdown": [],
+        "loop": [
+          {
+            "date": "03/04/2023 12:43:56",
+            "time": 127.24,
+            "notes": "18/20(Do... then relax 3 min for 10000000 times, Do Loop 1)"
+          },
+          {
+            "date": "03/04/2023 12:49:17",
+            "time": 80.11,
+            "notes": "18/20(Do... then relax 3 min for 10000000 times, Do Loop 2)"
+          },
+          {
+            "date": "03/04/2023 12:53:55",
+            "time": 105.03,
+            "notes": "22/24(Do... then relax 3 min for 10000000 times, Do Loop 3)"
+          },
+          {
+            "date": "03/04/2023 12:59:29",
+            "time": 100.93,
+            "notes": "20/20(Do... then relax 3 min for 10000000 times, Do Loop 4)"
+          },
+          {
+            "date": "03/04/2023 14:00:05",
+            "time": 83.56,
+            "notes": "30 locis(Do... then relax 3 min for 10000000 times, Do Loop 6)"
+          }
+        ]
+      }
+    ]
+  }
+]
